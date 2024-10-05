@@ -8,4 +8,4 @@ from student_journal.domain.value_object.task_id import TaskId
 class HomeTask:
     task_id: TaskId
     description: str
-    is_done: bool = False
+    is_done: bool =             False
