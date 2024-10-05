@@ -15,6 +15,7 @@ class NewStudent:
     home_address: str | None
 
 
+# TODO: кастомные классы исключений
 @dataclass(slots=True)
 class CreateStudent:
     gateway: StudentGateway
