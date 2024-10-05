@@ -3,6 +3,7 @@ from uuid import uuid4
 
 from student_journal.application.common.teacher_gateway import TeacherGateway
 from student_journal.application.common.transaction_manager import TransactionManager
+from student_journal.application.exceptions.teacher import TeacherFullNameError
 from student_journal.domain.teacher import Teacher
 from student_journal.domain.value_object.teacher_id import TeacherId
 
@@ -19,7 +20,7 @@ class CreateTeacher:
 
     def execute(self, data: NewTeacher) -> Teacher:
         if len(data.full_name) > 255:
-            raise ValueError()
+            raise TeacherFullNameError()
 
         teacher_id = uuid4()
         teacher = Teacher(
