@@ -23,12 +23,12 @@ class CreateTeacher:
 
         teacher_id = uuid4()
         teacher = Teacher(
-            teacher_id==TeacherId(teacher_id),
+            teacher_id=TeacherId(teacher_id),
             full_name=data.full_name,
         )
 
         self.transaction_manager.begin()
-        self.gateway.write_student(teacher)
+        self.gateway.write_teacher(teacher)
         self.transaction_manager.commit()
 
         return teacher
