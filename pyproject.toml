@@ -78,6 +78,7 @@ ignore = [
   'B024',
   'ISC001',
   'B027',
+  'PLR2004',
 ]
 
 [[project.authors]]
