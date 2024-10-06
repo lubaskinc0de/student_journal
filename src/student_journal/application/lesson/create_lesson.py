@@ -1,10 +1,13 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import UTC, datetime, timedelta
 from uuid import uuid4
 
+from student_journal.application.common.id_provider import IdProvider
 from student_journal.application.common.lesson_gateway import LessonGateway
+from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.exceptions.lesson import (
+    LessonAtError,
     LessonIndexNumberError,
     LessonMarkError,
     LessonNoteError,
@@ -28,11 +31,15 @@ class NewLesson:
 @dataclass(slots=True)
 class CreateLesson:
     gateway: LessonGateway
+    student_gateway: StudentGateway
     transaction_manager: TransactionManager
+    idp: IdProvider
 
     def execute(self, data: NewLesson) -> LessonId:
-        # if data.at < datetime.now(): # TODO: доработать
-        #     raise LessonAtError()
+        student = self.student_gateway.read_student(self.idp.get_id())
+
+        if data.at < (datetime.now(tz=UTC) + timedelta(hours=student.timezone)):
+            raise LessonAtError()
 
         if data.mark and not (0 < data.mark <= 5):
             raise LessonMarkError()
