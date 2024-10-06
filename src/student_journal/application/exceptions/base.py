@@ -1,2 +1,1 @@
-class ApplicationError(Exception):
-    "Base exception class"
+class ApplicationError(Exception): ...
