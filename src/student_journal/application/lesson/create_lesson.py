@@ -36,6 +36,7 @@ class CreateLesson:
     idp: IdProvider
 
     def execute(self, data: NewLesson) -> LessonId:
+        self.transaction_manager.begin()
         student = self.student_gateway.read_student(self.idp.get_id())
 
         if data.at < (datetime.now(tz=UTC) + timedelta(hours=student.timezone)):
@@ -64,7 +65,6 @@ class CreateLesson:
             index_number=data.index_number,
         )
 
-        self.transaction_manager.begin()
         self.gateway.write_lesson(lesson)
         self.transaction_manager.commit()
 
