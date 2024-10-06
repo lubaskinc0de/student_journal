@@ -18,13 +18,13 @@ class CreateTeacher:
     gateway: TeacherGateway
     transaction_manager: TransactionManager
 
-    def execute(self, data: NewTeacher) -> Teacher:
+    def execute(self, data: NewTeacher) -> TeacherId:
         if len(data.full_name) > 255:
             raise TeacherFullNameError()
 
-        teacher_id = uuid4()
+        teacher_id = TeacherId(uuid4())
         teacher = Teacher(
-            teacher_id=TeacherId(teacher_id),
+            teacher_id=teacher_id,
             full_name=data.full_name,
         )
 
@@ -32,4 +32,4 @@ class CreateTeacher:
         self.gateway.write_teacher(teacher)
         self.transaction_manager.commit()
 
-        return teacher
+        return teacher_id

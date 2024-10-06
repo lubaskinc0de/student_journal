@@ -20,13 +20,12 @@ class NewStudent:
     home_address: str | None
 
 
-# TODO: кастомные классы исключений
 @dataclass(slots=True)
 class CreateStudent:
     gateway: StudentGateway
     transaction_manager: TransactionManager
 
-    def execute(self, data: NewStudent) -> Student:
+    def execute(self, data: NewStudent) -> StudentId:
         if data.age and data.age not in range(6, 100):
             raise StudentAgeError()
 
@@ -36,9 +35,9 @@ class CreateStudent:
         if data.home_address and len(data.home_address) > 255:
             raise StudentHomeAddressError()
 
-        student_id = uuid4()
+        student_id = StudentId(uuid4())
         student = Student(
-            student_id=StudentId(student_id),
+            student_id=student_id,
             avatar=data.avatar,
             age=data.age,
             name=data.name,
@@ -49,4 +48,4 @@ class CreateStudent:
         self.gateway.write_student(student)
         self.transaction_manager.commit()
 
-        return student
+        return student_id
