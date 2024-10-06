@@ -7,6 +7,7 @@ from student_journal.application.exceptions.student import (
     StudentAgeError,
     StudentHomeAddressError,
     StudentNameError,
+    StudentTimezoneError,
 )
 from student_journal.domain.student import Student
 from student_journal.domain.value_object.student_id import StudentId
@@ -18,6 +19,7 @@ class NewStudent:
     avatar: str | None
     name: str
     home_address: str | None
+    timezone: int
 
 
 @dataclass(slots=True)
@@ -35,6 +37,9 @@ class CreateStudent:
         if data.home_address and len(data.home_address) > 255:
             raise StudentHomeAddressError()
 
+        if data.timezone and data.timezone not in range(24):
+            raise StudentTimezoneError()
+
         student_id = StudentId(uuid4())
         student = Student(
             student_id=student_id,
@@ -42,6 +47,7 @@ class CreateStudent:
             age=data.age,
             name=data.name,
             home_address=data.home_address,
+            timezone=data.timezone,
         )
 
         self.transaction_manager.begin()

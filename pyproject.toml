@@ -43,7 +43,6 @@ ignore = [
   'B904',
   'FIX002',
   'RUF012',
-  'ERA001',
 
   # Rules emitting false alerts
   'N804',

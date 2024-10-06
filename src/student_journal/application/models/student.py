@@ -10,4 +10,5 @@ class StudentReadModel:
     avatar: str | None
     name: str
     home_address: str | None
+    timezone: int
     student_overall_avg_mark: float
