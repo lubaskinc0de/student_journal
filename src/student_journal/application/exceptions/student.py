@@ -1,0 +1,16 @@
+from .base import ApplicationError
+
+
+class StudentNameError(ApplicationError): ...
+
+
+class StudentAgeError(ApplicationError): ...
+
+
+class StudentHomeAddressError(ApplicationError): ...
+
+
+class StudentDoesNotExistError(ApplicationError): ...
+
+
+class StudentAlreadyExistError(ApplicationError): ...

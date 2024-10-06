@@ -3,6 +3,11 @@ from uuid import uuid4
 
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
+from student_journal.application.exceptions.student import (
+    StudentAgeError,
+    StudentHomeAddressError,
+    StudentNameError,
+)
 from student_journal.domain.student import Student
 from student_journal.domain.value_object.student_id import StudentId
 
@@ -23,13 +28,13 @@ class CreateStudent:
 
     def execute(self, data: NewStudent) -> Student:
         if data.age and data.age not in range(6, 100):
-            raise ValueError()
+            raise StudentAgeError()
 
         if len(data.name) > 255:
-            raise ValueError()
+            raise StudentNameError()
 
         if data.home_address and len(data.home_address) > 255:
-            raise ValueError()
+            raise StudentHomeAddressError()
 
         student_id = uuid4()
         student = Student(
