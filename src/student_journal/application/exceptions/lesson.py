@@ -1,10 +1,6 @@
 from .base import ApplicationError
 
 
-class LessonIdError(ApplicationError):
-    "Raised when the lesson id is invalid"
-
-
 class LessonSubjectError(ApplicationError): ...
 
 
