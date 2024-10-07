@@ -46,6 +46,7 @@ ignore = [
   'RET504',
   'D103',
   'PLR0913',
+  'ANN101',
   # Not applicable for now
   'FIX002',
   'TD003',
