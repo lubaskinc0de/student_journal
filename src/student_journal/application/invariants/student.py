@@ -18,13 +18,13 @@ def validate_student_invariants(
     timezone: int,
 ) -> None:
     if age and age not in AGE_RANGE:
-        raise StudentAgeError()
+        raise StudentAgeError
 
     if len(name) > NAME_MAX_LENGTH:
-        raise StudentNameError()
+        raise StudentNameError
 
     if home_address and len(home_address) > HOME_ADDRESS_MAX_LENGTH:
-        raise StudentHomeAddressError()
+        raise StudentHomeAddressError
 
     if timezone not in TIMEZONE_RANGE:
-        raise StudentTimezoneError()
+        raise StudentTimezoneError

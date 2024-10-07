@@ -11,7 +11,7 @@ from student_journal.application.exceptions.lesson import (
 
 def validate_lesson_at(at: datetime, student_timezone: int) -> None:
     if at < (datetime.now(tz=UTC) + timedelta(hours=student_timezone)):
-        raise LessonAtError()
+        raise LessonAtError
 
 
 MARK_RANGE = range(1, 6)
@@ -31,13 +31,13 @@ def validate_lesson_invariants(
     validate_lesson_at(at, student_timezone)
 
     if mark and mark not in MARK_RANGE:
-        raise LessonMarkError()
+        raise LessonMarkError
 
     if note and len(note) > NOTE_MAX_LENGTH:
-        raise LessonNoteError()
+        raise LessonNoteError
 
     if room < MIN_ROOM:
-        raise LessonRoomError()
+        raise LessonRoomError
 
     if index_number < MIN_INDEX_NUMBER:
-        raise LessonIndexNumberError()
+        raise LessonIndexNumberError

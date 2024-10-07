@@ -5,7 +5,8 @@ from student_journal.domain.student import Student
 
 
 @impl_converter()
-def convert_student_to_read_model(  # type: ignore
+def convert_student_to_read_model(
     student: Student,
     student_overall_avg_mark: float,
-) -> StudentReadModel: ...
+) -> StudentReadModel:
+    raise NotImplementedError

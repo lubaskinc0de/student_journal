@@ -38,50 +38,19 @@ include = ["pyproject.toml", "src/**/*.py"]
 select = ['ALL']
 
 ignore = [
-  # Rules that should be turned on in the near future
-  'N818',
-  'B904',
-  'FIX002',
-  'RUF012',
-
-  # Rules emitting false alerts
-  'N804',
-  'B008',
-  'BLE001',
-  'RUF009',
-  'RUF001',
-
-  # Rules that are not applicable in the project for now
-  'D',
-  'TID252',
-  'D104',
-  'ANN',
-  'SLF001',
-  'ARG',
+  # Strange and obscure
   'D100',
-  'PLR0913',
-  'TCH002',
-  'EXE002',
-
-  # Strange and obscure rules that will never be turned on
-  'ANN101',
-  'FA100',
-  'TRY003',
-  'TRY201',
-  'EM',
-  'PERF203',
-  'TCH001',
-  'TD002',
-  'PTH201',
-  'RSE102',
+  'D104',
+  'D101',
+  'D102',
   'RET504',
-  'FBT001',
+  'D103',
+  'PLR0913',
+  # Not applicable for now
+  'FIX002',
   'TD003',
-  'B024',
-  'ISC001',
-  'B027',
-  'PLR2004',
-  'PGH003',
+  'TD002',
+  'ARG001',
 ]
 
 [[project.authors]]
