@@ -12,6 +12,6 @@ class ReadTeachers:
 
     def execute(self) -> TeachersReadModel:
         student_id = self.idp.get_id()
-        teachers = self.gateway.read_teachers(student_id)
+        teachers = self.gateway.read_teachers()
 
         return TeachersReadModel(student_id=student_id, teachers=teachers)
