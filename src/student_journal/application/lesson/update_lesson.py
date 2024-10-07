@@ -52,6 +52,7 @@ class UpdateLesson:
             index_number=data.index_number,
         )
 
+        self.transaction_manager.begin()
         self.gateway.update_lesson(lesson)
         self.transaction_manager.commit()
 
