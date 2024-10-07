@@ -31,14 +31,14 @@ class CreateHomeTask:
         )
 
         task_id = TaskId(uuid4())
-        lesson = HomeTask(
+        home_task = HomeTask(
             task_id=task_id,
             lesson_id=data.lesson_id,
             description=data.description,
             is_done=data.is_done,
         )
 
-        self.gateway.write_home_task(lesson)
+        self.gateway.write_home_task(home_task)
         self.transaction_manager.commit()
 
         return task_id
