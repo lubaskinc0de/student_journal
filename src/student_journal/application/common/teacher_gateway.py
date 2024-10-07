@@ -15,3 +15,9 @@ class TeacherGateway(Protocol):
 
     @abstractmethod
     def read_teachers(self, student_id: StudentId) -> list[Teacher]: ...
+
+    @abstractmethod
+    def update_teacher(self, lesson: Teacher) -> None: ...
+
+    @abstractmethod
+    def delete_teacher(self, lesson_id: TeacherId) -> None: ...
