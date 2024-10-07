@@ -1,18 +1,12 @@
 from dataclasses import dataclass
-from datetime import UTC, datetime, timedelta
+from datetime import datetime
 from uuid import uuid4
 
 from student_journal.application.common.id_provider import IdProvider
 from student_journal.application.common.lesson_gateway import LessonGateway
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
-from student_journal.application.exceptions.lesson import (
-    LessonAtError,
-    LessonIndexNumberError,
-    LessonMarkError,
-    LessonNoteError,
-    LessonRoomError,
-)
+from student_journal.application.invariants.lesson import validate_lesson_invariants
 from student_journal.domain.lesson import Lesson
 from student_journal.domain.value_object.lesson_id import LessonId
 from student_journal.domain.value_object.subject_id import SubjectId
@@ -39,20 +33,14 @@ class CreateLesson:
         self.transaction_manager.begin()
         student = self.student_gateway.read_student(self.idp.get_id())
 
-        if data.at < (datetime.now(tz=UTC) + timedelta(hours=student.timezone)):
-            raise LessonAtError()
-
-        if data.mark and not (0 < data.mark <= 5):
-            raise LessonMarkError()
-
-        if data.note and len(data.note) > 65535:
-            raise LessonNoteError()
-
-        if data.room < 1:
-            raise LessonRoomError()
-
-        if data.index_number < 0:
-            raise LessonIndexNumberError()
+        validate_lesson_invariants(
+            at=data.at,
+            student_timezone=student.timezone,
+            mark=data.mark,
+            note=data.note,
+            room=data.room,
+            index_number=data.index_number,
+        )
 
         lesson_id = LessonId(uuid4())
         lesson = Lesson(

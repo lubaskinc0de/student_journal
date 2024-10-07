@@ -3,7 +3,7 @@ from uuid import uuid4
 
 from student_journal.application.common.teacher_gateway import TeacherGateway
 from student_journal.application.common.transaction_manager import TransactionManager
-from student_journal.application.exceptions.teacher import TeacherFullNameError
+from student_journal.application.invariants.teacher import validate_teacher_invariants
 from student_journal.domain.teacher import Teacher
 from student_journal.domain.value_object.teacher_id import TeacherId
 
@@ -11,6 +11,7 @@ from student_journal.domain.value_object.teacher_id import TeacherId
 @dataclass(slots=True, frozen=True)
 class NewTeacher:
     full_name: str
+    avatar: str
 
 
 @dataclass(slots=True)
@@ -19,13 +20,13 @@ class CreateTeacher:
     transaction_manager: TransactionManager
 
     def execute(self, data: NewTeacher) -> TeacherId:
-        if len(data.full_name) > 255:
-            raise TeacherFullNameError()
+        validate_teacher_invariants(full_name=data.full_name)
 
         teacher_id = TeacherId(uuid4())
         teacher = Teacher(
             teacher_id=teacher_id,
             full_name=data.full_name,
+            avatar=data.avatar,
         )
 
         self.transaction_manager.begin()
