@@ -1,18 +1,11 @@
 from dataclasses import dataclass
-from datetime import UTC, datetime, timedelta
-from uuid import uuid4
+from datetime import datetime
 
 from student_journal.application.common.id_provider import IdProvider
 from student_journal.application.common.lesson_gateway import LessonGateway
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
-from student_journal.application.exceptions.lesson import (
-    LessonAtError,
-    LessonIndexNumberError,
-    LessonMarkError,
-    LessonNoteError,
-    LessonRoomError,
-)
+from student_journal.application.invariants.lesson import validate_lesson_invariants
 from student_journal.domain.lesson import Lesson
 from student_journal.domain.value_object.lesson_id import LessonId
 from student_journal.domain.value_object.subject_id import SubjectId
@@ -40,24 +33,17 @@ class UpdateLesson:
         self.transaction_manager.begin()
         student = self.student_gateway.read_student(self.idp.get_id())
 
-        if data.at < (datetime.now(tz=UTC) + timedelta(hours=student.timezone)):
-            raise LessonAtError()
+        validate_lesson_invariants(
+            at=data.at,
+            student_timezone=student.timezone,
+            mark=data.mark,
+            note=data.note,
+            room=data.room,
+            index_number=data.index_number,
+        )
 
-        if data.mark and not (0 < data.mark <= 5):
-            raise LessonMarkError()
-
-        if data.note and len(data.note) > 65535:
-            raise LessonNoteError()
-
-        if data.room < 1:
-            raise LessonRoomError()
-
-        if data.index_number < 0:
-            raise LessonIndexNumberError()
-
-        lesson_id = LessonId(uuid4())
         lesson = Lesson(
-            lesson_id=lesson_id,
+            lesson_id=data.lesson_id,
             subject_id=data.subject_id,
             at=data.at,
             mark=data.mark,
@@ -69,4 +55,4 @@ class UpdateLesson:
         self.gateway.update_lesson(lesson)
         self.transaction_manager.commit()
 
-        return lesson_id
+        return data.lesson_id

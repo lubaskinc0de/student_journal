@@ -16,3 +16,9 @@ class SubjectGateway(Protocol):
 
     @abstractmethod
     def read_subjects(self, student_id: StudentId) -> list[SubjectReadModel]: ...
+
+    @abstractmethod
+    def update_subject(self, subject: Subject) -> None: ...
+
+    @abstractmethod
+    def delete_subject(self, subject_id: SubjectId) -> None: ...

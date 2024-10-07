@@ -14,3 +14,6 @@ class StudentGateway(Protocol):
 
     @abstractmethod
     def get_overall_avg_mark(self, student: Student, round_border: float) -> float: ...
+
+    @abstractmethod
+    def update_student(self, student: Student) -> None: ...
