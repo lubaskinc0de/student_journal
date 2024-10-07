@@ -15,7 +15,7 @@ class UpdatedTeacher:
 
 
 @dataclass(slots=True)
-class CreateTeacher:
+class UpdateTeacher:
     gateway: TeacherGateway
     transaction_manager: TransactionManager
 
