@@ -10,5 +10,5 @@ class ReadHomeTask:
     gateway: HomeTaskGateway
 
     def execute(self, task_id: TaskId) -> HomeTask:
-        subject = self.gateway.read_home_task(task_id)
-        return subject
+        home_task = self.gateway.read_home_task(task_id)
+        return home_task
