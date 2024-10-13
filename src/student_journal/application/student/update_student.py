@@ -27,6 +27,7 @@ class UpdateStudent:
             age=data.age,
             name=data.name,
             home_address=data.home_address,
+            avatar=data.avatar,
             timezone=data.timezone,
         )
 
