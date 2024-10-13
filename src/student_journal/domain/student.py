@@ -11,4 +11,4 @@ class Student:
     avatar: str | None
     name: str
     home_address: str | None  # домашний адрес
-    timezone: int
+    timezone: int = 0

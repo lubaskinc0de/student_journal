@@ -15,7 +15,7 @@ class ReadStudent:
         current_student_id = self.idp.get_id()
         student = self.gateway.read_student(
             current_student_id,
-        )  # TODO: обработать ошибку, когда студента нет.
+        )
 
         avg = self.gateway.get_overall_avg_mark(student, avg_round_border)
         return convert_student_to_read_model(student, avg)
