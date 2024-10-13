@@ -11,14 +11,25 @@ description = 'Student journal project'
 readme = 'README.md'
 requires-python = '>=3.12.4'
 dependencies = [
+    'adaptix==3.0.0b8',
+]
+
+[project.optional-dependencies]
+test = [
+    'pytest==8.3.3',
+]
+lint = [
+    'pre-commit==3.8.0',
     'ruff==0.6.8',
     'mypy==1.11.2',
-    'pre-commit==3.8.0',
-    'adaptix==3.0.0b8',
 ]
 
 [tool.setuptools]
 package-dir = {"" = "src"}
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = "ignore::DeprecationWarning"
 
 [tool.mypy]
 strict = true
@@ -32,7 +43,7 @@ files = ["src/**/*.py"]
 
 [tool.ruff]
 line-length = 88
-include = ["pyproject.toml", "src/**/*.py"]
+include = ["pyproject.toml", "src/**/*.py", "tests/**/*.py"]
 
 [tool.ruff.lint]
 select = ['ALL']
@@ -47,6 +58,11 @@ ignore = [
   'D103',
   'PLR0913',
   'ANN101',
+  'S101',
+  'EM101',
+  'TRY003',
+  'D107',
+  'ARG002',
   # Not applicable for now
   'FIX002',
   'TD003',

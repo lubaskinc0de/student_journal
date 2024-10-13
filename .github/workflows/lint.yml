@@ -19,3 +19,5 @@ jobs:
           src: "./src"
       - name: Run mypy
         run: mypy
+      - name: Test
+        run: pytest
