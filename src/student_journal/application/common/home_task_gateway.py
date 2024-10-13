@@ -10,6 +10,9 @@ class HomeTaskGateway(Protocol):
     def read_home_task(self, task_id: TaskId) -> HomeTask: ...
 
     @abstractmethod
+    def read_home_tasks(self, is_done: bool | None = False) -> list[HomeTask]: ...
+
+    @abstractmethod
     def write_home_task(self, home_task: HomeTask) -> None: ...
 
     @abstractmethod

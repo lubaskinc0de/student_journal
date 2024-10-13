@@ -52,6 +52,7 @@ ignore = [
   'TD003',
   'TD002',
   'ARG001',
+  'FBT002'
 ]
 
 [[project.authors]]
