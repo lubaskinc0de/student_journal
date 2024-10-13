@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+from student_journal.application.common.id_provider import IdProvider
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.invariants.student import validate_student_invariants
@@ -9,7 +10,6 @@ from student_journal.domain.value_object.student_id import StudentId
 
 @dataclass(slots=True, frozen=True)
 class UpdatedStudent:
-    student_id: StudentId
     age: int | None
     avatar: str | None
     name: str
@@ -21,6 +21,7 @@ class UpdatedStudent:
 class UpdateStudent:
     gateway: StudentGateway
     transaction_manager: TransactionManager
+    idp: IdProvider
 
     def execute(self, data: UpdatedStudent) -> StudentId:
         validate_student_invariants(
@@ -32,7 +33,7 @@ class UpdateStudent:
         )
 
         student = Student(
-            student_id=data.student_id,
+            student_id=self.idp.get_id(),
             avatar=data.avatar,
             age=data.age,
             name=data.name,
@@ -44,4 +45,4 @@ class UpdateStudent:
         self.gateway.update_student(student)
         self.transaction_manager.commit()
 
-        return data.student_id
+        return student.student_id
