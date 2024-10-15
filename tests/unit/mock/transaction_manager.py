@@ -9,12 +9,12 @@ class MockedTransactionManager(TransactionManager):
 
     def begin(self) -> None:
         if self.is_begin:
-            raise ValueError("Transaction tries to begin twice!")
+            raise ValueError("Transaction is trying to commit twice!")
         self.is_begin = True
 
     def commit(self) -> None:
         if self.is_commited:
-            raise ValueError("Transaction tries to commit twice!")
+            raise ValueError("Transaction is trying to commit twice!")
 
         if not self.is_begin:
             raise ValueError("Transaction is not begin!")
@@ -23,9 +23,9 @@ class MockedTransactionManager(TransactionManager):
 
     def rollback(self) -> None:
         if not self.is_begin:
-            raise ValueError("Transaction is not begin!")
+            raise ValueError("Transaction has not begun")
 
         if self.is_rolled_back:
-            raise ValueError("Transaction tries to rollback twice!")
+            raise ValueError("Transaction is trying to commit twice!")
 
         self.is_rolled_back = True

@@ -9,6 +9,7 @@ class MockedTeacherGateway(TeacherGateway):
         self._teachers = {}
         self.is_updated = False
         self.is_wrote = False
+        self.is_deleted = False
 
     def read_teacher(self, teacher_id: TeacherId) -> Teacher:
         if not (teacher := self._teachers.get(teacher_id)):
@@ -29,3 +30,4 @@ class MockedTeacherGateway(TeacherGateway):
 
     def delete_teacher(self, teacher_id: TeacherId) -> None:
         del self._teachers[teacher_id]
+        self.is_deleted = True

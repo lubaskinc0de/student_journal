@@ -1,6 +1,7 @@
 from uuid import uuid4
 
 import pytest
+from student_journal.adapters.id_provider import SimpleIdProvider
 from student_journal.application.common.id_provider import IdProvider
 from student_journal.application.teacher import (
     CreateTeacher,
@@ -10,16 +11,30 @@ from student_journal.application.teacher import (
     UpdateTeacher,
 )
 from student_journal.domain.teacher import Teacher
+from student_journal.domain.value_object.student_id import StudentId
 from student_journal.domain.value_object.teacher_id import TeacherId
 
 from tests.unit.mock import MockedTeacherGateway, MockedTransactionManager
 
-TEAHER_ID = TeacherId(uuid4())
+TEACHER_ID = TeacherId(uuid4())
 TEACHER = Teacher(
-    student_id=TEAHER_ID,
+    teacher_id=TEACHER_ID,
     full_name="John Doe",
     avatar=None,
 )
+
+TEACHER2_ID = TeacherId(uuid4())
+TEACHER2 = Teacher(
+    teacher_id=TEACHER2_ID,
+    full_name="John Not Doe",
+    avatar=None,
+)
+STUDENT_ID = StudentId(uuid4())
+
+
+@pytest.fixture()
+def idp() -> IdProvider:
+    return SimpleIdProvider(STUDENT_ID)
 
 
 @pytest.fixture()
