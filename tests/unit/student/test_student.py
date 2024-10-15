@@ -4,7 +4,7 @@ import pytest
 from student_journal.application.exceptions.base import ApplicationError
 from student_journal.application.exceptions.student import (
     StudentAgeError,
-    StudentAvatarNotExistsError,
+    StudentAvatarDoesNotExistsError,
     StudentHomeAddressError,
     StudentNameError,
     StudentTimezoneError,
@@ -42,7 +42,7 @@ BAD_INVARIANTS = (
             0,
         ),
         (14, "Ilya", None, None, StudentTimezoneError, 28),
-        (14, "Ilya", None, string.ascii_letters, StudentAvatarNotExistsError, 0),
+        (14, "Ilya", None, string.ascii_letters, StudentAvatarDoesNotExistsError, 0),
     ],
 )
 

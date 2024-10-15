@@ -2,7 +2,7 @@ from pathlib import Path
 
 from student_journal.application.exceptions.student import (
     StudentAgeError,
-    StudentAvatarNotExistsError,
+    StudentAvatarDoesNotExistsError,
     StudentHomeAddressError,
     StudentNameError,
     StudentTimezoneError,
@@ -37,4 +37,4 @@ def validate_student_invariants(
         raise StudentTimezoneError
 
     if avatar and not Path(avatar).exists():
-        raise StudentAvatarNotExistsError
+        raise StudentAvatarDoesNotExistsError
