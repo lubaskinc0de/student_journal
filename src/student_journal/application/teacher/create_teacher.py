@@ -11,7 +11,7 @@ from student_journal.domain.value_object.teacher_id import TeacherId
 @dataclass(slots=True, frozen=True)
 class NewTeacher:
     full_name: str
-    avatar: str
+    avatar: str | None
 
 
 @dataclass(slots=True)

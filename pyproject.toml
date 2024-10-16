@@ -9,9 +9,11 @@ name = 'student_journal'
 version = '0.0.1'
 description = 'Student journal project'
 readme = 'README.md'
-requires-python = '>=3.12.4'
+requires-python = '>=3.10.4'
 dependencies = [
     'adaptix==3.0.0b8',
+    'pyqt6-tools==6.4.2.3.3',
+    'PyQt6==6.4.2',
 ]
 
 [project.optional-dependencies]
@@ -28,8 +30,11 @@ ci = [
     'pytest==8.3.3',
 ]
 
+[tool.setuptools.packages.find]
+where = ["src"]
+
 [tool.setuptools]
-package-dir = {"" = "src"}
+include-package-data = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -43,11 +48,13 @@ show_error_context = true
 check_untyped_defs = true
 ignore_missing_imports = false
 warn_no_return = false
-files = ["src/**/*.py"]
+files = ["src/"]
+exclude = ["src/student_journal/presentation/ui/.*\\.py"]
 
 [tool.ruff]
 line-length = 88
 include = ["pyproject.toml", "src/**/*.py", "tests/**/*.py"]
+exclude = ["src/student_journal/presentation/ui/**/*.py"]
 
 [tool.ruff.lint]
 select = ['ALL']
@@ -77,6 +84,7 @@ ignore = [
   'ERA001',
   # Does not work correctly
   'TCH002',
+  'TCH001',
 ]
 
 [[project.authors]]
