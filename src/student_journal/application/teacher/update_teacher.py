@@ -28,8 +28,8 @@ class UpdateTeacher:
             avatar=data.avatar,
         )
 
-        self.transaction_manager.begin()
-        self.gateway.update_teacher(teacher)
-        self.transaction_manager.commit()
+        with self.transaction_manager.begin():
+            self.gateway.update_teacher(teacher)
+            self.transaction_manager.commit()
 
         return data.teacher_id

@@ -24,8 +24,6 @@ class UpdateHomeTask:
     transaction_manager: TransactionManager
 
     def execute(self, data: UpdatedHomeTask) -> TaskId:
-        self.transaction_manager.begin()
-
         validate_home_task_invariants(
             description=data.description,
         )
@@ -37,7 +35,8 @@ class UpdateHomeTask:
             is_done=data.is_done,
         )
 
-        self.gateway.update_home_task(home_task)
-        self.transaction_manager.commit()
+        with self.transaction_manager.begin():
+            self.gateway.update_home_task(home_task)
+            self.transaction_manager.commit()
 
         return data.task_id

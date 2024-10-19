@@ -11,6 +11,6 @@ class DeleteSubject:
     gateway: SubjectGateway
 
     def execute(self, subject_id: SubjectId) -> None:
-        self.transaction_manager.begin()
-        self.gateway.delete_subject(subject_id)
-        self.transaction_manager.commit()
+        with self.transaction_manager.begin():
+            self.gateway.delete_subject(subject_id)
+            self.transaction_manager.commit()

@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from contextlib import AbstractContextManager
 from typing import Protocol
 
 
@@ -10,4 +11,4 @@ class TransactionManager(Protocol):
     def rollback(self) -> None: ...
 
     @abstractmethod
-    def begin(self) -> None: ...
+    def begin(self) -> AbstractContextManager[None]: ...

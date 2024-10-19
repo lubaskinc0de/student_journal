@@ -30,8 +30,8 @@ class CreateSubject:
             teacher_id=data.teacher_id,
         )
 
-        self.transaction_manager.begin()
-        self.gateway.write_subject(subject)
-        self.transaction_manager.commit()
+        with self.transaction_manager.begin():
+            self.gateway.write_subject(subject)
+            self.transaction_manager.commit()
 
         return subject_id

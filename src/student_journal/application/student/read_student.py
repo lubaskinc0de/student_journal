@@ -11,11 +11,11 @@ class ReadStudent:
     gateway: StudentGateway
     idp: IdProvider
 
-    def execute(self, avg_round_border: float) -> StudentReadModel:
+    def execute(self) -> StudentReadModel:
         current_student_id = self.idp.get_id()
         student = self.gateway.read_student(
             current_student_id,
         )
 
-        avg = self.gateway.get_overall_avg_mark(student, avg_round_border)
+        avg = self.gateway.get_overall_avg_mark()
         return convert_student_to_read_model(student, avg)

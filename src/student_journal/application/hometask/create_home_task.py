@@ -24,12 +24,9 @@ class CreateHomeTask:
     transaction_manager: TransactionManager
 
     def execute(self, data: NewHomeTask) -> TaskId:
-        self.transaction_manager.begin()
-
         validate_home_task_invariants(
             description=data.description,
         )
-
         task_id = TaskId(uuid4())
         home_task = HomeTask(
             task_id=task_id,
@@ -38,7 +35,8 @@ class CreateHomeTask:
             is_done=data.is_done,
         )
 
-        self.gateway.write_home_task(home_task)
-        self.transaction_manager.commit()
+        with self.transaction_manager.begin():
+            self.gateway.write_home_task(home_task)
+            self.transaction_manager.commit()
 
         return task_id

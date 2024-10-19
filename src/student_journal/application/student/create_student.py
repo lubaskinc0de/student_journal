@@ -41,8 +41,8 @@ class CreateStudent:
             timezone=data.timezone,
         )
 
-        self.transaction_manager.begin()
-        self.gateway.write_student(student)
-        self.transaction_manager.commit()
+        with self.transaction_manager.begin():
+            self.gateway.write_student(student)
+            self.transaction_manager.commit()
 
         return student_id

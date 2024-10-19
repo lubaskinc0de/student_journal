@@ -1,6 +1,7 @@
 from uuid import uuid4
 
 import pytest
+from student.unit.mock import MockedTeacherGateway, MockedTransactionManager
 from student_journal.adapters.id_provider import SimpleIdProvider
 from student_journal.application.common.id_provider import IdProvider
 from student_journal.application.teacher import (
@@ -13,8 +14,6 @@ from student_journal.application.teacher import (
 from student_journal.domain.teacher import Teacher
 from student_journal.domain.value_object.student_id import StudentId
 from student_journal.domain.value_object.teacher_id import TeacherId
-
-from tests.unit.mock import MockedTeacherGateway, MockedTransactionManager
 
 TEACHER_ID = TeacherId(uuid4())
 TEACHER = Teacher(

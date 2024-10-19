@@ -11,6 +11,6 @@ class DeleteHomeTask:
     gateway: HomeTaskGateway
 
     def execute(self, task_id: TaskId) -> None:
-        self.transaction_manager.begin()
-        self.gateway.delete_home_task(task_id)
-        self.transaction_manager.commit()
+        with self.transaction_manager.begin():
+            self.gateway.delete_home_task(task_id)
+            self.transaction_manager.commit()

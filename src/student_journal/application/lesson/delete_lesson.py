@@ -11,6 +11,6 @@ class DeleteLesson:
     gateway: LessonGateway
 
     def execute(self, lesson_id: LessonId) -> None:
-        self.transaction_manager.begin()
-        self.gateway.delete_lesson(lesson_id)
-        self.transaction_manager.commit()
+        with self.transaction_manager.begin():
+            self.gateway.delete_lesson(lesson_id)
+            self.transaction_manager.commit()
