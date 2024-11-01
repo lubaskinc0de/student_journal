@@ -30,7 +30,6 @@ class UpdateLesson:
     idp: IdProvider
 
     def execute(self, data: UpdatedLesson) -> LessonId:
-        self.transaction_manager.begin()
         student = self.student_gateway.read_student(self.idp.get_id())
 
         validate_lesson_invariants(
@@ -52,7 +51,8 @@ class UpdateLesson:
             index_number=data.index_number,
         )
 
-        self.gateway.update_lesson(lesson)
-        self.transaction_manager.commit()
+        with self.transaction_manager.begin():
+            self.gateway.update_lesson(lesson)
+            self.transaction_manager.commit()
 
         return data.lesson_id

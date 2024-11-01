@@ -1,6 +1,7 @@
+from common.mock.transaction_manager import MockedTransactionManager
+from teacher.mock.teacher_gateway import MockedTeacherGateway
+
 from .student_gateway import MockedStudentGateway
-from .teacher_gateway import MockedTeacherGateway
-from .transaction_manager import MockedTransactionManager
 
 __all__ = [
     "MockedStudentGateway",

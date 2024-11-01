@@ -29,8 +29,8 @@ class UpdateSubject:
             teacher_id=data.teacher_id,
         )
 
-        self.transaction_manager.begin()
-        self.gateway.update_subject(subject)
-        self.transaction_manager.commit()
+        with self.transaction_manager.begin():
+            self.gateway.update_subject(subject)
+            self.transaction_manager.commit()
 
         return data.subject_id

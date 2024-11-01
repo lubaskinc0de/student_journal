@@ -1,6 +1,7 @@
 import string
 
 import pytest
+from common.mock.transaction_manager import MockedTransactionManager
 from student_journal.application.exceptions.base import ApplicationError
 from student_journal.application.exceptions.student import (
     StudentAgeError,
@@ -23,9 +24,8 @@ from student_journal.application.student.update_student import (
     UpdateStudent,
 )
 
-from tests.unit.mock.student_gateway import MockedStudentGateway
-from tests.unit.mock.transaction_manager import MockedTransactionManager
-from tests.unit.student.conftest import STUDENT, STUDENT_ID
+from student.conftest import STUDENT, STUDENT_ID
+from student.unit.mock.student_gateway import MockedStudentGateway
 
 BAD_INVARIANTS = (
     [
@@ -96,7 +96,7 @@ def test_read_student(
     student_gateway: MockedStudentGateway,
 ) -> None:
     student_gateway.write_student(STUDENT)
-    student = read_student.execute(0.5)
+    student = read_student.execute()
 
     assert student.student_id == STUDENT_ID
     assert student.student_overall_avg_mark == student_gateway.AVG_MARK

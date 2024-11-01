@@ -41,8 +41,8 @@ class UpdateStudent:
             timezone=data.timezone,
         )
 
-        self.transaction_manager.begin()
-        self.gateway.update_student(student)
-        self.transaction_manager.commit()
+        with self.transaction_manager.begin():
+            self.gateway.update_student(student)
+            self.transaction_manager.commit()
 
         return student.student_id

@@ -29,8 +29,8 @@ class CreateTeacher:
             avatar=data.avatar,
         )
 
-        self.transaction_manager.begin()
-        self.gateway.write_teacher(teacher)
-        self.transaction_manager.commit()
+        with self.transaction_manager.begin():
+            self.gateway.write_teacher(teacher)
+            self.transaction_manager.commit()
 
         return teacher_id

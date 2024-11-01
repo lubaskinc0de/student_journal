@@ -1,3 +1,5 @@
+from contextlib import AbstractContextManager, contextmanager
+
 from student_journal.application.common.transaction_manager import TransactionManager
 
 
@@ -7,10 +9,12 @@ class MockedTransactionManager(TransactionManager):
         self.is_rolled_back = False
         self.is_begin = False
 
-    def begin(self) -> None:
+    @contextmanager
+    def begin(self) -> AbstractContextManager[None]:
         if self.is_begin:
             raise ValueError("Transaction is trying to begin twice!")
         self.is_begin = True
+        yield
 
     def commit(self) -> None:
         if self.is_commited:

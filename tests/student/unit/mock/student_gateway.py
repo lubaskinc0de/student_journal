@@ -22,7 +22,7 @@ class MockedStudentGateway(StudentGateway):
         self.is_wrote = True
         self._students[student.student_id] = student
 
-    def get_overall_avg_mark(self, student: Student, round_border: float) -> float:
+    def get_overall_avg_mark(self) -> float:
         return self.AVG_MARK
 
     def update_student(self, student: Student) -> None:
