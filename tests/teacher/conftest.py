@@ -8,6 +8,7 @@ from student_journal.application.student.create_student import CreateStudent
 from student_journal.application.student.read_student import ReadStudent
 from student_journal.application.student.update_student import UpdateStudent
 from student_journal.domain.teacher import Teacher
+from student_journal.domain.value_object.student_id import StudentId
 from student_journal.domain.value_object.teacher_id import TeacherId
 
 
@@ -52,3 +53,10 @@ TEACHER = Teacher(
     full_name="John Doe",
     avatar=None,
 )
+TEACHER2_ID = TeacherId(uuid4())
+TEACHER2 = Teacher(
+    teacher_id=TEACHER2_ID,
+    full_name="John Not Doe",
+    avatar=None,
+)
+STUDENT_ID = StudentId(uuid4())

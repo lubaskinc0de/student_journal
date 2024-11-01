@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS "Student" (
 CREATE TABLE IF NOT EXISTS "Teacher" (
 	"teacher_id" TEXT NOT NULL UNIQUE,
 	"full_name" VARCHAR NOT NULL,
+	"avatar" TEXT,
 	PRIMARY KEY("teacher_id")
 );
 

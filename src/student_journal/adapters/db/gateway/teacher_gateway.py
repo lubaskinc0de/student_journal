@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from sqlite3 import Cursor
 
 from student_journal.adapters.models import (
@@ -13,13 +14,14 @@ from student_journal.domain.teacher import Teacher
 from student_journal.domain.value_object.teacher_id import TeacherId
 
 
+@dataclass(slots=True, frozen=True)
 class SQLiteTeacherGateway(TeacherGateway):
     cursor: Cursor
 
     def read_teacher(self, teacher_id: TeacherId) -> Teacher:
         query = """
             SELECT teacher_id, full_name, avatar
-            FROM Teacher WHERE teacher_id = ?"
+            FROM Teacher WHERE teacher_id = ?
             """
         res = self.cursor.execute(query, (str(teacher_id),)).fetchone()
 
@@ -42,7 +44,7 @@ class SQLiteTeacherGateway(TeacherGateway):
     def read_teachers(self) -> list[Teacher]:
         query = """
             SELECT teacher_id, full_name, avatar
-            FROM Teacher"
+            FROM Teacher
             """
         res = self.cursor.execute(query).fetchall()
 
@@ -64,7 +66,7 @@ class SQLiteTeacherGateway(TeacherGateway):
     def delete_teacher(self, teacher_id: TeacherId) -> None:
         query = """
             DELETE * FROM Teacher
-            WHERE teacher_id = ?"
+            WHERE teacher_id = ?
             """
 
         self.cursor.execute(query, (str(teacher_id),))

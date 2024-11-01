@@ -9,7 +9,7 @@ from student_journal.adapters.db.transaction_manager import SQLiteTransactionMan
 
 
 @pytest.fixture()
-def connection() -> Connection:
+def connection() -> Connection:  # type: ignore
     maker = SQLiteConnectionMaker(":memory:")
     factory = SQLiteConnectionFactory(maker)
 
