@@ -1,6 +1,7 @@
 from uuid import uuid4
 
 import pytest
+
 from student_journal.application.common.id_provider import IdProvider
 from student_journal.application.teacher import (
     CreateTeacher,
@@ -11,7 +12,6 @@ from student_journal.application.teacher import (
 )
 from student_journal.domain.teacher import Teacher
 from student_journal.domain.value_object.teacher_id import TeacherId
-
 from unit.student.mock import MockedTeacherGateway, MockedTransactionManager
 
 TEACHER_ID = TeacherId(uuid4())
@@ -28,12 +28,12 @@ TEACHER2 = Teacher(
 )
 
 
-@pytest.fixture()
+@pytest.fixture
 def teacher_gateway() -> MockedTeacherGateway:
     return MockedTeacherGateway()
 
 
-@pytest.fixture()
+@pytest.fixture
 def create_teacher(
     transaction_manager: MockedTransactionManager,
     teacher_gateway: MockedTeacherGateway,
@@ -44,7 +44,7 @@ def create_teacher(
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def read_teacher(
     teacher_gateway: MockedTeacherGateway,
 ) -> ReadTeacher:
@@ -53,7 +53,7 @@ def read_teacher(
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def update_teacher(
     teacher_gateway: MockedTeacherGateway,
     transaction_manager: MockedTransactionManager,
@@ -64,7 +64,7 @@ def update_teacher(
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def read_teachers(
     teacher_gateway: MockedTeacherGateway,
     idp: IdProvider,
@@ -75,7 +75,7 @@ def read_teachers(
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def delete_teacher(
     teacher_gateway: MockedTeacherGateway,
     transaction_manager: MockedTransactionManager,

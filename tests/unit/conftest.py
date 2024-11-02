@@ -2,6 +2,7 @@ from uuid import uuid4
 
 import pytest
 from common.mock.transaction_manager import MockedTransactionManager
+
 from student_journal.adapters.id_provider import SimpleIdProvider
 from student_journal.application.common.id_provider import IdProvider
 from student_journal.domain.student import Student
@@ -17,11 +18,11 @@ STUDENT = Student(
 )
 
 
-@pytest.fixture()
+@pytest.fixture
 def idp() -> IdProvider:
     return SimpleIdProvider(STUDENT_ID)
 
 
-@pytest.fixture()
+@pytest.fixture
 def transaction_manager() -> MockedTransactionManager:
     return MockedTransactionManager()
