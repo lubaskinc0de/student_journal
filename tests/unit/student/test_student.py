@@ -24,8 +24,8 @@ from student_journal.application.student.update_student import (
     UpdateStudent,
 )
 
-from student.conftest import STUDENT, STUDENT_ID
-from student.unit.mock.student_gateway import MockedStudentGateway
+from unit.conftest import STUDENT, STUDENT_ID
+from unit.student.mock.student_gateway import MockedStudentGateway
 
 BAD_INVARIANTS = (
     [

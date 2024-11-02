@@ -1,4 +1,4 @@
-name: Lint
+name: Lint and Test
 on: [push, pull_request]
 jobs:
   lint:
@@ -17,6 +17,10 @@ jobs:
         uses: astral-sh/ruff-action@v1
         with:
           src: "./src"
+      - name: Run ruff for tests
+        uses: astral-sh/ruff-action@v1
+        with:
+          src: "./tests"
       - name: Run mypy
         run: mypy
       - name: Test
