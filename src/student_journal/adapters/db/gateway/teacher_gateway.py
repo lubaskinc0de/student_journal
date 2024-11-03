@@ -65,7 +65,7 @@ class SQLiteTeacherGateway(TeacherGateway):
 
     def delete_teacher(self, teacher_id: TeacherId) -> None:
         query = """
-            DELETE * FROM Teacher
+            DELETE FROM Teacher
             WHERE teacher_id = ?
             """
 
