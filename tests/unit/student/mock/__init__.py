@@ -1,5 +1,6 @@
 from common.mock.transaction_manager import MockedTransactionManager
-from teacher.mock.teacher_gateway import MockedTeacherGateway
+
+from unit.teacher.mock.teacher_gateway import MockedTeacherGateway
 
 from .student_gateway import MockedStudentGateway
 
