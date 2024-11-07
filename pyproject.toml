@@ -82,9 +82,12 @@ ignore = [
   'FBT002',
   'PGH003',
   'ERA001',
+  'DTZ007',
   # Does not work correctly
   'TCH002',
   'TCH001',
+  # Only for tests
+  'DTZ001',
 ]
 
 [[project.authors]]

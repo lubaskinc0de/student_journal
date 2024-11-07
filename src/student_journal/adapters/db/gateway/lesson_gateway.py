@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import date, timedelta
+from datetime import datetime, timedelta
 from sqlite3 import Cursor
 
 from student_journal.adapters.models import lesson_retort, lesson_to_list_retort
@@ -55,10 +55,10 @@ class SQLiteLessonGateway(LessonGateway):
             """
         self.cursor.execute(query, (str(lesson_id),))
 
-    def read_lessons_for_week(self, week_start: date) -> WeekLessons:
+    def read_lessons_for_week(self, week_start: datetime) -> WeekLessons:
         query = """
             SELECT * FROM Lesson
-            WHERE at
+            WHERE
             at >= ? AND at <= ?;
             """
         week_end = week_start + timedelta(days=6)
@@ -66,7 +66,10 @@ class SQLiteLessonGateway(LessonGateway):
 
         lessons_list = lesson_to_list_retort.load(res, list[Lesson])
 
-        lessons: dict[date, Lesson] = {lesson.at: lesson for lesson in lessons_list}
+        for lesson in lessons_list:
+            lesson.at = datetime.strptime(str(lesson.at), "%Y-%m-%d %H:%M:%S")
+
+        lessons: dict[datetime, Lesson] = {lesson.at: lesson for lesson in lessons_list}
 
         week_lessons = WeekLessons(
             week_start=week_start,
@@ -85,6 +88,9 @@ class SQLiteLessonGateway(LessonGateway):
         res = self.cursor.execute(query).fetchall()
 
         lessons_list = lesson_to_list_retort.load(res, list[Lesson])
+
+        for lesson in lessons_list:
+            lesson.at = datetime.strptime(str(lesson.at), "%Y-%m-%d %H:%M:%S")
 
         lessons_by_date = LessonsByDate(
             lessons={lesson.at: lesson for lesson in lessons_list},
