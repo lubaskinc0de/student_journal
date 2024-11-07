@@ -7,7 +7,7 @@ from student_journal.domain.lesson import Lesson
 @dataclass(frozen=True, slots=True)
 class WeekLessons:
     week_start: date
-    lessons: dict[date, list[Lesson]]
+    lessons: dict[date, Lesson]
     week_end: date
 
 
