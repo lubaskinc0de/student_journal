@@ -1,5 +1,5 @@
 import pytest
-from student.unit.mock import MockedTeacherGateway, MockedTransactionManager
+
 from student_journal.application.exceptions.base import ApplicationError
 from student_journal.application.exceptions.teacher import (
     TeacherFullNameError,
@@ -15,8 +15,8 @@ from student_journal.application.teacher import (
     UpdatedTeacher,
     UpdateTeacher,
 )
-
-from teacher.unit.conftest import TEACHER, TEACHER2, TEACHER_ID
+from unit.student.mock import MockedTeacherGateway, MockedTransactionManager
+from unit.teacher.conftest import TEACHER, TEACHER2, TEACHER_ID
 
 BAD_INVARIANTS = (
     [

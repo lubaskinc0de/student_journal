@@ -1,12 +1,12 @@
 from sqlite3 import Cursor
 
 import pytest
+from unit.conftest import STUDENT, STUDENT_ID
+
 from student_journal.adapters.models.student import student_retort
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.exceptions.student import StudentDoesNotExistError
 from student_journal.domain.student import Student
-
-from student.conftest import STUDENT, STUDENT_ID
 
 READ_STUDENT_SQL = "SELECT * FROM Student"
 

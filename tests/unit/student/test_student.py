@@ -2,6 +2,7 @@ import string
 
 import pytest
 from common.mock.transaction_manager import MockedTransactionManager
+
 from student_journal.application.exceptions.base import ApplicationError
 from student_journal.application.exceptions.student import (
     StudentAgeError,
@@ -23,9 +24,8 @@ from student_journal.application.student.update_student import (
     UpdatedStudent,
     UpdateStudent,
 )
-
-from student.conftest import STUDENT, STUDENT_ID
-from student.unit.mock.student_gateway import MockedStudentGateway
+from unit.conftest import STUDENT, STUDENT_ID
+from unit.student.mock.student_gateway import MockedStudentGateway
 
 BAD_INVARIANTS = (
     [
