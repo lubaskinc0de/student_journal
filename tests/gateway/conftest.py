@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from sqlite3 import Connection, Cursor
 
 import pytest
@@ -9,7 +10,7 @@ from student_journal.adapters.db.transaction_manager import SQLiteTransactionMan
 
 
 @pytest.fixture
-def connection() -> Connection:
+def connection() -> Iterable[Connection]:
     maker = SQLiteConnectionMaker(":memory:")
     factory = SQLiteConnectionFactory(maker)
 
