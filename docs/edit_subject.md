@@ -7,3 +7,4 @@
 - ``title_input`` - ввод названия предмета (QLineEdit)
 - ``teacher_combo`` - выбор учителя (QComboBox)
 - ``submit_btn`` - кнопка отправки формы (QPushButton)
+- ``delete_btn`` - удалить обьект (QPushButton)
