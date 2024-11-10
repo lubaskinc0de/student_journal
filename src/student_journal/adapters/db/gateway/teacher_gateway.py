@@ -4,7 +4,6 @@ from sqlite3 import Cursor
 from student_journal.adapters.models import (
     teacher_retort,
     teacher_to_list_retort,
-    teachers_to_list_retort,
 )
 from student_journal.application.common.teacher_gateway import TeacherGateway
 from student_journal.application.exceptions.teacher import (
@@ -48,7 +47,7 @@ class SQLiteTeacherGateway(TeacherGateway):
             """
         res = self.cursor.execute(query).fetchall()
 
-        teachers = teachers_to_list_retort.load(res, list[Teacher])
+        teachers = teacher_retort.load(res, list[Teacher])
 
         return teachers
 

@@ -11,11 +11,3 @@ teacher_to_list_retort = Retort(
         ),
     ],
 )
-teachers_to_list_retort = Retort(
-    recipe=[
-        name_mapping(
-            Teacher,
-            as_list=True,
-        ),
-    ],
-)

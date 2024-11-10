@@ -39,7 +39,6 @@ def test_read(
 
 def test_read_not_exist(
     teacher_gateway: TeacherGateway,
-    cursor: Cursor,
 ) -> None:
     with pytest.raises(TeacherDoesNotExistError):
         teacher_gateway.read_teacher(TEACHER_ID)
