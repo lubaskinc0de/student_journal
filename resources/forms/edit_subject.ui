@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>EditSubjectForm</class>
- <widget class="QWidget" name="EditSubjectForm">
+ <class>EditSubject</class>
+ <widget class="QWidget" name="EditSubject">
   <property name="windowModality">
    <enum>Qt::WindowModality::WindowModal</enum>
   </property>
@@ -29,6 +29,13 @@
    <string>Редактирование предмета</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="0">
+    <widget class="QPushButton" name="submit_btn">
+     <property name="text">
+      <string>Сохранить</string>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="0">
     <layout class="QFormLayout" name="formLayout">
      <property name="leftMargin">
@@ -84,10 +91,10 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QPushButton" name="submit_btn">
+   <item row="3" column="0">
+    <widget class="QPushButton" name="delete_btn">
      <property name="text">
-      <string>Сохранить</string>
+      <string>Удалить</string>
      </property>
     </widget>
    </item>

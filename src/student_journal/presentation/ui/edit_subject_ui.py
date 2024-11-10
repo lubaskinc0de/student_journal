@@ -9,50 +9,40 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_EditSubjectForm:
-    def setupUi(self, EditSubjectForm):
-        EditSubjectForm.setObjectName("EditSubjectForm")
-        EditSubjectForm.setWindowModality(QtCore.Qt.WindowModality.WindowModal)
-        EditSubjectForm.resize(444, 300)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred,
-            QtWidgets.QSizePolicy.Policy.Preferred,
-        )
+class Ui_EditSubject(object):
+    def setupUi(self, EditSubject):
+        EditSubject.setObjectName("EditSubject")
+        EditSubject.setWindowModality(QtCore.Qt.WindowModality.WindowModal)
+        EditSubject.resize(444, 300)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(EditSubjectForm.sizePolicy().hasHeightForWidth())
-        EditSubjectForm.setSizePolicy(sizePolicy)
-        EditSubjectForm.setMaximumSize(QtCore.QSize(500, 300))
-        self.gridLayout = QtWidgets.QGridLayout(EditSubjectForm)
+        sizePolicy.setHeightForWidth(EditSubject.sizePolicy().hasHeightForWidth())
+        EditSubject.setSizePolicy(sizePolicy)
+        EditSubject.setMaximumSize(QtCore.QSize(500, 300))
+        self.gridLayout = QtWidgets.QGridLayout(EditSubject)
         self.gridLayout.setObjectName("gridLayout")
+        self.submit_btn = QtWidgets.QPushButton(parent=EditSubject)
+        self.submit_btn.setObjectName("submit_btn")
+        self.gridLayout.addWidget(self.submit_btn, 2, 0, 1, 1)
         self.formLayout = QtWidgets.QFormLayout()
         self.formLayout.setContentsMargins(10, 9, 10, -1)
         self.formLayout.setObjectName("formLayout")
-        self.label_2 = QtWidgets.QLabel(parent=EditSubjectForm)
+        self.label_2 = QtWidgets.QLabel(parent=EditSubject)
         self.label_2.setObjectName("label_2")
-        self.formLayout.setWidget(
-            0, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_2,
-        )
-        self.title_input = QtWidgets.QLineEdit(parent=EditSubjectForm)
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_2)
+        self.title_input = QtWidgets.QLineEdit(parent=EditSubject)
         self.title_input.setObjectName("title_input")
-        self.formLayout.setWidget(
-            0, QtWidgets.QFormLayout.ItemRole.FieldRole, self.title_input,
-        )
-        self.label_3 = QtWidgets.QLabel(parent=EditSubjectForm)
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.ItemRole.FieldRole, self.title_input)
+        self.label_3 = QtWidgets.QLabel(parent=EditSubject)
         self.label_3.setObjectName("label_3")
-        self.formLayout.setWidget(
-            1, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_3,
-        )
-        self.teacher_combo = QtWidgets.QComboBox(parent=EditSubjectForm)
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_3)
+        self.teacher_combo = QtWidgets.QComboBox(parent=EditSubject)
         self.teacher_combo.setObjectName("teacher_combo")
-        self.formLayout.setWidget(
-            1, QtWidgets.QFormLayout.ItemRole.FieldRole, self.teacher_combo,
-        )
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.ItemRole.FieldRole, self.teacher_combo)
         self.gridLayout.addLayout(self.formLayout, 1, 0, 1, 1)
-        self.main_label = QtWidgets.QLabel(parent=EditSubjectForm)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed,
-        )
+        self.main_label = QtWidgets.QLabel(parent=EditSubject)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.main_label.sizePolicy().hasHeightForWidth())
@@ -64,21 +54,18 @@ class Ui_EditSubjectForm:
         self.main_label.setIndent(-1)
         self.main_label.setObjectName("main_label")
         self.gridLayout.addWidget(self.main_label, 0, 0, 1, 1)
-        self.submit_btn = QtWidgets.QPushButton(parent=EditSubjectForm)
-        self.submit_btn.setObjectName("submit_btn")
-        self.gridLayout.addWidget(self.submit_btn, 2, 0, 1, 1)
+        self.delete_btn = QtWidgets.QPushButton(parent=EditSubject)
+        self.delete_btn.setObjectName("delete_btn")
+        self.gridLayout.addWidget(self.delete_btn, 3, 0, 1, 1)
 
-        self.retranslateUi(EditSubjectForm)
-        QtCore.QMetaObject.connectSlotsByName(EditSubjectForm)
+        self.retranslateUi(EditSubject)
+        QtCore.QMetaObject.connectSlotsByName(EditSubject)
 
-    def retranslateUi(self, EditSubjectForm):
+    def retranslateUi(self, EditSubject):
         _translate = QtCore.QCoreApplication.translate
-        EditSubjectForm.setWindowTitle(
-            _translate("EditSubjectForm", "Редактирование предмета"),
-        )
-        self.label_2.setText(_translate("EditSubjectForm", "Название"))
-        self.label_3.setText(_translate("EditSubjectForm", "Учитель"))
-        self.main_label.setText(
-            _translate("EditSubjectForm", "Редактирование предмета"),
-        )
-        self.submit_btn.setText(_translate("EditSubjectForm", "Сохранить"))
+        EditSubject.setWindowTitle(_translate("EditSubject", "Редактирование предмета"))
+        self.submit_btn.setText(_translate("EditSubject", "Сохранить"))
+        self.label_2.setText(_translate("EditSubject", "Название"))
+        self.label_3.setText(_translate("EditSubject", "Учитель"))
+        self.main_label.setText(_translate("EditSubject", "Редактирование предмета"))
+        self.delete_btn.setText(_translate("EditSubject", "Удалить"))
