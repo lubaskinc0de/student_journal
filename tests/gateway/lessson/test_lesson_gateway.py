@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 from sqlite3 import Cursor
 
 import pytest
@@ -8,6 +8,7 @@ from unit.conftest import (
     LESSON_MONDAY,
     LESSON_MONDAY_2,
     SUBJECT_ID,
+    student_timezone,
 )
 
 from student_journal.adapters.models.lesson import lesson_retort
@@ -26,7 +27,6 @@ READ_FIRST_LESSONS_OF_WEEK_SQL = """
     FROM Lesson
     WHERE strftime('%w', at) = '1';
     """
-student_timezone = timezone(timedelta(hours=3))
 
 
 def test_write(

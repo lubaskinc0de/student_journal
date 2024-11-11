@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
 import pytest
@@ -12,6 +12,7 @@ from student_journal.domain.value_object.lesson_id import LessonId
 from student_journal.domain.value_object.student_id import StudentId
 from student_journal.domain.value_object.subject_id import SubjectId
 
+student_timezone = timezone(timedelta(hours=3))
 STUDENT_ID = StudentId(uuid4())
 STUDENT = Student(
     student_id=STUDENT_ID,
@@ -26,7 +27,7 @@ LESSON_ID = LessonId(uuid4())
 LESSON = Lesson(
     lesson_id=LESSON_ID,
     subject_id=SUBJECT_ID,
-    at=datetime(2024, 11, 15),
+    at=datetime(2024, 11, 15, tzinfo=student_timezone),
     mark=None,
     note=None,
     room=5,
@@ -36,7 +37,7 @@ LESSON_MONDAY_ID = LessonId(uuid4())
 LESSON_MONDAY = Lesson(
     lesson_id=LESSON_MONDAY_ID,
     subject_id=SUBJECT_ID,
-    at=datetime(2024, 11, 11),
+    at=datetime(2024, 11, 11, tzinfo=student_timezone),
     mark=None,
     note=None,
     room=5,
@@ -46,7 +47,7 @@ LESSON_MONDAY_2_ID = LessonId(uuid4())
 LESSON_MONDAY_2 = Lesson(
     lesson_id=LESSON_MONDAY_2_ID,
     subject_id=SUBJECT_ID,
-    at=datetime(2024, 11, 18),
+    at=datetime(2024, 11, 18, tzinfo=student_timezone),
     mark=None,
     note=None,
     room=5,
