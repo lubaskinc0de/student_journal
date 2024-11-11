@@ -9,11 +9,12 @@ name = 'student_journal'
 version = '0.0.1'
 description = 'Student journal project'
 readme = 'README.md'
-requires-python = '>=3.10.4'
+requires-python = '>=3.11'
 dependencies = [
     'adaptix==3.0.0b8',
-    'pyqt6-tools==6.4.2.3.3',
     'PyQt6==6.4.2',
+    'dishka==1.4.0',
+    'tomli-w==1.1.0',
 ]
 
 [project.optional-dependencies]
@@ -24,6 +25,9 @@ lint = [
     'pre-commit==3.8.0',
     'ruff==0.6.8',
     'mypy==1.11.2',
+]
+dev = [
+    'pyqt6-tools==6.4.2.3.3',
 ]
 ci = [
     'mypy==1.11.2',
@@ -90,3 +94,6 @@ ignore = [
 [[project.authors]]
 name = 'lubaskinc0de'
 email = 'lubaskincorporation@gmail.com'
+
+[project.scripts]
+student_journal = "student_journal.bootstrap.cli:main"

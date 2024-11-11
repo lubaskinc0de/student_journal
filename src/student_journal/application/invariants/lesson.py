@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from student_journal.application.exceptions.lesson import (
     LessonAtError,
@@ -10,7 +10,7 @@ from student_journal.application.exceptions.lesson import (
 
 
 def validate_lesson_at(at: datetime, student_timezone: int) -> None:
-    if at < (datetime.now(tz=timezone.utc) + timedelta(hours=student_timezone)):
+    if at < (datetime.now(tz=UTC) + timedelta(hours=student_timezone)):
         raise LessonAtError
 
 
