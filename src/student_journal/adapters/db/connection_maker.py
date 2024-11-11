@@ -4,8 +4,13 @@ from sqlite3 import Connection
 
 
 @dataclass(slots=True, frozen=True)
+class DBConfig:
+    db_path: str
+
+
+@dataclass(slots=True, frozen=True)
 class SQLiteConnectionMaker:
-    database: str
+    config: DBConfig
 
     def create_connection(self) -> Connection:
-        return sqlite3.connect(self.database)
+        return sqlite3.connect(self.config.db_path)
