@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from sqlite3 import Cursor
 
 import pytest
@@ -26,6 +26,7 @@ READ_FIRST_LESSONS_OF_WEEK_SQL = """
     FROM Lesson
     WHERE strftime('%w', at) = '1';
     """
+student_timezone = timezone(timedelta(hours=3))
 
 
 def test_write(
@@ -69,7 +70,7 @@ def test_update(
     updated_lesson = Lesson(
         lesson_id=LESSON_ID,
         subject_id=SUBJECT_ID,
-        at=datetime(2023, 12, 11),
+        at=datetime(2023, 12, 11, tzinfo=student_timezone),
         mark=3,
         note="testtttt",
         room=5,
@@ -97,8 +98,8 @@ def test_read_lessons_for_week(
         for lesson in cursor.execute(
             READ_WEEK_LESSON_SQL,
             (
-                datetime(2024, 11, 11),
-                datetime(2024, 11, 17),
+                datetime(2024, 11, 11, tzinfo=student_timezone),
+                datetime(2024, 11, 17, tzinfo=student_timezone),
             ),
         ).fetchall()
     ]
@@ -109,7 +110,7 @@ def test_read_lessons_for_week(
     )
 
     week_lessons_model = lesson_gateway.read_lessons_for_week(
-        datetime(2024, 11, 11),
+        datetime(2024, 11, 11, tzinfo=student_timezone),
     )
 
     assert db_lessons == list(week_lessons_model.lessons.values())
