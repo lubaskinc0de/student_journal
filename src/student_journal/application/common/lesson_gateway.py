@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from datetime import date
+from datetime import datetime
 from typing import Protocol
 
 from student_journal.application.models.lesson import LessonsByDate, WeekLessons
@@ -21,7 +21,7 @@ class LessonGateway(Protocol):
     def delete_lesson(self, lesson_id: LessonId) -> None: ...
 
     @abstractmethod
-    def read_lessons_for_week(self, week_start: date) -> WeekLessons: ...
+    def read_lessons_for_week(self, week_start: datetime) -> WeekLessons: ...
 
     @abstractmethod
     def read_first_lessons_of_weeks(self) -> LessonsByDate: ...
