@@ -67,7 +67,7 @@ class SQLiteLessonGateway(LessonGateway):
         lessons_list = lesson_to_list_retort.load(res, list[Lesson])
 
         for lesson in lessons_list:
-            lesson.at = datetime.strptime(str(lesson.at), "%Y-%m-%d %H:%M:%S")
+            lesson.at = datetime.strptime(str(lesson.at), "%Y-%m-%d %H:%M:%S%z")
 
         lessons: dict[datetime, Lesson] = {lesson.at: lesson for lesson in lessons_list}
 
@@ -90,7 +90,7 @@ class SQLiteLessonGateway(LessonGateway):
         lessons_list = lesson_to_list_retort.load(res, list[Lesson])
 
         for lesson in lessons_list:
-            lesson.at = datetime.strptime(str(lesson.at), "%Y-%m-%d %H:%M:%S")
+            lesson.at = datetime.strptime(str(lesson.at), "%Y-%m-%d %H:%M:%S%z")
 
         lessons_by_date = LessonsByDate(
             lessons={lesson.at: lesson for lesson in lessons_list},
