@@ -43,9 +43,13 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
     def read_home_tasks(self, is_done: bool | None = False) -> list[HomeTask]:
         query = """
             SELECT task_id, lesson_id, description, is_done
-            FROM Hometask WHERE is_done = ?
+            FROM Hometask
             """
-        res = self.cursor.execute(query, (bool(is_done),)).fetchall()
+        if is_done is not None:
+            query += " WHERE is_done = ?"
+            res = self.cursor.execute(query, (is_done,)).fetchall()
+        else:
+            res = self.cursor.execute(query).fetchall()
 
         home_tasks = home_task_retort.load(res, list[HomeTask])
 

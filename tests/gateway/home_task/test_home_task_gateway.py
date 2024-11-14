@@ -64,7 +64,7 @@ def test_read_home_tasks(
     for home_task in db_home_tasks:
         home_task.is_done = bool(home_task.is_done)
 
-    assert db_home_tasks == home_task_gateway.read_home_tasks()
+    assert db_home_tasks == home_task_gateway.read_home_tasks(is_done=None)
 
 
 def test_update(
