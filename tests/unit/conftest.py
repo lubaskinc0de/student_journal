@@ -6,11 +6,13 @@ from common.mock.transaction_manager import MockedTransactionManager
 
 from student_journal.adapters.id_provider import SimpleIdProvider
 from student_journal.application.common.id_provider import IdProvider
+from student_journal.domain.home_task import HomeTask
 from student_journal.domain.lesson import Lesson
 from student_journal.domain.student import Student
 from student_journal.domain.value_object.lesson_id import LessonId
 from student_journal.domain.value_object.student_id import StudentId
 from student_journal.domain.value_object.subject_id import SubjectId
+from student_journal.domain.value_object.task_id import TaskId
 
 student_timezone = timezone(timedelta(hours=3))
 STUDENT_ID = StudentId(uuid4())
@@ -52,6 +54,22 @@ LESSON_MONDAY_2 = Lesson(
     note=None,
     room=5,
     index_number=3,
+)
+
+TASK_ID = TaskId(uuid4())
+HOME_TASK = HomeTask(
+    task_id=TASK_ID,
+    lesson_id=LESSON_ID,
+    description="§13 упр 13",
+    is_done=False,
+)
+
+TASK_ID_2 = TaskId(uuid4())
+HOME_TASK_2 = HomeTask(
+    task_id=TASK_ID_2,
+    lesson_id=LESSON_MONDAY_2_ID,
+    description="§12 упр 12",
+    is_done=True,
 )
 
 
