@@ -21,12 +21,13 @@ class Register(QWidget):
 
         self.ui = Ui_Register()
         self.ui.setupUi(self)
-
-        self.age = 0
+        
+        self.age = None
+        self.avatar = None
         self.name = ""
-        self.home_adress = ""
-        self.timezone = 0
-
+        self.home_address = None
+        self.timezone = None
+        
         self.ui.submit_btn.clicked.connect(self.on_submit_btn)
         self.ui.name_input.textChanged.connect(self.on_name_input)
         self.ui.age_input.textChanged.connect(self.on_age_input)
