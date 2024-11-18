@@ -21,13 +21,13 @@ class Register(QWidget):
 
         self.ui = Ui_Register()
         self.ui.setupUi(self)
-        
-        self.age = None
-        self.avatar = None
-        self.name = ""
-        self.home_address = None
-        self.timezone = None
-        
+
+        self.age: int | None = None
+        self.avatar: str | None
+        self.name: str = ""
+        self.home_address: str | None = None
+        self.timezone: int = 3
+
         self.ui.submit_btn.clicked.connect(self.on_submit_btn)
         self.ui.name_input.textChanged.connect(self.on_name_input)
         self.ui.age_input.textChanged.connect(self.on_age_input)
@@ -40,7 +40,7 @@ class Register(QWidget):
                 data = NewStudent(
                     age=self.age,
                     name=self.name,
-                    home_address=self.home_adress,
+                    home_address=self.home_address,
                     timezone=self.timezone,
                     avatar=None,
                 )
