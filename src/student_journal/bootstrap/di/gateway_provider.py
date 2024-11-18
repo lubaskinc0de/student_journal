@@ -1,5 +1,7 @@
 from dishka import Provider, Scope, provide
 
+from student_journal.adapters.db.gateway.home_task_gateway import SQLiteHomeTaskGateway
+from student_journal.adapters.db.gateway.lesson_gateway import SQLiteLessonGateway
 from student_journal.adapters.db.gateway.student_gateway import SQLiteStudentGateway
 from student_journal.adapters.db.gateway.subject_gateway import SQLiteSubjectGateway
 from student_journal.adapters.db.gateway.teacher_gateway import SQLiteTeacherGateway
@@ -16,5 +18,5 @@ class GatewayProvider(Provider):
     student_gateway = provide(SQLiteStudentGateway, provides=StudentGateway)
     teacher_gateway = provide(SQLiteTeacherGateway, provides=TeacherGateway)
     subject_gateway = provide(SQLiteSubjectGateway, provides=SubjectGateway)
-    lesson_gateway = provide(lambda: 1, provides=LessonGateway)
-    home_task_gateway = provide(lambda: 1, provides=HomeTaskGateway)
+    lesson_gateway = provide(SQLiteLessonGateway, provides=LessonGateway)
+    home_task_gateway = provide(SQLiteHomeTaskGateway, provides=HomeTaskGateway)
