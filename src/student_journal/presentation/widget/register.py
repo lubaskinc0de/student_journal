@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import QMainWindow, QWidget
 
 from student_journal.adapters.error_locator import ErrorLocator
 from student_journal.application.exceptions.base import ApplicationError
-from student_journal.application.student import CreateStudent, NewStudent
+from student_journal.application.student.create_student import CreateStudent, NewStudent
 from student_journal.presentation.ui.register_ui import Ui_Register
 
 
