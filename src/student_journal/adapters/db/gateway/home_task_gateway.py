@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from sqlite3 import Cursor
 
-from student_journal.adapters.models import (
+from student_journal.adapters.converter import (
     home_task_retort,
     home_task_to_list_retort,
 )

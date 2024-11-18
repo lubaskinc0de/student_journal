@@ -4,7 +4,7 @@ import pytest
 from unit.subject.conftest import SUBJECT, SUBJECT2, SUBJECT_ID
 from unit.teacher.conftest import TEACHER, TEACHER2
 
-from student_journal.adapters.models.subject import subject_retort
+from student_journal.adapters.converter.subject import subject_retort
 from student_journal.application.common.subject_gateway import SubjectGateway
 from student_journal.application.common.teacher_gateway import TeacherGateway
 from student_journal.application.exceptions.subject import SubjectDoesNotExistError
