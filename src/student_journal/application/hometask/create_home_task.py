@@ -8,7 +8,7 @@ from student_journal.application.invariants.home_task import (
 )
 from student_journal.domain.home_task import HomeTask
 from student_journal.domain.value_object.lesson_id import LessonId
-from student_journal.domain.value_object.task_id import TaskId
+from student_journal.domain.value_object.task_id import HomeTaskId
 
 
 @dataclass(slots=True, frozen=True)
@@ -23,11 +23,11 @@ class CreateHomeTask:
     gateway: HomeTaskGateway
     transaction_manager: TransactionManager
 
-    def execute(self, data: NewHomeTask) -> TaskId:
+    def execute(self, data: NewHomeTask) -> HomeTaskId:
         validate_home_task_invariants(
             description=data.description,
         )
-        task_id = TaskId(uuid4())
+        task_id = HomeTaskId(uuid4())
         home_task = HomeTask(
             task_id=task_id,
             lesson_id=data.lesson_id,

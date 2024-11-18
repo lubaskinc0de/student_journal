@@ -63,6 +63,8 @@ class EditTeacher(QWidget):
                     command_update.execute(data_update)
         except ApplicationError as e:
             self.main.statusBar().showMessage(self.error_locator.get_text(e))
+        else:
+            self.close()
 
     def on_delete_btn(self) -> None:
         if not self.teacher_id:
@@ -74,6 +76,8 @@ class EditTeacher(QWidget):
                 command.execute(self.teacher_id)
         except ApplicationError as e:
             self.main.statusBar().showMessage(self.error_locator.get_text(e))
+        else:
+            self.close()
 
     def on_full_name_input(self) -> None:
         self.full_name = self.ui.full_name_input.text()

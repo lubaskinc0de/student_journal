@@ -7,12 +7,12 @@ from student_journal.application.invariants.home_task import (
 )
 from student_journal.domain.home_task import HomeTask
 from student_journal.domain.value_object.lesson_id import LessonId
-from student_journal.domain.value_object.task_id import TaskId
+from student_journal.domain.value_object.task_id import HomeTaskId
 
 
 @dataclass(slots=True, frozen=True)
 class UpdatedHomeTask:
-    task_id: TaskId
+    task_id: HomeTaskId
     lesson_id: LessonId
     description: str
     is_done: bool = False
@@ -23,7 +23,7 @@ class UpdateHomeTask:
     gateway: HomeTaskGateway
     transaction_manager: TransactionManager
 
-    def execute(self, data: UpdatedHomeTask) -> TaskId:
+    def execute(self, data: UpdatedHomeTask) -> HomeTaskId:
         validate_home_task_invariants(
             description=data.description,
         )
