@@ -12,7 +12,7 @@ from student_journal.domain.student import Student
 from student_journal.domain.value_object.lesson_id import LessonId
 from student_journal.domain.value_object.student_id import StudentId
 from student_journal.domain.value_object.subject_id import SubjectId
-from student_journal.domain.value_object.task_id import TaskId
+from student_journal.domain.value_object.task_id import HomeTaskId
 
 student_timezone = timezone(timedelta(hours=3))
 STUDENT_ID = StudentId(uuid4())
@@ -56,7 +56,7 @@ LESSON_MONDAY_2 = Lesson(
     index_number=3,
 )
 
-TASK_ID = TaskId(uuid4())
+TASK_ID = HomeTaskId(uuid4())
 HOME_TASK = HomeTask(
     task_id=TASK_ID,
     lesson_id=LESSON_ID,
@@ -64,7 +64,7 @@ HOME_TASK = HomeTask(
     is_done=False,
 )
 
-TASK_ID_2 = TaskId(uuid4())
+TASK_ID_2 = HomeTaskId(uuid4())
 HOME_TASK_2 = HomeTask(
     task_id=TASK_ID_2,
     lesson_id=LESSON_MONDAY_2_ID,

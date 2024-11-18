@@ -10,14 +10,14 @@ from student_journal.application.exceptions.home_task import (
     HomeTaskDoesNotExistError,
 )
 from student_journal.domain.home_task import HomeTask
-from student_journal.domain.value_object.task_id import TaskId
+from student_journal.domain.value_object.task_id import HomeTaskId
 
 
 @dataclass(slots=True, frozen=True)
 class SQLiteHomeTaskGateway(HomeTaskGateway):
     cursor: Cursor
 
-    def read_home_task(self, task_id: TaskId) -> HomeTask:
+    def read_home_task(self, task_id: HomeTaskId) -> HomeTask:
         query = """
             SELECT task_id, lesson_id, description, is_done
             FROM Hometask WHERE task_id = ?
@@ -67,7 +67,7 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
 
         self.cursor.execute(query, params)
 
-    def delete_home_task(self, task_id: TaskId) -> None:
+    def delete_home_task(self, task_id: HomeTaskId) -> None:
         query = """
             DELETE FROM Hometask
             WHERE task_id = ?

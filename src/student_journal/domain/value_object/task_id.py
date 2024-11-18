@@ -1,4 +1,4 @@
 from typing import NewType
 from uuid import UUID
 
-TaskId = NewType("TaskId", UUID)
+HomeTaskId = NewType("HomeTaskId", UUID)

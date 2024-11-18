@@ -84,6 +84,8 @@ class EditSubject(QWidget):
                     command_update.execute(data_update)
         except ApplicationError as e:
             self.main.statusBar().showMessage(self.error_locator.get_text(e))
+        else:
+            self.close()
 
     def on_delete_btn(self) -> None:
         if not self.subject_id:
@@ -95,6 +97,8 @@ class EditSubject(QWidget):
                 command.execute(self.subject_id)
         except ApplicationError as e:
             self.main.statusBar().showMessage(self.error_locator.get_text(e))
+        else:
+            self.close()
 
     def on_title_input(self) -> None:
         self.title = self.ui.title_input.text()
