@@ -52,6 +52,8 @@ show_error_context = true
 check_untyped_defs = true
 ignore_missing_imports = false
 warn_no_return = false
+disallow_untyped_calls = false
+
 files = ["src/"]
 exclude = ["src/student_journal/presentation/ui/.*\\.py"]
 
