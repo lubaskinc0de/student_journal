@@ -3,7 +3,7 @@ from sqlite3 import Cursor
 import pytest
 from unit.teacher.conftest import TEACHER, TEACHER2, TEACHER_ID
 
-from student_journal.adapters.models.teacher import teacher_retort
+from student_journal.adapters.converter.teacher import teacher_retort
 from student_journal.application.common.teacher_gateway import TeacherGateway
 from student_journal.application.exceptions.teacher import TeacherDoesNotExistError
 from student_journal.domain.teacher import Teacher

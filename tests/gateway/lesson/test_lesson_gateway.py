@@ -11,7 +11,7 @@ from unit.conftest import (
     student_timezone,
 )
 
-from student_journal.adapters.models.lesson import lesson_retort
+from student_journal.adapters.converter.lesson import lesson_retort
 from student_journal.application.common.lesson_gateway import LessonGateway
 from student_journal.application.exceptions.lesson import LessonDoesNotExistError
 from student_journal.domain.lesson import Lesson

@@ -3,7 +3,7 @@ from sqlite3 import Cursor
 import pytest
 from unit.conftest import HOME_TASK, HOME_TASK_2, LESSON_ID, TASK_ID
 
-from student_journal.adapters.models.home_task import (
+from student_journal.adapters.converter.home_task import (
     home_task_retort,
 )
 from student_journal.application.common.home_task_gateway import HomeTaskGateway

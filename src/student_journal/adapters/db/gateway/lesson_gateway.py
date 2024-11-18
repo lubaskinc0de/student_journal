@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from sqlite3 import Cursor
 
-from student_journal.adapters.models import lesson_retort, lesson_to_list_retort
+from student_journal.adapters.converter import lesson_retort, lesson_to_list_retort
 from student_journal.application.common.lesson_gateway import LessonGateway
 from student_journal.application.exceptions.lesson import LessonDoesNotExistError
 from student_journal.application.models.lesson import LessonsByDate, WeekLessons
