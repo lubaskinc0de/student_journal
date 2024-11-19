@@ -10,7 +10,3 @@ def main(_argv: list[str]) -> None:
     ex = MainWindow()
     ex.show()
     sys.exit(app.exec())
-
-
-if __name__ == "__main__":
-    main(sys.argv)
