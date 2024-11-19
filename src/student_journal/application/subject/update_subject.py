@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+from student_journal.application.common.id_provider import IdProvider
 from student_journal.application.common.subject_gateway import SubjectGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.invariants.subject import validate_subject_invariants
@@ -19,8 +20,11 @@ class UpdatedSubject:
 class UpdateSubject:
     gateway: SubjectGateway
     transaction_manager: TransactionManager
+    idp: IdProvider
 
     def execute(self, data: UpdatedSubject) -> SubjectId:
+        self.idp.ensure_is_auth()
+
         validate_subject_invariants(data.title)
 
         subject = Subject(

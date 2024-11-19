@@ -2,7 +2,6 @@ from dishka import Container
 from PyQt6.QtWidgets import QMainWindow, QWidget
 
 from student_journal.adapters.error_locator import ErrorLocator
-from student_journal.application.exceptions.base import ApplicationError
 from student_journal.application.hometask.create_home_task import (
     CreateHomeTask,
     NewHomeTask,
@@ -54,60 +53,47 @@ class EditHomeTask(QWidget):
         self.load_lessons()
 
     def load_lessons(self) -> None:
-        try:
-            self.ui.lesson.clear()
-            try:
-                with self.container() as r_container:
-                    subject = r_container.get(ReadSubject).execute(
-                        self.lesson.subject_id,
-                    )
-            except ApplicationError as e:
-                self.main.statusBar().showMessage(self.error_locator.get_text(e))
-                return
+        self.ui.lesson.clear()
+        with self.container() as r_container:
+            subject = r_container.get(ReadSubject).execute(
+                self.lesson.subject_id,
+            )
 
-            self.ui.lesson.addItem(subject.title, self.lesson.lesson_id)
-            self.ui.lesson.setEnabled(False)
-        except ApplicationError as e:
-            self.main.statusBar().showMessage(self.error_locator.get_text(e))
+        self.ui.lesson.addItem(subject.title, self.lesson.lesson_id)
+        self.ui.lesson.setEnabled(False)
 
     def on_submit_btn(self) -> None:
         lesson_id = self.lesson.lesson_id
-        try:
-            with self.container() as r_container:
-                if not self.home_task_id:
-                    data = NewHomeTask(
-                        lesson_id=lesson_id,
-                        description=self.description,
-                        is_done=self.is_done,
-                    )
-                    command = r_container.get(CreateHomeTask)
-                    command.execute(data)
-                else:
-                    data_update = UpdatedHomeTask(
-                        task_id=self.home_task_id,
-                        lesson_id=lesson_id,
-                        description=self.description,
-                        is_done=self.is_done,
-                    )
-                    command_update = r_container.get(UpdateHomeTask)
-                    command_update.execute(data_update)
-        except ApplicationError as e:
-            self.main.statusBar().showMessage(self.error_locator.get_text(e))
-        else:
-            self.close()
+
+        with self.container() as r_container:
+            if not self.home_task_id:
+                data = NewHomeTask(
+                    lesson_id=lesson_id,
+                    description=self.description,
+                    is_done=self.is_done,
+                )
+                command = r_container.get(CreateHomeTask)
+                command.execute(data)
+            else:
+                data_update = UpdatedHomeTask(
+                    task_id=self.home_task_id,
+                    lesson_id=lesson_id,
+                    description=self.description,
+                    is_done=self.is_done,
+                )
+                command_update = r_container.get(UpdateHomeTask)
+                command_update.execute(data_update)
+        self.close()
 
     def on_delete_btn(self) -> None:
         if not self.home_task_id:
             return
 
-        try:
-            with self.container() as r_container:
-                command = r_container.get(DeleteHomeTask)
-                command.execute(self.home_task_id)
-        except ApplicationError as e:
-            self.main.statusBar().showMessage(self.error_locator.get_text(e))
-        else:
-            self.close()
+        with self.container() as r_container:
+            command = r_container.get(DeleteHomeTask)
+            command.execute(self.home_task_id)
+
+        self.close()
 
     def on_is_done_changed(self) -> None:
         self.is_done = self.ui.is_done.isChecked()

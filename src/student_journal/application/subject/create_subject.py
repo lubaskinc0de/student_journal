@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from uuid import uuid4
 
+from student_journal.application.common.id_provider import IdProvider
 from student_journal.application.common.subject_gateway import SubjectGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.invariants.subject import validate_subject_invariants
@@ -19,8 +20,10 @@ class NewSubject:
 class CreateSubject:
     gateway: SubjectGateway
     transaction_manager: TransactionManager
+    idp: IdProvider
 
     def execute(self, data: NewSubject) -> SubjectId:
+        self.idp.ensure_is_auth()
         validate_subject_invariants(data.title)
 
         subject_id = SubjectId(uuid4())

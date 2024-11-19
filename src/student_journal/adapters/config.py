@@ -4,7 +4,7 @@ from pathlib import Path
 from student_journal.adapters.db.connection_maker import DBConfig
 from student_journal.adapters.id_provider import CredentialsConfig
 
-BASE_PATH = Path(Path.expanduser(Path("~student_journal/")))
+BASE_PATH = Path(Path.expanduser(Path("~/student_journal/")))
 CREDENTIALS_PATH = Path(BASE_PATH / "auth.toml")
 
 

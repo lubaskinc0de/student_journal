@@ -9,6 +9,7 @@ class AdapterProvider(Provider):
     scope = Scope.REQUEST
 
     id_provider = provide(source=FileIdProvider, provides=IdProvider, scope=Scope.APP)
+    file_id_provider = provide(FileIdProvider, scope=Scope.APP)
     error_locator = provide(
         source=SimpleErrorLocator,
         provides=ErrorLocator,

@@ -144,9 +144,6 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QDoubleSpinBox" name="age_input"/>
-       </item>
        <item row="3" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
@@ -180,10 +177,7 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
-        <widget class="QDoubleSpinBox" name="timezone_input"/>
-       </item>
-       <item row="5" column="1">
+       <item row="6" column="1">
         <widget class="QPushButton" name="submit_btn">
          <property name="autoFillBackground">
           <bool>false</bool>
@@ -195,6 +189,12 @@
           <bool>false</bool>
          </property>
         </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QSpinBox" name="age_input"/>
+       </item>
+       <item row="4" column="1">
+        <widget class="QSpinBox" name="timezone_input"/>
        </item>
       </layout>
      </item>

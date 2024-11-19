@@ -2,7 +2,6 @@ from dishka import Container
 from PyQt6.QtWidgets import QMainWindow, QWidget
 
 from student_journal.adapters.error_locator import ErrorLocator
-from student_journal.application.exceptions.base import ApplicationError
 from student_journal.application.teacher import (
     CreateTeacher,
     DeleteTeacher,
@@ -44,40 +43,32 @@ class EditTeacher(QWidget):
             self.ui.main_label.setText("Редактировать учителя")
 
     def on_submit_btn(self) -> None:
-        try:
-            with self.container() as r_container:
-                if not self.teacher_id:
-                    data = NewTeacher(
-                        full_name=self.full_name,
-                        avatar=None,
-                    )
-                    command = r_container.get(CreateTeacher)
-                    command.execute(data)
-                else:
-                    data_update = UpdatedTeacher(
-                        teacher_id=self.teacher_id,
-                        full_name=self.full_name,
-                        avatar=None,
-                    )
-                    command_update = r_container.get(UpdateTeacher)
-                    command_update.execute(data_update)
-        except ApplicationError as e:
-            self.main.statusBar().showMessage(self.error_locator.get_text(e))
-        else:
-            self.close()
+        with self.container() as r_container:
+            if not self.teacher_id:
+                data = NewTeacher(
+                    full_name=self.full_name,
+                    avatar=None,
+                )
+                command = r_container.get(CreateTeacher)
+                command.execute(data)
+            else:
+                data_update = UpdatedTeacher(
+                    teacher_id=self.teacher_id,
+                    full_name=self.full_name,
+                    avatar=None,
+                )
+                command_update = r_container.get(UpdateTeacher)
+                command_update.execute(data_update)
+        self.close()
 
     def on_delete_btn(self) -> None:
         if not self.teacher_id:
             return
 
-        try:
-            with self.container() as r_container:
-                command = r_container.get(DeleteTeacher)
-                command.execute(self.teacher_id)
-        except ApplicationError as e:
-            self.main.statusBar().showMessage(self.error_locator.get_text(e))
-        else:
-            self.close()
+        with self.container() as r_container:
+            command = r_container.get(DeleteTeacher)
+            command.execute(self.teacher_id)
+        self.close()
 
     def on_full_name_input(self) -> None:
         self.full_name = self.ui.full_name_input.text()

@@ -1,4 +1,3 @@
-import json
 import tomllib
 from dataclasses import dataclass
 from pathlib import Path
@@ -25,6 +24,8 @@ class SimpleIdProvider(IdProvider):
     def get_id(self) -> StudentId:
         return self.student_id
 
+    def ensure_is_auth(self) -> None: ...
+
 
 @dataclass(slots=True, frozen=True)
 class FileIdProvider(IdProvider):
@@ -48,8 +49,11 @@ class FileIdProvider(IdProvider):
             tomli_w.dump(
                 {
                     "auth": {
-                        "student_id": json.dumps(student_id),
+                        "student_id": student_id.hex,
                     },
                 },
                 f,
             )
+
+    def ensure_is_auth(self) -> None:
+        self.get_id()

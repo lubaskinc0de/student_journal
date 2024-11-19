@@ -80,6 +80,7 @@ ignore = [
   'TRY003',
   'D107',
   'ARG002',
+  'RUF001',
   # Not applicable for now
   'FIX002',
   'TD003',

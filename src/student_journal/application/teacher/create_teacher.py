@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from uuid import uuid4
 
+from student_journal.application.common.id_provider import IdProvider
 from student_journal.application.common.teacher_gateway import TeacherGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.invariants.teacher import validate_teacher_invariants
@@ -18,8 +19,11 @@ class NewTeacher:
 class CreateTeacher:
     gateway: TeacherGateway
     transaction_manager: TransactionManager
+    idp: IdProvider
 
     def execute(self, data: NewTeacher) -> TeacherId:
+        self.idp.ensure_is_auth()
+
         validate_teacher_invariants(full_name=data.full_name)
 
         teacher_id = TeacherId(uuid4())
