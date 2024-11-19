@@ -1,13 +1,15 @@
 from dishka import Container
+from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtWidgets import QMainWindow, QWidget
 
 from student_journal.adapters.error_locator import ErrorLocator
-from student_journal.application.exceptions.base import ApplicationError
 from student_journal.application.student.create_student import CreateStudent, NewStudent
 from student_journal.presentation.ui.register_ui import Ui_Register
 
 
 class Register(QWidget):
+    finish = pyqtSignal(str)
+
     def __init__(
         self,
         container: Container,
@@ -35,28 +37,26 @@ class Register(QWidget):
         self.ui.timezone_input.textChanged.connect(self.on_timezone_input)
 
     def on_submit_btn(self) -> None:
-        try:
-            with self.container() as r_container:
-                data = NewStudent(
-                    age=self.age,
-                    name=self.name,
-                    home_address=self.home_address,
-                    timezone=self.timezone,
-                    avatar=None,
-                )
-                command = r_container.get(CreateStudent)
-                command.execute(data)
-        except ApplicationError as e:
-            self.main.statusBar().showMessage(self.error_locator.get_text(e))
+        with self.container() as r_container:
+            data = NewStudent(
+                age=self.age,
+                name=self.name,
+                home_address=self.home_address,
+                timezone=self.timezone,
+                avatar=None,
+            )
+            command = r_container.get(CreateStudent)
+            student_id = command.execute(data)
+        self.finish.emit(student_id.hex)
 
     def on_name_input(self) -> None:
         self.name = self.ui.name_input.text()
 
     def on_age_input(self) -> None:
-        self.age = int(self.ui.age_input.text())
+        self.age = int(self.ui.age_input.value())
 
     def on_address_input(self) -> None:
         self.home_address = self.ui.address_input.text()
 
     def on_timezone_input(self) -> None:
-        self.timezone = int(self.ui.timezone_input.text())
+        self.timezone = int(self.ui.timezone_input.value())

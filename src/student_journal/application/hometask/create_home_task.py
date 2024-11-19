@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from uuid import uuid4
 
 from student_journal.application.common.home_task_gateway import HomeTaskGateway
+from student_journal.application.common.id_provider import IdProvider
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.invariants.home_task import (
     validate_home_task_invariants,
@@ -22,8 +23,11 @@ class NewHomeTask:
 class CreateHomeTask:
     gateway: HomeTaskGateway
     transaction_manager: TransactionManager
+    idp: IdProvider
 
     def execute(self, data: NewHomeTask) -> HomeTaskId:
+        self.idp.ensure_is_auth()
+
         validate_home_task_invariants(
             description=data.description,
         )

@@ -4,7 +4,6 @@ from dishka import Container
 from PyQt6.QtWidgets import QMainWindow, QWidget
 
 from student_journal.adapters.error_locator import ErrorLocator
-from student_journal.application.exceptions.base import ApplicationError
 from student_journal.application.subject.create_subject import CreateSubject, NewSubject
 from student_journal.application.subject.delete_subject import DeleteSubject
 from student_journal.application.subject.update_subject import (
@@ -51,54 +50,45 @@ class EditSubject(QWidget):
         self.load_teachers()
 
     def load_teachers(self) -> None:
-        try:
-            with self.container() as r_container:
-                teachers = r_container.get(ReadTeachers).execute().teachers
-                self.ui.teacher_combo.clear()
-                for teacher in teachers:
-                    self.ui.teacher_combo.addItem(teacher.full_name, teacher.teacher_id)
-        except ApplicationError as e:
-            self.main.statusBar().showMessage(self.error_locator.get_text(e))
+        with self.container() as r_container:
+            teachers = r_container.get(ReadTeachers).execute().teachers
+            self.ui.teacher_combo.clear()
+            for teacher in teachers:
+                self.ui.teacher_combo.addItem(teacher.full_name, teacher.teacher_id)
 
     def on_submit_btn(self) -> None:
         if not self.teacher_id:
             return
 
         teacher_id = TeacherId(UUID(self.teacher_id))
-        try:
-            with self.container() as r_container:
-                if not self.subject_id:
-                    data = NewSubject(
-                        title=self.title,
-                        teacher_id=teacher_id,
-                    )
-                    command = r_container.get(CreateSubject)
-                    command.execute(data)
-                else:
-                    data_update = UpdatedSubject(
-                        subject_id=self.subject_id,
-                        title=self.title,
-                        teacher_id=teacher_id,
-                    )
-                    command_update = r_container.get(UpdateSubject)
-                    command_update.execute(data_update)
-        except ApplicationError as e:
-            self.main.statusBar().showMessage(self.error_locator.get_text(e))
-        else:
-            self.close()
+
+        with self.container() as r_container:
+            if not self.subject_id:
+                data = NewSubject(
+                    title=self.title,
+                    teacher_id=teacher_id,
+                )
+                command = r_container.get(CreateSubject)
+                command.execute(data)
+            else:
+                data_update = UpdatedSubject(
+                    subject_id=self.subject_id,
+                    title=self.title,
+                    teacher_id=teacher_id,
+                )
+                command_update = r_container.get(UpdateSubject)
+                command_update.execute(data_update)
+        self.close()
 
     def on_delete_btn(self) -> None:
         if not self.subject_id:
             return
 
-        try:
-            with self.container() as r_container:
-                command = r_container.get(DeleteSubject)
-                command.execute(self.subject_id)
-        except ApplicationError as e:
-            self.main.statusBar().showMessage(self.error_locator.get_text(e))
-        else:
-            self.close()
+        with self.container() as r_container:
+            command = r_container.get(DeleteSubject)
+            command.execute(self.subject_id)
+
+        self.close()
 
     def on_title_input(self) -> None:
         self.title = self.ui.title_input.text()

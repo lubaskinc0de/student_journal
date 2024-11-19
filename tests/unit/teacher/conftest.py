@@ -37,19 +37,23 @@ def teacher_gateway() -> MockedTeacherGateway:
 def create_teacher(
     transaction_manager: MockedTransactionManager,
     teacher_gateway: MockedTeacherGateway,
+    idp: IdProvider,
 ) -> CreateTeacher:
     return CreateTeacher(
         transaction_manager=transaction_manager,
         gateway=teacher_gateway,
+        idp=idp,
     )
 
 
 @pytest.fixture
 def read_teacher(
     teacher_gateway: MockedTeacherGateway,
+    idp: IdProvider,
 ) -> ReadTeacher:
     return ReadTeacher(
         gateway=teacher_gateway,
+        idp=idp,
     )
 
 
@@ -57,10 +61,12 @@ def read_teacher(
 def update_teacher(
     teacher_gateway: MockedTeacherGateway,
     transaction_manager: MockedTransactionManager,
+    idp: IdProvider,
 ) -> UpdateTeacher:
     return UpdateTeacher(
         gateway=teacher_gateway,
         transaction_manager=transaction_manager,
+        idp=idp,
     )
 
 
@@ -79,8 +85,10 @@ def read_teachers(
 def delete_teacher(
     teacher_gateway: MockedTeacherGateway,
     transaction_manager: MockedTransactionManager,
+    idp: IdProvider,
 ) -> DeleteTeacher:
     return DeleteTeacher(
         transaction_manager=transaction_manager,
         gateway=teacher_gateway,
+        idp=idp,
     )
