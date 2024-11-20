@@ -1,5 +1,5 @@
 from dishka import Container
-from PyQt6.QtWidgets import QMainWindow, QWidget
+from PyQt6.QtWidgets import QWidget
 
 from student_journal.adapters.error_locator import ErrorLocator
 from student_journal.application.teacher import (
@@ -17,13 +17,11 @@ class EditTeacher(QWidget):
     def __init__(
         self,
         container: Container,
-        main: QMainWindow,
         teacher_id: TeacherId | None,
     ) -> None:
         super().__init__()
 
         self.container = container
-        self.main = main
         self.teacher_id = teacher_id
         self.error_locator = container.get(ErrorLocator)
 

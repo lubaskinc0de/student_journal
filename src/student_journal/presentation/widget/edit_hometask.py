@@ -1,5 +1,5 @@
 from dishka import Container
-from PyQt6.QtWidgets import QMainWindow, QWidget
+from PyQt6.QtWidgets import QWidget
 
 from student_journal.adapters.error_locator import ErrorLocator
 from student_journal.application.hometask.create_home_task import (
@@ -21,14 +21,12 @@ class EditHomeTask(QWidget):
     def __init__(
         self,
         container: Container,
-        main_window: QMainWindow,
         home_task_id: HomeTaskId | None,
         lesson: Lesson,
     ) -> None:
         super().__init__()
 
         self.container = container
-        self.main = main_window
         self.home_task_id = home_task_id
         self.lesson = lesson
         self.error_locator = container.get(ErrorLocator)

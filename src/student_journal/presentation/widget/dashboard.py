@@ -12,7 +12,7 @@ class Dashboard(QMainWindow):
         super().__init__()
 
         self.about_form = About()
-        self.add_teacher_form = EditTeacher(container, self, None)
+        self.add_teacher_form = EditTeacher(container, None)
 
         self.about_action = QAction("&О программе", self)
         self.about_action.triggered.connect(self.about_form.show)

@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from dishka import Container
-from PyQt6.QtWidgets import QMainWindow, QWidget
+from PyQt6.QtWidgets import QWidget
 
 from student_journal.adapters.error_locator import ErrorLocator
 from student_journal.application.subject.create_subject import CreateSubject, NewSubject
@@ -20,13 +20,11 @@ class EditSubject(QWidget):
     def __init__(
         self,
         container: Container,
-        main_window: QMainWindow,
         subject_id: SubjectId | None,
     ) -> None:
         super().__init__()
 
         self.container = container
-        self.main = main_window
         self.subject_id = subject_id
         self.error_locator = container.get(ErrorLocator)
 
