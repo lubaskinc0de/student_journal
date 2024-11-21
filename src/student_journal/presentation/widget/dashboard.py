@@ -20,6 +20,8 @@ class Dashboard(QMainWindow):
         self.add_teacher_action = QAction("&Добавить преподавателя", self)
         self.add_teacher_action.triggered.connect(self.add_teacher_form.show)
 
+        self.add_teacher_action = QAction("&Добавить преподавателя", self)
+        self.add_teacher_action.triggered.connect(self.add_teacher_form.show)
         self.init_ui()
         self.create_menu_bar()
 
