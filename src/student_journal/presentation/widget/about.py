@@ -8,8 +8,3 @@ class About(QWidget):
         super().__init__()
         self.ui = Ui_About()
         self.ui.setupUi(self)
-
-        self.ui.close_btn.clicked.connect(self.on_close)
-
-    def on_close(self) -> None:
-        self.close()

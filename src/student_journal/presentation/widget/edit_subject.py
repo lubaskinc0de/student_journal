@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from dishka import Container
 from PyQt6.QtWidgets import QWidget
 
@@ -32,12 +30,13 @@ class EditSubject(QWidget):
         self.ui.setupUi(self)
 
         self.title = ""
-        self.teacher_id: str | None = None
+        self.teacher_id: TeacherId | None = None
 
         self.ui.submit_btn.clicked.connect(self.on_submit_btn)
         self.ui.delete_btn.clicked.connect(self.on_delete_btn)
         self.ui.title_input.textChanged.connect(self.on_title_input)
         self.ui.teacher_combo.currentIndexChanged.connect(self.on_teacher_combo_changed)
+        self.ui.refresh.clicked.connect(self.load_teachers)
 
         if not self.subject_id:
             self.ui.delete_btn.hide()
@@ -58,13 +57,11 @@ class EditSubject(QWidget):
         if not self.teacher_id:
             return
 
-        teacher_id = TeacherId(UUID(self.teacher_id))
-
         with self.container() as r_container:
             if not self.subject_id:
                 data = NewSubject(
                     title=self.title,
-                    teacher_id=teacher_id,
+                    teacher_id=self.teacher_id,
                 )
                 command = r_container.get(CreateSubject)
                 command.execute(data)
@@ -72,7 +69,7 @@ class EditSubject(QWidget):
                 data_update = UpdatedSubject(
                     subject_id=self.subject_id,
                     title=self.title,
-                    teacher_id=teacher_id,
+                    teacher_id=self.teacher_id,
                 )
                 command_update = r_container.get(UpdateSubject)
                 command_update.execute(data_update)
