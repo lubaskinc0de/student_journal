@@ -1,6 +1,6 @@
 from dishka import Container
 from PyQt6.QtCore import pyqtSignal
-from PyQt6.QtWidgets import QMainWindow, QWidget
+from PyQt6.QtWidgets import QWidget
 
 from student_journal.adapters.error_locator import ErrorLocator
 from student_journal.application.student.create_student import CreateStudent, NewStudent
@@ -13,12 +13,10 @@ class Register(QWidget):
     def __init__(
         self,
         container: Container,
-        main: QMainWindow,
     ) -> None:
         super().__init__()
 
         self.container = container
-        self.main = main
         self.error_locator = container.get(ErrorLocator)
 
         self.ui = Ui_Register()

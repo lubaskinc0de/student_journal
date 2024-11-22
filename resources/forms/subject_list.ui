@@ -14,13 +14,20 @@
    <string>Список предметов</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0">
+   <item row="2" column="0">
     <widget class="QListWidget" name="list_subject">
      <property name="selectionRectVisible">
       <bool>false</bool>
      </property>
      <property name="sortingEnabled">
       <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QPushButton" name="add_more">
+     <property name="text">
+      <string>Добавить новые</string>
      </property>
     </widget>
    </item>
@@ -43,10 +50,10 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QPushButton" name="add_more">
+   <item row="1" column="0">
+    <widget class="QPushButton" name="refresh">
      <property name="text">
-      <string>Добавить новые</string>
+      <string>Обновить</string>
      </property>
     </widget>
    </item>
