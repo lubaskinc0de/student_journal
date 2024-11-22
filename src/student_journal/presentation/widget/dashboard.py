@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import QMainWindow, QMenu, QStackedWidget, QWidget
 from student_journal.presentation.widget.about import About
 from student_journal.presentation.widget.edit_subject import EditSubject
 from student_journal.presentation.widget.edit_teacher import EditTeacher
+from student_journal.presentation.widget.hometask_list import HometaskList
 
 
 class Dashboard(QMainWindow):
@@ -17,6 +18,7 @@ class Dashboard(QMainWindow):
         self.about_form = About()
         self.add_teacher_form = EditTeacher(container, None)
         self.add_subject_form = EditSubject(container, None)
+        self.hometask_list_form = HometaskList(container)
 
         self.about_action = QAction("&О программе", self)
         self.add_teacher_action = QAction("&Добавить преподавателя", self)
@@ -29,6 +31,7 @@ class Dashboard(QMainWindow):
         self.stacked_widget.addWidget(self.about_form)
         self.stacked_widget.addWidget(self.add_teacher_form)
         self.stacked_widget.addWidget(self.add_subject_form)
+        self.stacked_widget.addWidget(self.hometask_list_form)
 
         self.add_teacher_action.triggered.connect(
             lambda: self.show_widget(self.add_teacher_form),
@@ -38,6 +41,9 @@ class Dashboard(QMainWindow):
         )
         self.add_subject_action.triggered.connect(
             lambda: self.show_widget(self.add_subject_form),
+        )
+        self.hometask_list_action.triggered.connect(
+            lambda: self.show_widget(self.hometask_list_form),
         )
 
         self.create_menu_bar()
