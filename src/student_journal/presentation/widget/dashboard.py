@@ -3,9 +3,11 @@ from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow, QMenu, QStackedWidget, QWidget
 
 from student_journal.presentation.widget.about import About
-from student_journal.presentation.widget.edit_subject import EditSubject
-from student_journal.presentation.widget.edit_teacher import EditTeacher
-from student_journal.presentation.widget.hometask_list import HometaskList
+from student_journal.presentation.widget.hometask.hometask_list import HometaskList
+from student_journal.presentation.widget.subject.edit_subject import EditSubject
+from student_journal.presentation.widget.subject.subject_list import SubjectList
+from student_journal.presentation.widget.teacher.edit_teacher import EditTeacher
+from student_journal.presentation.widget.teacher.teacher_list import TeacherList
 
 
 class Dashboard(QMainWindow):
@@ -19,6 +21,8 @@ class Dashboard(QMainWindow):
         self.add_teacher_form = EditTeacher(container, None)
         self.add_subject_form = EditSubject(container, None)
         self.hometask_list_form = HometaskList(container)
+        self.teacher_list_form = TeacherList(container)
+        self.subject_list_form = SubjectList(container)
 
         self.about_action = QAction("&О программе", self)
         self.add_teacher_action = QAction("&Добавить преподавателя", self)
@@ -32,6 +36,8 @@ class Dashboard(QMainWindow):
         self.stacked_widget.addWidget(self.add_teacher_form)
         self.stacked_widget.addWidget(self.add_subject_form)
         self.stacked_widget.addWidget(self.hometask_list_form)
+        self.stacked_widget.addWidget(self.teacher_list_form)
+        self.stacked_widget.addWidget(self.subject_list_form)
 
         self.add_teacher_action.triggered.connect(
             lambda: self.show_widget(self.add_teacher_form),
@@ -44,6 +50,12 @@ class Dashboard(QMainWindow):
         )
         self.hometask_list_action.triggered.connect(
             lambda: self.show_widget(self.hometask_list_form),
+        )
+        self.teacher_list_action.triggered.connect(
+            lambda: self.show_widget(self.teacher_list_form),
+        )
+        self.subject_list_action.triggered.connect(
+            lambda: self.show_widget(self.subject_list_form),
         )
 
         self.create_menu_bar()

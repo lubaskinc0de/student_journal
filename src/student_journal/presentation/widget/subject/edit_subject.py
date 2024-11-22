@@ -4,11 +4,12 @@ from PyQt6.QtWidgets import QWidget
 from student_journal.adapters.error_locator import ErrorLocator
 from student_journal.application.subject.create_subject import CreateSubject, NewSubject
 from student_journal.application.subject.delete_subject import DeleteSubject
+from student_journal.application.subject.read_subject import ReadSubject
 from student_journal.application.subject.update_subject import (
     UpdatedSubject,
     UpdateSubject,
 )
-from student_journal.application.teacher import ReadTeachers
+from student_journal.application.teacher import ReadTeacher, ReadTeachers
 from student_journal.domain.value_object.subject_id import SubjectId
 from student_journal.domain.value_object.teacher_id import TeacherId
 from student_journal.presentation.ui.edit_subject_ui import Ui_EditSubject
@@ -38,13 +39,24 @@ class EditSubject(QWidget):
         self.ui.teacher_combo.currentIndexChanged.connect(self.on_teacher_combo_changed)
         self.ui.refresh.clicked.connect(self.load_teachers)
 
+        self.load_teachers()
+
         if not self.subject_id:
             self.ui.delete_btn.hide()
             self.ui.main_label.setText("Добавить предмет")
         else:
             self.ui.main_label.setText("Редактировать предмет")
 
-        self.load_teachers()
+            with self.container() as r_container:
+                command = r_container.get(ReadSubject)
+                read_teacher = r_container.get(ReadTeacher)
+                subject = command.execute(self.subject_id)
+                teacher = read_teacher.execute(subject.teacher_id)
+
+                self.ui.title_input.setText(subject.title)
+                idx = self.ui.teacher_combo.findData(subject.teacher_id)
+                self.ui.teacher_combo.setCurrentIndex(idx)
+                self.ui.teacher_combo.setCurrentText(teacher.full_name)
 
     def load_teachers(self) -> None:
         with self.container() as r_container:

@@ -6,6 +6,7 @@ from student_journal.application.teacher import (
     CreateTeacher,
     DeleteTeacher,
     NewTeacher,
+    ReadTeacher,
     UpdatedTeacher,
     UpdateTeacher,
 )
@@ -38,6 +39,11 @@ class EditTeacher(QWidget):
             self.ui.delete_btn.hide()
             self.ui.main_label.setText("Добавить учителя")
         else:
+            with self.container() as r_container:
+                command = r_container.get(ReadTeacher)
+                teacher = command.execute(self.teacher_id)
+                self.ui.full_name_input.setText(teacher.full_name)
+
             self.ui.main_label.setText("Редактировать учителя")
 
     def on_submit_btn(self) -> None:
