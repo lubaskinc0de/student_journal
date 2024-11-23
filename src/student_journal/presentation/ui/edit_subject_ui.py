@@ -13,13 +13,11 @@ class Ui_EditSubject(object):
     def setupUi(self, EditSubject):
         EditSubject.setObjectName("EditSubject")
         EditSubject.setWindowModality(QtCore.Qt.WindowModality.WindowModal)
-        EditSubject.resize(444, 300)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(EditSubject.sizePolicy().hasHeightForWidth())
         EditSubject.setSizePolicy(sizePolicy)
-        EditSubject.setMaximumSize(QtCore.QSize(500, 300))
         self.gridLayout = QtWidgets.QGridLayout(EditSubject)
         self.gridLayout.setObjectName("gridLayout")
         self.submit_btn = QtWidgets.QPushButton(parent=EditSubject)

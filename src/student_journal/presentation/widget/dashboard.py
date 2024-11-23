@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import QMainWindow, QMenu, QStackedWidget, QWidget
 
 from student_journal.presentation.widget.about import About
 from student_journal.presentation.widget.hometask.hometask_list import HometaskList
+from student_journal.presentation.widget.lesson.edit_lesson import EditLesson
 from student_journal.presentation.widget.subject.edit_subject import EditSubject
 from student_journal.presentation.widget.subject.subject_list import SubjectList
 from student_journal.presentation.widget.teacher.edit_teacher import EditTeacher
@@ -20,6 +21,7 @@ class Dashboard(QMainWindow):
         self.about_form = About()
         self.add_teacher_form = EditTeacher(container, None)
         self.add_subject_form = EditSubject(container, None)
+        self.add_lesson_form = EditLesson(container, None)
         self.hometask_list_form = HometaskList(container)
         self.teacher_list_form = TeacherList(container)
         self.subject_list_form = SubjectList(container)
@@ -27,6 +29,7 @@ class Dashboard(QMainWindow):
         self.about_action = QAction("&О программе", self)
         self.add_teacher_action = QAction("&Добавить преподавателя", self)
         self.add_subject_action = QAction("&Добавить предмет", self)
+        self.add_lesson_action = QAction("&Добавить урок", self)
         self.hometask_list_action = QAction("&Список заданий", self)
         self.subject_list_action = QAction("&Список предметов", self)
         self.teacher_list_action = QAction("&Список преподавателей", self)
@@ -38,6 +41,7 @@ class Dashboard(QMainWindow):
         self.stacked_widget.addWidget(self.hometask_list_form)
         self.stacked_widget.addWidget(self.teacher_list_form)
         self.stacked_widget.addWidget(self.subject_list_form)
+        self.stacked_widget.addWidget(self.add_lesson_form)
 
         self.add_teacher_action.triggered.connect(
             lambda: self.show_widget(self.add_teacher_form),
@@ -56,6 +60,9 @@ class Dashboard(QMainWindow):
         )
         self.subject_list_action.triggered.connect(
             lambda: self.show_widget(self.subject_list_form),
+        )
+        self.add_lesson_action.triggered.connect(
+            lambda: self.show_widget(self.add_lesson_form),
         )
 
         self.create_menu_bar()
@@ -88,6 +95,7 @@ class Dashboard(QMainWindow):
         lesson_menu = QMenu("&Уроки", self)
         menu_bar.addMenu(lesson_menu)
         lesson_menu.addAction(self.schedule_action)
+        lesson_menu.addAction(self.add_lesson_action)
 
         student_menu = QMenu("&Профиль", self)
         menu_bar.addMenu(student_menu)

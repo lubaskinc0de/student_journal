@@ -12,8 +12,6 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_EditHometask(object):
     def setupUi(self, EditHometask):
         EditHometask.setObjectName("EditHometask")
-        EditHometask.resize(510, 293)
-        EditHometask.setMaximumSize(QtCore.QSize(800, 800))
         self.gridLayout = QtWidgets.QGridLayout(EditHometask)
         self.gridLayout.setObjectName("gridLayout")
         self.main_label = QtWidgets.QLabel(parent=EditHometask)
