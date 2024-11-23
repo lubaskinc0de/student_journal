@@ -82,6 +82,7 @@ ignore = [
   'D107',
   'ARG002',
   'RUF001',
+  'TC003',
   # Not applicable for now
   'FIX002',
   'TD003',
@@ -91,8 +92,8 @@ ignore = [
   'PGH003',
   'ERA001',
   # Does not work correctly
-  'TCH002',
-  'TCH001',
+  'TC002',
+  'TC001',
 ]
 
 [[project.authors]]
