@@ -13,7 +13,6 @@ class Ui_About(object):
     def setupUi(self, About):
         About.setObjectName("About")
         About.setWindowModality(QtCore.Qt.WindowModality.NonModal)
-        About.resize(920, 557)
         About.setWhatsThis("")
         self.gridLayout = QtWidgets.QGridLayout(About)
         self.gridLayout.setObjectName("gridLayout")
@@ -27,14 +26,9 @@ class Ui_About(object):
         self.textBrowser = QtWidgets.QTextBrowser(parent=About)
         self.textBrowser.setObjectName("textBrowser")
         self.gridLayout.addWidget(self.textBrowser, 1, 0, 1, 1)
-        self.close_btn = QtWidgets.QPushButton(parent=About)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.close_btn.sizePolicy().hasHeightForWidth())
-        self.close_btn.setSizePolicy(sizePolicy)
-        self.close_btn.setObjectName("close_btn")
-        self.gridLayout.addWidget(self.close_btn, 2, 0, 1, 1)
 
         self.retranslateUi(About)
         QtCore.QMetaObject.connectSlotsByName(About)
@@ -59,4 +53,3 @@ class Ui_About(object):
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Разработано этими замечательными людьми и многообещающими мужчинами:</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">- Любавский Илья</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">- Роман Мельниченко</p></body></html>"))
-        self.close_btn.setText(_translate("About", "Закрыть"))

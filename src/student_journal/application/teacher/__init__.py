@@ -7,9 +7,9 @@ from .update_teacher import UpdatedTeacher, UpdateTeacher
 __all__ = [
     "CreateTeacher",
     "DeleteTeacher",
+    "NewTeacher",
     "ReadTeacher",
     "ReadTeachers",
     "UpdateTeacher",
     "UpdatedTeacher",
-    "NewTeacher",
 ]

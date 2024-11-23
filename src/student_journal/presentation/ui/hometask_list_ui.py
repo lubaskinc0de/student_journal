@@ -15,6 +15,9 @@ class Ui_HometaskList(object):
         HometaskList.resize(580, 290)
         self.gridLayout = QtWidgets.QGridLayout(HometaskList)
         self.gridLayout.setObjectName("gridLayout")
+        self.refresh = QtWidgets.QPushButton(parent=HometaskList)
+        self.refresh.setObjectName("refresh")
+        self.gridLayout.addWidget(self.refresh, 2, 0, 1, 1)
         self.formLayout = QtWidgets.QFormLayout()
         self.formLayout.setObjectName("formLayout")
         self.label_2 = QtWidgets.QLabel(parent=HometaskList)
@@ -40,10 +43,7 @@ class Ui_HometaskList(object):
         self.list_hometask = QtWidgets.QListWidget(parent=HometaskList)
         self.list_hometask.setSelectionRectVisible(False)
         self.list_hometask.setObjectName("list_hometask")
-        self.gridLayout.addWidget(self.list_hometask, 2, 0, 1, 1)
-        self.add_more = QtWidgets.QPushButton(parent=HometaskList)
-        self.add_more.setObjectName("add_more")
-        self.gridLayout.addWidget(self.add_more, 3, 0, 1, 1)
+        self.gridLayout.addWidget(self.list_hometask, 3, 0, 1, 1)
 
         self.retranslateUi(HometaskList)
         QtCore.QMetaObject.connectSlotsByName(HometaskList)
@@ -51,7 +51,7 @@ class Ui_HometaskList(object):
     def retranslateUi(self, HometaskList):
         _translate = QtCore.QCoreApplication.translate
         HometaskList.setWindowTitle(_translate("HometaskList", "Список ДЗ"))
+        self.refresh.setText(_translate("HometaskList", "Обновить"))
         self.label_2.setText(_translate("HometaskList", "Показать выполненные"))
         self.label.setText(_translate("HometaskList", "Предстоящие задания"))
         self.list_hometask.setSortingEnabled(False)
-        self.add_more.setText(_translate("HometaskList", "Добавить новые"))

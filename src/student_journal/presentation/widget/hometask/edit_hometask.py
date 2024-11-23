@@ -1,5 +1,5 @@
 from dishka import Container
-from PyQt6.QtWidgets import QMainWindow, QWidget
+from PyQt6.QtWidgets import QWidget
 
 from student_journal.adapters.error_locator import ErrorLocator
 from student_journal.application.hometask.create_home_task import (
@@ -7,6 +7,7 @@ from student_journal.application.hometask.create_home_task import (
     NewHomeTask,
 )
 from student_journal.application.hometask.delete_home_task import DeleteHomeTask
+from student_journal.application.hometask.read_home_task import ReadHomeTask
 from student_journal.application.hometask.update_home_task import (
     UpdatedHomeTask,
     UpdateHomeTask,
@@ -21,14 +22,12 @@ class EditHomeTask(QWidget):
     def __init__(
         self,
         container: Container,
-        main_window: QMainWindow,
         home_task_id: HomeTaskId | None,
         lesson: Lesson,
     ) -> None:
         super().__init__()
 
         self.container = container
-        self.main = main_window
         self.home_task_id = home_task_id
         self.lesson = lesson
         self.error_locator = container.get(ErrorLocator)
@@ -49,6 +48,12 @@ class EditHomeTask(QWidget):
             self.ui.main_label.setText("Добавить ДЗ")
         else:
             self.ui.main_label.setText("Редактирование ДЗ")
+
+            with self.container() as r_container:
+                command = r_container.get(ReadHomeTask)
+                home_task = command.execute(self.home_task_id)
+                self.ui.description.setText(home_task.description)
+                self.ui.is_done.setChecked(home_task.is_done)
 
         self.load_lessons()
 

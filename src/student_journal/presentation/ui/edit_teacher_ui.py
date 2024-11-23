@@ -13,8 +13,7 @@ class Ui_EditTeacher(object):
     def setupUi(self, EditTeacher):
         EditTeacher.setObjectName("EditTeacher")
         EditTeacher.setWindowModality(QtCore.Qt.WindowModality.WindowModal)
-        EditTeacher.resize(500, 300)
-        EditTeacher.setMaximumSize(QtCore.QSize(500, 300))
+
         self.gridLayout = QtWidgets.QGridLayout(EditTeacher)
         self.gridLayout.setObjectName("gridLayout")
         self.submit_btn = QtWidgets.QPushButton(parent=EditTeacher)

@@ -1,11 +1,12 @@
 from dishka import Container
-from PyQt6.QtWidgets import QMainWindow, QWidget
+from PyQt6.QtWidgets import QWidget
 
 from student_journal.adapters.error_locator import ErrorLocator
 from student_journal.application.teacher import (
     CreateTeacher,
     DeleteTeacher,
     NewTeacher,
+    ReadTeacher,
     UpdatedTeacher,
     UpdateTeacher,
 )
@@ -17,13 +18,11 @@ class EditTeacher(QWidget):
     def __init__(
         self,
         container: Container,
-        main: QMainWindow,
         teacher_id: TeacherId | None,
     ) -> None:
         super().__init__()
 
         self.container = container
-        self.main = main
         self.teacher_id = teacher_id
         self.error_locator = container.get(ErrorLocator)
 
@@ -40,6 +39,11 @@ class EditTeacher(QWidget):
             self.ui.delete_btn.hide()
             self.ui.main_label.setText("Добавить учителя")
         else:
+            with self.container() as r_container:
+                command = r_container.get(ReadTeacher)
+                teacher = command.execute(self.teacher_id)
+                self.ui.full_name_input.setText(teacher.full_name)
+
             self.ui.main_label.setText("Редактировать учителя")
 
     def on_submit_btn(self) -> None:

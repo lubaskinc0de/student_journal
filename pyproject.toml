@@ -23,7 +23,7 @@ test = [
 ]
 lint = [
     'pre-commit==3.8.0',
-    'ruff==0.6.8',
+    'ruff==0.8.0',
     'mypy==1.11.2',
 ]
 dev = [
@@ -32,6 +32,7 @@ dev = [
 ci = [
     'mypy==1.11.2',
     'pytest==8.3.3',
+    'ruff==0.8.0',
 ]
 
 [tool.setuptools.packages.find]

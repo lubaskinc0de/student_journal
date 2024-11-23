@@ -67,6 +67,16 @@
      <item row="1" column="1">
       <widget class="QComboBox" name="teacher_combo"/>
      </item>
+     <item row="2" column="1">
+      <widget class="QPushButton" name="refresh">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset theme="QIcon::ThemeIcon::ViewRefresh"/>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item row="0" column="0">
