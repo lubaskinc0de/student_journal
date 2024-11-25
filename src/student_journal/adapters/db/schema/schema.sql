@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS "Student" (
 	"avatar" TEXT,
 	"name" VARCHAR NOT NULL,
 	"home_address" VARCHAR,
-	-- от 0 до 23
+	-- от -14 до 12
 	"timezone" INTEGER NOT NULL,
 	PRIMARY KEY("student_id")
 );

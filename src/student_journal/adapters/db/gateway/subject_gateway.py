@@ -56,7 +56,8 @@ class SQLiteSubjectGateway(SubjectGateway):
             t.teacher_id,
             t.full_name as teacher_full_name,
             t.avatar as teacher_avatar,
-            COALESCE(AVG(l.mark), 0.0) AS avg_mark
+            COALESCE(AVG(l.mark), 0.0) AS avg_mark,
+            GROUP_CONCAT(l.mark, '|') AS marks_list
         FROM Subject s
         JOIN Teacher t ON s.teacher_id = t.teacher_id
         LEFT JOIN Lesson l ON s.subject_id = l.subject_id
@@ -73,5 +74,9 @@ class SQLiteSubjectGateway(SubjectGateway):
                 "full_name": each["teacher_full_name"],
                 "avatar": each["teacher_avatar"],
             }
+
+            if each["marks_list"] is None:
+                each["marks_list"] = []
+
         result = subject_retort.load(entries, list[SubjectReadModel])
         return result

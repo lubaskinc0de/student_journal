@@ -6,7 +6,9 @@ from uuid import UUID
 import tomli_w
 
 from student_journal.application.common.id_provider import IdProvider
+from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.exceptions.student import (
+    StudentDoesNotExistError,
     StudentIsNotAuthenticatedError,
 )
 from student_journal.domain.value_object.student_id import StudentId
@@ -30,6 +32,7 @@ class SimpleIdProvider(IdProvider):
 @dataclass(slots=True, frozen=True)
 class FileIdProvider(IdProvider):
     config: CredentialsConfig
+    gateway: StudentGateway
 
     def get_id(self) -> StudentId:
         if not self.config.path.exists() or not self.config.path.is_file():
@@ -39,7 +42,13 @@ class FileIdProvider(IdProvider):
             try:
                 data = tomllib.load(f)
                 student_id = StudentId(UUID(data["auth"]["student_id"]))
-            except (ValueError, tomllib.TOMLDecodeError, KeyError) as e:
+                self.gateway.read_student(student_id)
+            except (
+                ValueError,
+                tomllib.TOMLDecodeError,
+                KeyError,
+                StudentDoesNotExistError,
+            ) as e:
                 raise StudentIsNotAuthenticatedError from e
             else:
                 return student_id

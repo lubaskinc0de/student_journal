@@ -51,7 +51,7 @@ class SQLiteStudentGateway(StudentGateway):
         self.cursor.execute(query, params)
 
     def get_overall_avg_mark(self) -> float:
-        query = "SELECT avg(mark) FROM Lessons"
+        query = "SELECT avg(mark) FROM Lesson"
         res = self.cursor.execute(query).fetchone()
 
         if not res or not res[0]:
