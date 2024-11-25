@@ -12,5 +12,5 @@ class ReadLessonsForWeek:
     idp: IdProvider
 
     def execute(self, week_start: datetime) -> WeekLessons:
-        self.idp.ensure_is_auth()
+        self.idp.ensure_authenticated()
         return self.gateway.read_lessons_for_week(week_start)

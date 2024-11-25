@@ -31,7 +31,7 @@ class MainWindow(QMainWindow):
             self.setCentralWidget(self.stacked_widget)
 
             try:
-                self.idp.ensure_is_auth()
+                self.idp.ensure_authenticated()
             except StudentIsNotAuthenticatedError:
                 self.display_register()
                 return

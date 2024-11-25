@@ -23,7 +23,7 @@ class CreateSubject:
     idp: IdProvider
 
     def execute(self, data: NewSubject) -> SubjectId:
-        self.idp.ensure_is_auth()
+        self.idp.ensure_authenticated()
         validate_subject_invariants(data.title)
 
         subject_id = SubjectId(uuid4())

@@ -26,7 +26,7 @@ class SimpleIdProvider(IdProvider):
     def get_id(self) -> StudentId:
         return self.student_id
 
-    def ensure_is_auth(self) -> None: ...
+    def ensure_authenticated(self) -> None: ...
 
 
 @dataclass(slots=True, frozen=True)
@@ -64,5 +64,5 @@ class FileIdProvider(IdProvider):
                 f,
             )
 
-    def ensure_is_auth(self) -> None:
+    def ensure_authenticated(self) -> None:
         self.get_id()

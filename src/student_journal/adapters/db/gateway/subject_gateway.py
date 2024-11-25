@@ -48,7 +48,12 @@ class SQLiteSubjectGateway(SubjectGateway):
         query = """DELETE FROM Subject WHERE subject_id = ?"""
         self.cursor.execute(query, (str(subject_id),))
 
-    def read_subjects(self) -> list[SubjectReadModel]:
+    def read_subjects(
+        self,
+        sort_by_title: bool = False,
+        sort_by_avg_mark: bool = False,
+        show_empty: bool = True,
+    ) -> list[SubjectReadModel]:
         query = """
         SELECT
             s.subject_id,
@@ -61,9 +66,18 @@ class SQLiteSubjectGateway(SubjectGateway):
         FROM Subject s
         JOIN Teacher t ON s.teacher_id = t.teacher_id
         LEFT JOIN Lesson l ON s.subject_id = l.subject_id
-        GROUP BY s.subject_id
-        ORDER BY avg_mark DESC
+        GROUP BY s.subject_id, s.title, t.teacher_id, t.full_name, t.avatar
         """
+
+        if not show_empty:
+            query += "HAVING COALESCE(AVG(l.mark), 0.0) != 0.0\n"
+
+        if sort_by_avg_mark:
+            query += "ORDER BY avg_mark DESC"
+        elif sort_by_title:
+            query += "ORDER BY title"
+        else:
+            query += "ORDER BY s.subject_id"
 
         res = self.cursor.execute(query).fetchall()
         entries = [dict(x) for x in res]
@@ -77,6 +91,8 @@ class SQLiteSubjectGateway(SubjectGateway):
 
             if each["marks_list"] is None:
                 each["marks_list"] = []
+            else:
+                each["marks_list"] = list(map(int, each["marks_list"].split("|")))
 
         result = subject_retort.load(entries, list[SubjectReadModel])
         return result

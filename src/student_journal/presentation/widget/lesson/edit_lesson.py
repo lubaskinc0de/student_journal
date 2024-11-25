@@ -4,6 +4,10 @@ from dishka import Container
 from PyQt6.QtWidgets import QCalendarWidget, QDialog, QPushButton, QVBoxLayout, QWidget
 
 from student_journal.adapters.error_locator import ErrorLocator
+from student_journal.application.exceptions.lesson import (
+    LessonAtError,
+    LessonSubjectError,
+)
 from student_journal.application.lesson.create_lesson import CreateLesson, NewLesson
 from student_journal.application.lesson.delete_lesson import DeleteLesson
 from student_journal.application.lesson.read_lesson import ReadLesson
@@ -30,7 +34,7 @@ class EditLesson(QWidget):
 
         self.subject_id: SubjectId | None = None
         self.lesson_date: None | date = None
-        self.lesson_time: None | time = None
+        self.lesson_time: None | time = self.ui.time_edit.time().toPyTime()
         self.date_time: None | datetime = None
         self.note = ""
         self.mark = 0
@@ -87,8 +91,11 @@ class EditLesson(QWidget):
             self.ui.index_number_spinbox.setValue(lesson.index_number)
 
     def on_submit_btn(self) -> None:
-        if not self.subject_id or not self.lesson_date or not self.lesson_time:
-            return
+        if not self.subject_id:
+            raise LessonSubjectError
+
+        if not self.lesson_date or not self.lesson_time:
+            raise LessonAtError
 
         self.date_time = datetime.combine(self.lesson_date, self.lesson_time)
 

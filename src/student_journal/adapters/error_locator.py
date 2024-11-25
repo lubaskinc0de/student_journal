@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from sqlite3 import OperationalError
 from typing import Final, Protocol
 
 from student_journal.application.exceptions.base import ApplicationError
@@ -37,7 +38,7 @@ from student_journal.application.exceptions.teacher import (
     TeacherFullNameError,
 )
 
-_messages: Final[dict[type[ApplicationError], str]] = {
+_messages: Final[dict[type[ApplicationError | OperationalError], str]] = {
     HomeTaskDescriptionError: "Неверное описание домашнего задания",
     HomeTaskDoesNotExistError: "Домашнее задание не существует",
     LessonSubjectError: "Неверный предмет урока",
@@ -62,6 +63,7 @@ _messages: Final[dict[type[ApplicationError], str]] = {
     TeacherFullNameError: "Неверное полное имя учителя",
     TeacherDoesNotExistError: "Учитель не существует",
     TeacherAlreadyExistsError: "Учитель уже существует",
+    OperationalError: "Ошибка целостности БД!",
 }
 
 
