@@ -12,7 +12,7 @@ class ReadSubject:
     idp: IdProvider
 
     def execute(self, subject_id: SubjectId) -> Subject:
-        self.idp.ensure_is_auth()
+        self.idp.ensure_authenticated()
 
         subject = self.gateway.read_subject(subject_id)
         return subject

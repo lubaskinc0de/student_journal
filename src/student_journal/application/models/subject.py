@@ -10,3 +10,4 @@ class SubjectReadModel:
     teacher: Teacher
     title: str
     avg_mark: float
+    marks_list: list[int]

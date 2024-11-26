@@ -22,7 +22,7 @@ class CreateTeacher:
     idp: IdProvider
 
     def execute(self, data: NewTeacher) -> TeacherId:
-        self.idp.ensure_is_auth()
+        self.idp.ensure_authenticated()
 
         validate_teacher_invariants(full_name=data.full_name)
 

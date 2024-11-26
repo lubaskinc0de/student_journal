@@ -26,7 +26,7 @@ class UpdateHomeTask:
     idp: IdProvider
 
     def execute(self, data: UpdatedHomeTask) -> HomeTaskId:
-        self.idp.ensure_is_auth()
+        self.idp.ensure_authenticated()
 
         validate_home_task_invariants(
             description=data.description,

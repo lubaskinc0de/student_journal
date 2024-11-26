@@ -17,30 +17,33 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.container = container
-        self.idp = container.get(FileIdProvider)
 
-        self.register_form = Register(container)
-        self.register_form.finish.connect(self.finish_register)
+        with self.container() as r_container:
+            self.idp = r_container.get(FileIdProvider)
+            self.dashboard: None | Dashboard = None
 
-        self.dashboard = Dashboard(container)
+            self.register_form = Register(container)
+            self.register_form.finish.connect(self.finish_register)
 
-        self.stacked_widget = QStackedWidget()
-        self.stacked_widget.addWidget(self.register_form)
-        self.stacked_widget.addWidget(self.dashboard)
-        self.setCentralWidget(self.stacked_widget)
+            self.stacked_widget = QStackedWidget()
+            self.stacked_widget.addWidget(self.register_form)
 
-        try:
-            self.idp.ensure_is_auth()
-        except StudentIsNotAuthenticatedError:
-            self.display_register()
-            return
-        else:
-            self.display_dashboard()
+            self.setCentralWidget(self.stacked_widget)
+
+            try:
+                self.idp.ensure_authenticated()
+            except StudentIsNotAuthenticatedError:
+                self.display_register()
+                return
+            else:
+                self.display_dashboard()
 
     def display_register(self) -> None:
         self.stacked_widget.setCurrentWidget(self.register_form)
 
     def display_dashboard(self) -> None:
+        self.dashboard = Dashboard(self.container)
+        self.stacked_widget.addWidget(self.dashboard)
         self.stacked_widget.setCurrentWidget(self.dashboard)
 
     def finish_register(self, student_id: str) -> None:

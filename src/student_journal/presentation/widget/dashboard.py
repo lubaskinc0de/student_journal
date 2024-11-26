@@ -3,9 +3,11 @@ from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow, QMenu, QStackedWidget, QWidget
 
 from student_journal.presentation.widget.about import About
+from student_journal.presentation.widget.edit_student import EditStudent
 from student_journal.presentation.widget.hometask.hometask_list import HometaskList
 from student_journal.presentation.widget.lesson.edit_lesson import EditLesson
 from student_journal.presentation.widget.subject.edit_subject import EditSubject
+from student_journal.presentation.widget.subject.progress import Progress
 from student_journal.presentation.widget.subject.subject_list import SubjectList
 from student_journal.presentation.widget.teacher.edit_teacher import EditTeacher
 from student_journal.presentation.widget.teacher.teacher_list import TeacherList
@@ -19,9 +21,11 @@ class Dashboard(QMainWindow):
         self.setCentralWidget(self.stacked_widget)
 
         self.about_form = About()
+        self.progress = Progress(container)
         self.add_teacher_form = EditTeacher(container, None)
         self.add_subject_form = EditSubject(container, None)
         self.add_lesson_form = EditLesson(container, None)
+        self.edit_student_form = EditStudent(container)
         self.hometask_list_form = HometaskList(container)
         self.teacher_list_form = TeacherList(container)
         self.subject_list_form = SubjectList(container)
@@ -34,6 +38,8 @@ class Dashboard(QMainWindow):
         self.subject_list_action = QAction("&Список предметов", self)
         self.teacher_list_action = QAction("&Список преподавателей", self)
         self.schedule_action = QAction("&Расписание", self)
+        self.show_profile_action = QAction("&Просмотр профиля", self)
+        self.progress_action = QAction("&Успеваемость", self)
 
         self.stacked_widget.addWidget(self.about_form)
         self.stacked_widget.addWidget(self.add_teacher_form)
@@ -42,6 +48,8 @@ class Dashboard(QMainWindow):
         self.stacked_widget.addWidget(self.teacher_list_form)
         self.stacked_widget.addWidget(self.subject_list_form)
         self.stacked_widget.addWidget(self.add_lesson_form)
+        self.stacked_widget.addWidget(self.edit_student_form)
+        self.stacked_widget.addWidget(self.progress)
 
         self.add_teacher_action.triggered.connect(
             lambda: self.show_widget(self.add_teacher_form),
@@ -63,6 +71,12 @@ class Dashboard(QMainWindow):
         )
         self.add_lesson_action.triggered.connect(
             lambda: self.show_widget(self.add_lesson_form),
+        )
+        self.show_profile_action.triggered.connect(
+            lambda: self.show_widget(self.edit_student_form),
+        )
+        self.progress_action.triggered.connect(
+            lambda: self.show_widget(self.progress),
         )
 
         self.create_menu_bar()
@@ -87,6 +101,7 @@ class Dashboard(QMainWindow):
         menu_bar.addMenu(subject_menu)
         subject_menu.addAction(self.add_subject_action)
         subject_menu.addAction(self.subject_list_action)
+        subject_menu.addAction(self.progress_action)
 
         hometask_menu = QMenu("&Задачи", self)
         menu_bar.addMenu(hometask_menu)
@@ -99,3 +114,4 @@ class Dashboard(QMainWindow):
 
         student_menu = QMenu("&Профиль", self)
         menu_bar.addMenu(student_menu)
+        student_menu.addAction(self.show_profile_action)

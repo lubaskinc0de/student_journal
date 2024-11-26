@@ -12,7 +12,7 @@ class ReadLesson:
     idp: IdProvider
 
     def execute(self, lesson_id: LessonId) -> Lesson:
-        self.idp.ensure_is_auth()
+        self.idp.ensure_authenticated()
 
         lesson = self.gateway.read_lesson(lesson_id)
         return lesson

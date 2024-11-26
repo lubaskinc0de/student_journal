@@ -8,8 +8,8 @@ from student_journal.application.common.id_provider import IdProvider
 class AdapterProvider(Provider):
     scope = Scope.REQUEST
 
-    id_provider = provide(source=FileIdProvider, provides=IdProvider, scope=Scope.APP)
-    file_id_provider = provide(FileIdProvider, scope=Scope.APP)
+    id_provider = provide(source=FileIdProvider, provides=IdProvider)
+    file_id_provider = provide(FileIdProvider)
     error_locator = provide(
         source=SimpleErrorLocator,
         provides=ErrorLocator,

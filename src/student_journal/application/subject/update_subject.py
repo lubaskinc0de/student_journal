@@ -23,7 +23,7 @@ class UpdateSubject:
     idp: IdProvider
 
     def execute(self, data: UpdatedSubject) -> SubjectId:
-        self.idp.ensure_is_auth()
+        self.idp.ensure_authenticated()
 
         validate_subject_invariants(data.title)
 

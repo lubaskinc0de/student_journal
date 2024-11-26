@@ -13,7 +13,7 @@ class DeleteHomeTask:
     idp: IdProvider
 
     def execute(self, task_id: HomeTaskId) -> None:
-        self.idp.ensure_is_auth()
+        self.idp.ensure_authenticated()
 
         with self.transaction_manager.begin():
             self.gateway.delete_home_task(task_id)
