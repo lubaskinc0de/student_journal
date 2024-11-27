@@ -16,7 +16,6 @@ from student_journal.presentation.widget.teacher.teacher_list import TeacherList
 class Dashboard(QMainWindow):
     def __init__(self, container: Container) -> None:
         super().__init__()
-
         self.stacked_widget = QStackedWidget()
         self.setCentralWidget(self.stacked_widget)
 
