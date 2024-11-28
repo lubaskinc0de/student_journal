@@ -12,7 +12,6 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Progress(object):
     def setupUi(self, Progress):
         Progress.setObjectName("Progress")
-        Progress.resize(400, 300)
         self.gridLayout = QtWidgets.QGridLayout(Progress)
         self.gridLayout.setObjectName("gridLayout")
         self.formLayout = QtWidgets.QFormLayout()

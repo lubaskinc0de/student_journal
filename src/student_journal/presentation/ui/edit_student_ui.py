@@ -12,7 +12,6 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_EditStudent(object):
     def setupUi(self, EditStudent):
         EditStudent.setObjectName("EditStudent")
-        EditStudent.resize(400, 345)
         self.gridLayout = QtWidgets.QGridLayout(EditStudent)
         self.gridLayout.setObjectName("gridLayout")
         self.formLayout = QtWidgets.QFormLayout()

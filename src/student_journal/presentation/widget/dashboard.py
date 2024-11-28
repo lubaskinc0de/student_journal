@@ -29,7 +29,7 @@ class Dashboard(QMainWindow):
         self.teacher_list_form = TeacherList(container)
         self.subject_list_form = SubjectList(container)
 
-        self.about_action = QAction("&О программе", self)
+        self.about_action = QAction("&Справка", self)
         self.add_teacher_action = QAction("&Добавить преподавателя", self)
         self.add_subject_action = QAction("&Добавить предмет", self)
         self.add_lesson_action = QAction("&Добавить урок", self)

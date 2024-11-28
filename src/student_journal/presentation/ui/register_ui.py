@@ -12,7 +12,6 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Register(object):
     def setupUi(self, Register):
         Register.setObjectName("Register")
-        Register.resize(500, 368)
         self.gridLayout_2 = QtWidgets.QGridLayout(Register)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.gridLayout = QtWidgets.QGridLayout()
