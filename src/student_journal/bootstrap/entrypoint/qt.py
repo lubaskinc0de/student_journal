@@ -1,20 +1,14 @@
 import logging
-
-from PyQt6.QtGui import QIcon
-from dishka.plotter import render_mermaid
-
-import student_journal.presentation.resource
-
-from importlib.resources import as_file, files
-
 import signal
 import sys
 from functools import partial
+from importlib.resources import as_file, files
 from types import TracebackType
 
 from PyQt6.QtWidgets import QApplication, QMessageBox
 
 import student_journal
+import student_journal.presentation.resource
 from student_journal.adapters.error_locator import ErrorLocator
 from student_journal.application.exceptions.base import ApplicationError
 from student_journal.application.exceptions.student import (
@@ -67,11 +61,6 @@ def except_hook(
 
 def main(_argv: list[str]) -> None:
     container = get_container_for_gui()
-    html = render_mermaid(container)
-
-    with open("scheme.html", "w") as f:
-        f.write(html)
-
     resources = files(student_journal.presentation.resource)
 
     app = QApplication(_argv)

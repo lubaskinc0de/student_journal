@@ -3,9 +3,9 @@ from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow, QMenu, QStackedWidget, QWidget
 
 from student_journal.presentation.widget.help.about import About
-from student_journal.presentation.widget.student.edit_student import EditStudent
 from student_journal.presentation.widget.hometask.hometask_list import HometaskList
 from student_journal.presentation.widget.lesson.edit_lesson import EditLesson
+from student_journal.presentation.widget.student.edit_student import EditStudent
 from student_journal.presentation.widget.subject.edit_subject import EditSubject
 from student_journal.presentation.widget.subject.progress import Progress
 from student_journal.presentation.widget.subject.subject_list import SubjectList
