@@ -2,10 +2,13 @@ import logging
 import signal
 import sys
 from functools import partial
+from importlib.resources import as_file, files
 from types import TracebackType
 
 from PyQt6.QtWidgets import QApplication, QMessageBox
 
+import student_journal
+import student_journal.presentation.resource
 from student_journal.adapters.error_locator import ErrorLocator
 from student_journal.application.exceptions.base import ApplicationError
 from student_journal.application.exceptions.student import (
@@ -58,9 +61,16 @@ def except_hook(
 
 def main(_argv: list[str]) -> None:
     container = get_container_for_gui()
+    resources = files(student_journal.presentation.resource)
 
     app = QApplication(_argv)
+
     main_wnd = MainWindow(container)
+    main_wnd.setWindowTitle("Дневник Школьника")
+
+    with as_file(resources.joinpath("styles.qss")) as qss_path:
+        app.setStyleSheet(qss_path.read_text())
+
     main_wnd.show()
 
     locator = container.get(ErrorLocator)
@@ -68,3 +78,7 @@ def main(_argv: list[str]) -> None:
 
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main(sys.argv)

@@ -1,16 +1,12 @@
-import os
-from pathlib import Path
+from importlib.resources import as_file, files
 from sqlite3 import Cursor
 
-PATH = Path(
-    os.path.join(  # noqa: PTH118
-        os.path.dirname(os.path.abspath(__file__)),  # noqa: PTH100, PTH120
-        "schema.sql",
-    ),
-)
+import student_journal.adapters.db.schema
 
 
 def load_and_execute(cursor: Cursor) -> None:
-    with PATH.open() as sql_file:
+    source = files(student_journal.adapters.db.schema).joinpath("schema.sql")
+
+    with as_file(source) as sql_path, sql_path.open() as sql_file:
         sql_script = sql_file.read()
-    cursor.executescript(sql_script)
+        cursor.executescript(sql_script)

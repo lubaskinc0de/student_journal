@@ -12,7 +12,6 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_TeacherList(object):
     def setupUi(self, TeacherList):
         TeacherList.setObjectName("TeacherList")
-        TeacherList.resize(580, 290)
         self.gridLayout = QtWidgets.QGridLayout(TeacherList)
         self.gridLayout.setObjectName("gridLayout")
         self.label = QtWidgets.QLabel(parent=TeacherList)

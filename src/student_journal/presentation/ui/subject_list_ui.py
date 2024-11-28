@@ -12,7 +12,6 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_SubjectList(object):
     def setupUi(self, SubjectList):
         SubjectList.setObjectName("SubjectList")
-        SubjectList.resize(580, 290)
         self.gridLayout = QtWidgets.QGridLayout(SubjectList)
         self.gridLayout.setObjectName("gridLayout")
         self.list_subject = QtWidgets.QListWidget(parent=SubjectList)

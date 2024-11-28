@@ -2,10 +2,10 @@ from dishka import Container
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow, QMenu, QStackedWidget, QWidget
 
-from student_journal.presentation.widget.about import About
-from student_journal.presentation.widget.edit_student import EditStudent
+from student_journal.presentation.widget.help.about import About
 from student_journal.presentation.widget.hometask.hometask_list import HometaskList
 from student_journal.presentation.widget.lesson.edit_lesson import EditLesson
+from student_journal.presentation.widget.student.edit_student import EditStudent
 from student_journal.presentation.widget.subject.edit_subject import EditSubject
 from student_journal.presentation.widget.subject.progress import Progress
 from student_journal.presentation.widget.subject.subject_list import SubjectList
@@ -16,7 +16,6 @@ from student_journal.presentation.widget.teacher.teacher_list import TeacherList
 class Dashboard(QMainWindow):
     def __init__(self, container: Container) -> None:
         super().__init__()
-
         self.stacked_widget = QStackedWidget()
         self.setCentralWidget(self.stacked_widget)
 
@@ -30,7 +29,7 @@ class Dashboard(QMainWindow):
         self.teacher_list_form = TeacherList(container)
         self.subject_list_form = SubjectList(container)
 
-        self.about_action = QAction("&О программе", self)
+        self.about_action = QAction("&Справка", self)
         self.add_teacher_action = QAction("&Добавить преподавателя", self)
         self.add_subject_action = QAction("&Добавить предмет", self)
         self.add_lesson_action = QAction("&Добавить урок", self)

@@ -12,7 +12,6 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_HometaskList(object):
     def setupUi(self, HometaskList):
         HometaskList.setObjectName("HometaskList")
-        HometaskList.resize(580, 290)
         self.gridLayout = QtWidgets.QGridLayout(HometaskList)
         self.gridLayout.setObjectName("gridLayout")
         self.refresh = QtWidgets.QPushButton(parent=HometaskList)

@@ -12,7 +12,6 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_About(object):
     def setupUi(self, About):
         About.setObjectName("About")
-        About.setWindowModality(QtCore.Qt.WindowModality.NonModal)
         About.setWhatsThis("")
         self.gridLayout = QtWidgets.QGridLayout(About)
         self.gridLayout.setObjectName("gridLayout")
