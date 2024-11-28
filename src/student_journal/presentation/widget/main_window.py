@@ -9,7 +9,7 @@ from student_journal.application.exceptions.student import (
 )
 from student_journal.domain.value_object.student_id import StudentId
 from student_journal.presentation.widget.dashboard import Dashboard
-from student_journal.presentation.widget.register import Register
+from student_journal.presentation.widget.student.register import Register
 
 
 class MainWindow(QMainWindow):
