@@ -10,8 +10,18 @@ class ReadSubjects:
     gateway: SubjectGateway
     idp: IdProvider
 
-    def execute(self) -> list[SubjectReadModel]:
-        self.idp.ensure_is_auth()
+    def execute(
+        self,
+        sort_by_title: bool = False,
+        sort_by_avg_mark: bool = False,
+        show_empty: bool = True,
+    ) -> list[SubjectReadModel]:
+        self.idp.ensure_authenticated()
 
-        subjects = self.gateway.read_subjects()
+        subjects = self.gateway.read_subjects(
+            sort_by_title,
+            sort_by_avg_mark,
+            show_empty,
+        )
+
         return subjects

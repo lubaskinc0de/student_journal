@@ -1,0 +1,352 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<pre class="mermaid">
+classDiagram
+direction LR
+namespace Scope.APP {
+class factory3["📥 Container"]{
+ 
+}
+
+class factory4["🏭 DBConfig"]{
+    ConfigProvider.db_config()
+    Config
+}
+
+class factory5["🏭 CredentialsConfig"]{
+    ConfigProvider.credentials_config()
+    Config
+}
+
+class factory6["📥 Config"]{
+ 
+}
+
+class factory7["🏭 Ⓘ ErrorLocator"]{
+    SimpleErrorLocator()
+}
+
+class factory8["🏭 SQLiteConnectionMaker"]{
+    SQLiteConnectionMaker()
+    DBConfig
+}
+
+class factory9["🏭 SQLiteConnectionFactory"]{
+    DbProvider.connection_factory()
+    SQLiteConnectionMaker
+}
+
+}
+
+factory6 <.. factory4
+factory6 <.. factory5
+factory4 <.. factory8
+factory8 <.. factory9
+namespace Scope.REQUEST {
+class factory12["📥 Container"]{
+ 
+}
+
+class factory13["🏭 CreateStudent"]{
+    CreateStudent()
+    StudentGateway
+    TransactionManager
+}
+
+class factory14["🏭 ReadStudent"]{
+    ReadStudent()
+    StudentGateway
+    IdProvider
+}
+
+class factory15["🏭 UpdateStudent"]{
+    UpdateStudent()
+    StudentGateway
+    TransactionManager
+    IdProvider
+}
+
+class factory16["🏭 CreateTeacher"]{
+    CreateTeacher()
+    TeacherGateway
+    TransactionManager
+    IdProvider
+}
+
+class factory17["🏭 DeleteTeacher"]{
+    DeleteTeacher()
+    TransactionManager
+    TeacherGateway
+    IdProvider
+}
+
+class factory18["🏭 ReadTeacher"]{
+    ReadTeacher()
+    TeacherGateway
+    IdProvider
+}
+
+class factory19["🏭 ReadTeachers"]{
+    ReadTeachers()
+    TeacherGateway
+    IdProvider
+}
+
+class factory20["🏭 UpdateTeacher"]{
+    UpdateTeacher()
+    TeacherGateway
+    TransactionManager
+    IdProvider
+}
+
+class factory21["🏭 CreateSubject"]{
+    CreateSubject()
+    SubjectGateway
+    TransactionManager
+    IdProvider
+}
+
+class factory22["🏭 DeleteSubject"]{
+    DeleteSubject()
+    TransactionManager
+    SubjectGateway
+    IdProvider
+}
+
+class factory23["🏭 ReadSubject"]{
+    ReadSubject()
+    SubjectGateway
+    IdProvider
+}
+
+class factory24["🏭 ReadSubjects"]{
+    ReadSubjects()
+    SubjectGateway
+    IdProvider
+}
+
+class factory25["🏭 UpdateSubject"]{
+    UpdateSubject()
+    SubjectGateway
+    TransactionManager
+    IdProvider
+}
+
+class factory26["🏭 CreateLesson"]{
+    CreateLesson()
+    LessonGateway
+    StudentGateway
+    TransactionManager
+    IdProvider
+}
+
+class factory27["🏭 DeleteLesson"]{
+    DeleteLesson()
+    TransactionManager
+    LessonGateway
+    IdProvider
+}
+
+class factory28["🏭 ReadFirstLessonsOfWeeks"]{
+    ReadFirstLessonsOfWeeks()
+    LessonGateway
+    IdProvider
+}
+
+class factory29["🏭 ReadLesson"]{
+    ReadLesson()
+    LessonGateway
+    IdProvider
+}
+
+class factory30["🏭 ReadLessonsForWeek"]{
+    ReadLessonsForWeek()
+    LessonGateway
+    IdProvider
+}
+
+class factory31["🏭 UpdateLesson"]{
+    UpdateLesson()
+    LessonGateway
+    StudentGateway
+    TransactionManager
+    IdProvider
+}
+
+class factory32["🏭 CreateHomeTask"]{
+    CreateHomeTask()
+    HomeTaskGateway
+    TransactionManager
+    IdProvider
+}
+
+class factory33["🏭 DeleteHomeTask"]{
+    DeleteHomeTask()
+    TransactionManager
+    HomeTaskGateway
+    IdProvider
+}
+
+class factory34["🏭 ReadHomeTask"]{
+    ReadHomeTask()
+    HomeTaskGateway
+    IdProvider
+}
+
+class factory35["🏭 ReadHomeTasks"]{
+    ReadHomeTasks()
+    HomeTaskGateway
+    IdProvider
+}
+
+class factory36["🏭 UpdateHomeTask"]{
+    UpdateHomeTask()
+    HomeTaskGateway
+    TransactionManager
+    IdProvider
+}
+
+class factory37["🏭 Ⓘ IdProvider"]{
+    FileIdProvider()
+    CredentialsConfig
+    StudentGateway
+}
+
+class factory38["🏭 FileIdProvider"]{
+    FileIdProvider()
+    CredentialsConfig
+    StudentGateway
+}
+
+class factory39["🏭 Ⓘ TransactionManager"]{
+    SQLiteTransactionManager()
+    Connection
+}
+
+class factory40["🏭 Connection"]{
+    DbProvider.connection()
+    SQLiteConnectionFactory
+}
+
+class factory41["🏭 Cursor"]{
+    DbProvider.cursor()
+    Connection
+}
+
+class factory42["🏭 Ⓘ StudentGateway"]{
+    SQLiteStudentGateway()
+    Cursor
+}
+
+class factory43["🏭 Ⓘ TeacherGateway"]{
+    SQLiteTeacherGateway()
+    Cursor
+}
+
+class factory44["🏭 Ⓘ SubjectGateway"]{
+    SQLiteSubjectGateway()
+    Cursor
+}
+
+class factory45["🏭 Ⓘ LessonGateway"]{
+    SQLiteLessonGateway()
+    Cursor
+}
+
+class factory46["🏭 Ⓘ HomeTaskGateway"]{
+    SQLiteHomeTaskGateway()
+    Cursor
+}
+
+}
+
+factory42 <.. factory13
+factory39 <.. factory13
+factory42 <.. factory14
+factory37 <.. factory14
+factory42 <.. factory15
+factory39 <.. factory15
+factory37 <.. factory15
+factory43 <.. factory16
+factory39 <.. factory16
+factory37 <.. factory16
+factory39 <.. factory17
+factory43 <.. factory17
+factory37 <.. factory17
+factory43 <.. factory18
+factory37 <.. factory18
+factory43 <.. factory19
+factory37 <.. factory19
+factory43 <.. factory20
+factory39 <.. factory20
+factory37 <.. factory20
+factory44 <.. factory21
+factory39 <.. factory21
+factory37 <.. factory21
+factory39 <.. factory22
+factory44 <.. factory22
+factory37 <.. factory22
+factory44 <.. factory23
+factory37 <.. factory23
+factory44 <.. factory24
+factory37 <.. factory24
+factory44 <.. factory25
+factory39 <.. factory25
+factory37 <.. factory25
+factory45 <.. factory26
+factory42 <.. factory26
+factory39 <.. factory26
+factory37 <.. factory26
+factory39 <.. factory27
+factory45 <.. factory27
+factory37 <.. factory27
+factory45 <.. factory28
+factory37 <.. factory28
+factory45 <.. factory29
+factory37 <.. factory29
+factory45 <.. factory30
+factory37 <.. factory30
+factory45 <.. factory31
+factory42 <.. factory31
+factory39 <.. factory31
+factory37 <.. factory31
+factory46 <.. factory32
+factory39 <.. factory32
+factory37 <.. factory32
+factory39 <.. factory33
+factory46 <.. factory33
+factory37 <.. factory33
+factory46 <.. factory34
+factory37 <.. factory34
+factory46 <.. factory35
+factory37 <.. factory35
+factory46 <.. factory36
+factory39 <.. factory36
+factory37 <.. factory36
+factory5 <.. factory37
+factory42 <.. factory37
+factory5 <.. factory38
+factory42 <.. factory38
+factory40 <.. factory39
+factory9 <.. factory40
+factory40 <.. factory41
+factory41 <.. factory42
+factory41 <.. factory43
+factory41 <.. factory44
+factory41 <.. factory45
+factory41 <.. factory46
+
+</pre>
+
+<script type="module">
+    import mermaid
+    from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize(config);
+</script>
+</body>
+</html>
+

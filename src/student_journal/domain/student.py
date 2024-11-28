@@ -10,4 +10,4 @@ class Student:
     avatar: str | None
     name: str
     home_address: str | None
-    timezone: int = 0
+    timezone: int = 3  # utc offset

@@ -12,7 +12,7 @@ class ReadHomeTask:
     idp: IdProvider
 
     def execute(self, task_id: HomeTaskId) -> HomeTask:
-        self.idp.ensure_is_auth()
+        self.idp.ensure_authenticated()
 
         home_task = self.gateway.read_home_task(task_id)
         return home_task

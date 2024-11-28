@@ -14,7 +14,7 @@ AGE_RANGE = range(MIN_AGE, MAX_AGE)
 NAME_MAX_LENGTH = 255
 NAME_MIN_LENGTH = 2
 HOME_ADDRESS_MAX_LENGTH = 255
-TIMEZONE_RANGE = range(24)
+TIMEZONE_RANGE = range(-12, 15)
 
 
 def validate_student_invariants(
