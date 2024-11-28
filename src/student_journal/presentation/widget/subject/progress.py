@@ -43,17 +43,22 @@ class Progress(QWidget):
     def populate_table(self, subjects: list[SubjectReadModel]) -> None:
         self.ui.table.setRowCount(len(subjects))
         for row, subject in enumerate(subjects):
-            self.ui.table.setItem(row, 0, QTableWidgetItem(subject.title))
+            subject_item = QTableWidgetItem(subject.title)
+            subject_item.setFlags(Qt.ItemFlag.ItemIsEditable)
+            self.ui.table.setItem(row, 0, subject_item)
+
             avg_mark_item = QTableWidgetItem(
                 f"{subject.avg_mark:.2f}" if subject.avg_mark != 0.0 else "—",
             )
             avg_mark_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            avg_mark_item.setFlags(Qt.ItemFlag.ItemIsEditable)
             self.ui.table.setItem(row, 1, avg_mark_item)
 
             marks_list_item = QTableWidgetItem(
                 f"{' '.join(map(str, subject.marks_list))}"
                 if subject.marks_list else "—",
             )
+            marks_list_item.setFlags(Qt.ItemFlag.ItemIsEditable)
             self.ui.table.setItem(row, 2, marks_list_item)
 
     def on_refresh(self) -> None:

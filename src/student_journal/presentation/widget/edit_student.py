@@ -48,6 +48,7 @@ class EditStudent(QWidget):
             if student.home_address:
                 self.ui.address_input.setText(student.home_address)
             self.ui.timezone_input.setValue(student.timezone)
+            self.ui.avg_mark.setValue(student.student_overall_avg_mark)
 
             self.avatar = student.avatar
             self.update_avatar_preview()

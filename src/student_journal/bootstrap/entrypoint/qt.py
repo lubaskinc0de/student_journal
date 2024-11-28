@@ -1,6 +1,7 @@
 import logging
 
 from PyQt6.QtGui import QIcon
+from dishka.plotter import render_mermaid
 
 import student_journal.presentation.resource
 
@@ -66,6 +67,11 @@ def except_hook(
 
 def main(_argv: list[str]) -> None:
     container = get_container_for_gui()
+    html = render_mermaid(container)
+
+    with open("scheme.html", "w") as f:
+        f.write(html)
+
     resources = files(student_journal.presentation.resource)
 
     app = QApplication(_argv)

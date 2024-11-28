@@ -1,5 +1,6 @@
 from dishka import Container
 from PyQt6.QtCore import pyqtSignal
+from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QFileDialog, QWidget
 
 from student_journal.adapters.error_locator import ErrorLocator
@@ -34,6 +35,15 @@ class Register(QWidget):
         self.ui.address_input.textChanged.connect(self.on_address_input)
         self.ui.timezone_input.valueChanged.connect(self.on_timezone_input)
         self.ui.avatar_upload_btn.clicked.connect(self.on_avatar_upload_btn)
+
+        self.update_avatar_preview()
+
+    def update_avatar_preview(self) -> None:
+        if self.avatar:
+            pixmap = QPixmap(self.avatar)
+            self.ui.avatar_preview.setPixmap(pixmap.scaled(100, 100))
+        else:
+            self.ui.avatar_preview.setText("Аватар не выбран")
 
     def on_submit_btn(self) -> None:
         with self.container() as r_container:
@@ -70,3 +80,4 @@ class Register(QWidget):
         )
         if file_path:
             self.avatar = file_path
+            self.update_avatar_preview()

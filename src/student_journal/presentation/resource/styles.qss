@@ -3,7 +3,6 @@ QWidget {
     background-color: #2B2B3D;
     color: #C1CEFE;
     font-family: "Segoe UI", Arial, sans-serif;
-    font-size: 14px;
 }
 
 /* Главные окна */
@@ -98,56 +97,6 @@ QTabBar::tab:selected {
     color: #FFFFFF;
 }
 
-/* SpinBox */
-QSpinBox {
-    background-color: #3A3A4F;
-    color: #C1CEFE;
-    border: 1px solid #7189FF;
-    border-radius: 5px;
-    padding: 2px 5px;
-    font-size: 14px;
-}
-
-QSpinBox::up-button {
-    subcontrol-origin: border;
-    subcontrol-position: top right;
-    width: 16px;
-    border: none;
-    background-color: #624CAB;
-    border-top-right-radius: 5px;
-}
-
-QSpinBox::up-button:hover {
-    background-color: #758ECD;
-}
-
-QSpinBox::up-arrow {
-    width: 8px;
-    height: 8px;
-    border: 5px solid transparent;
-    border-bottom: 5px solid #C1CEFE;
-}
-
-QSpinBox::down-button {
-    subcontrol-origin: border;
-    subcontrol-position: bottom right;
-    width: 16px;
-    border: none;
-    background-color: #624CAB;
-    border-bottom-right-radius: 5px;
-}
-
-QSpinBox::down-button:hover {
-    background-color: #758ECD;
-}
-
-QSpinBox::down-arrow {
-    width: 8px;
-    height: 8px;
-    border: 5px solid transparent;
-    border-top: 5px solid #C1CEFE;
-}
-
 /* Поля ввода текста */
 QLineEdit, QTextEdit {
     background-color: #3A3A4F;
@@ -155,28 +104,6 @@ QLineEdit, QTextEdit {
     border: 1px solid #758ECD;
     border-radius: 5px;
     padding: 5px;
-}
-
-/* Выпадающие списки */
-QComboBox {
-    background-color: #3A3A4F;
-    color: #C1CEFE;
-    border: 1px solid #7189FF;
-    border-radius: 5px;
-    padding: 2px 5px;
-}
-
-QComboBox::drop-down {
-    subcontrol-origin: border;
-    subcontrol-position: top right;
-    width: 20px;
-    background-color: #624CAB;
-    border-left: 1px solid #7189FF;
-}
-
-QComboBox::down-arrow {
-    border: 5px solid transparent;
-    border-top: 5px solid #C1CEFE;
 }
 
 /* Слайдеры */
