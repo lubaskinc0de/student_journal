@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import QMainWindow, QMenu, QStackedWidget, QWidget
 from student_journal.presentation.widget.about import About
 from student_journal.presentation.widget.hometask.hometask_list import HometaskList
 from student_journal.presentation.widget.lesson.edit_lesson import EditLesson
+from student_journal.presentation.widget.lesson.schedule import Schedule
 from student_journal.presentation.widget.subject.edit_subject import EditSubject
 from student_journal.presentation.widget.subject.subject_list import SubjectList
 from student_journal.presentation.widget.teacher.edit_teacher import EditTeacher
@@ -25,6 +26,7 @@ class Dashboard(QMainWindow):
         self.hometask_list_form = HometaskList(container)
         self.teacher_list_form = TeacherList(container)
         self.subject_list_form = SubjectList(container)
+        self.schedule = Schedule(container)
 
         self.about_action = QAction("&О программе", self)
         self.add_teacher_action = QAction("&Добавить преподавателя", self)
@@ -42,6 +44,7 @@ class Dashboard(QMainWindow):
         self.stacked_widget.addWidget(self.teacher_list_form)
         self.stacked_widget.addWidget(self.subject_list_form)
         self.stacked_widget.addWidget(self.add_lesson_form)
+        self.stacked_widget.addWidget(self.schedule)
 
         self.add_teacher_action.triggered.connect(
             lambda: self.show_widget(self.add_teacher_form),
@@ -64,7 +67,9 @@ class Dashboard(QMainWindow):
         self.add_lesson_action.triggered.connect(
             lambda: self.show_widget(self.add_lesson_form),
         )
-
+        self.schedule_action.triggered.connect(
+            lambda: self.show_widget(self.schedule),
+        )
         self.create_menu_bar()
 
     def show_widget(self, widget: QWidget) -> None:

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import UTC, datetime, timedelta, timezone
 from uuid import uuid4
 
 from student_journal.application.common.id_provider import IdProvider
@@ -32,8 +32,10 @@ class CreateLesson:
     def execute(self, data: NewLesson) -> LessonId:
         student = self.student_gateway.read_student(self.idp.get_id())
 
+        custom_timezone = timezone(timedelta(hours=student.timezone))
+
         validate_lesson_invariants(
-            at=data.at,
+            at=data.at.replace(tzinfo=UTC).astimezone(custom_timezone),
             student_timezone=student.timezone,
             mark=data.mark,
             note=data.note,
@@ -45,7 +47,7 @@ class CreateLesson:
         lesson = Lesson(
             lesson_id=lesson_id,
             subject_id=data.subject_id,
-            at=data.at,
+            at=data.at.replace(tzinfo=UTC).astimezone(custom_timezone),
             mark=data.mark,
             note=data.note,
             room=data.room,

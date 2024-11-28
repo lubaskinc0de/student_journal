@@ -90,9 +90,12 @@ class EditLesson(QWidget):
         if not self.subject_id or not self.lesson_date or not self.lesson_time:
             return
 
-        self.date_time = datetime.combine(self.lesson_date, self.lesson_time)
-
         with self.container() as r_container:
+            self.date_time = datetime.combine(
+                self.lesson_date,
+                self.lesson_time,
+            )
+
             if not self.lesson_id:
                 data = NewLesson(
                     subject_id=self.subject_id,
