@@ -85,7 +85,6 @@ def test_update(
         mark=3,
         note="testtttt",
         room=5,
-        index_number=3,
     )
 
     lesson_gateway.update_lesson(updated_lesson)

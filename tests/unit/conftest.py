@@ -33,7 +33,6 @@ LESSON = Lesson(
     mark=None,
     note=None,
     room=5,
-    index_number=3,
 )
 
 LESSON_MONDAY_ID = LessonId(uuid4())
@@ -44,7 +43,6 @@ LESSON_MONDAY = Lesson(
     mark=None,
     note=None,
     room=5,
-    index_number=3,
 )
 
 LESSON_WEDNESDAY_ID = LessonId(uuid4())
@@ -55,7 +53,6 @@ LESSON_WEDNESDAY = Lesson(
     mark=None,
     note=None,
     room=5,
-    index_number=3,
 )
 
 LESSON_MONDAY_2_ID = LessonId(uuid4())
@@ -66,7 +63,6 @@ LESSON_MONDAY_2 = Lesson(
     mark=None,
     note=None,
     room=5,
-    index_number=3,
 )
 
 TASK_ID = HomeTaskId(uuid4())
