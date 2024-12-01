@@ -6,7 +6,7 @@ from student_journal.adapters.converter.subject import (
     subject_to_list_retort,
 )
 from student_journal.application.common.subject_gateway import SubjectGateway
-from student_journal.application.exceptions.subject import SubjectDoesNotExistError
+from student_journal.application.exceptions.subject import SubjectNotFoundError
 from student_journal.application.models.subject import SubjectReadModel
 from student_journal.domain.subject import Subject
 from student_journal.domain.value_object.subject_id import SubjectId
@@ -21,7 +21,7 @@ class SQLiteSubjectGateway(SubjectGateway):
         res = self.cursor.execute(query, (str(subject_id),)).fetchone()
 
         if not res:
-            raise SubjectDoesNotExistError
+            raise SubjectNotFoundError
 
         subject = subject_retort.load(res, Subject)
 

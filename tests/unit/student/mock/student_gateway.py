@@ -1,5 +1,5 @@
 from student_journal.application.common.student_gateway import StudentGateway
-from student_journal.application.exceptions.student import StudentDoesNotExistError
+from student_journal.application.exceptions.student import StudentNotFoundError
 from student_journal.domain.student import Student
 from student_journal.domain.value_object.student_id import StudentId
 
@@ -14,7 +14,7 @@ class MockedStudentGateway(StudentGateway):
 
     def read_student(self, student_id: StudentId) -> Student:
         if not (student := self._students.get(student_id)):
-            raise StudentDoesNotExistError
+            raise StudentNotFoundError
 
         return student
 

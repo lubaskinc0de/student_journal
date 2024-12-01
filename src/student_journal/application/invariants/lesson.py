@@ -1,8 +1,8 @@
 from datetime import UTC, datetime, timedelta
 
 from student_journal.application.exceptions.lesson import (
-    LessonAtError,
     LessonIndexNumberError,
+    LessonInPastError,
     LessonMarkError,
     LessonNoteError,
     LessonRoomError,
@@ -11,10 +11,12 @@ from student_journal.application.exceptions.lesson import (
 
 def validate_lesson_at(at: datetime, student_timezone: int) -> None:
     if at < (datetime.now(tz=UTC) + timedelta(hours=student_timezone)):
-        raise LessonAtError
+        raise LessonInPastError
 
 
-MARK_RANGE = range(1, 6)
+MIN_MARK = 1
+MAX_MARK = 5
+MARK_RANGE = range(MIN_MARK, MAX_MARK + 1)
 NOTE_MAX_LENGTH = 65535
 MIN_ROOM = 1
 MIN_INDEX_NUMBER = 0
@@ -30,10 +32,10 @@ def validate_lesson_invariants(
 ) -> None:
     validate_lesson_at(at, student_timezone)
 
-    if mark and mark not in MARK_RANGE:
+    if (mark is not None) and mark not in MARK_RANGE:
         raise LessonMarkError
 
-    if note and len(note) > NOTE_MAX_LENGTH:
+    if (note is not None) and len(note) > NOTE_MAX_LENGTH:
         raise LessonNoteError
 
     if room < MIN_ROOM:

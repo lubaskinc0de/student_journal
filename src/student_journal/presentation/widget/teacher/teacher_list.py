@@ -14,7 +14,7 @@ class TeacherList(QWidget):
 
         self.container = container
         self.error_locator = container.get(ErrorLocator)
-        self.current_form: None | EditTeacher = None
+        self.current_widget: None | EditTeacher = None
 
         self.ui = Ui_TeacherList()
         self.ui.setupUi(self)
@@ -41,8 +41,8 @@ class TeacherList(QWidget):
 
     def on_add_more(self) -> None:
         form = EditTeacher(self.container, teacher_id=None)
-        self.current_form = form
-        form.show()
+        self.current_widget = form
+        self.current_widget.show()
 
     def on_item_double_clicked(self, item: QListWidgetItem) -> None:
         teacher_id = item.data(0x100)
@@ -52,5 +52,5 @@ class TeacherList(QWidget):
             teacher = command.execute(teacher_id)
 
         form = EditTeacher(self.container, teacher_id=teacher.teacher_id)
-        self.current_form = form
-        form.show()
+        self.current_widget = form
+        self.current_widget.show()

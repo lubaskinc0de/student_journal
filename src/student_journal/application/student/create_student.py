@@ -1,3 +1,4 @@
+import time
 from dataclasses import dataclass
 from uuid import uuid4
 
@@ -14,7 +15,6 @@ class NewStudent:
     avatar: str | None
     name: str
     home_address: str | None
-    timezone: int = 3
 
 
 @dataclass(slots=True)
@@ -23,12 +23,18 @@ class CreateStudent:
     transaction_manager: TransactionManager
 
     def execute(self, data: NewStudent) -> StudentId:
+        utc_offset = (
+            -time.timezone if not time.localtime().tm_isdst else -time.altzone
+        )  # get system utc offset
+
+        utc_offset //= 3600
+
         validate_student_invariants(
             age=data.age,
             name=data.name,
             home_address=data.home_address,
             avatar=data.avatar,
-            timezone=data.timezone,
+            timezone=utc_offset,
         )
 
         student_id = StudentId(uuid4())
@@ -38,7 +44,7 @@ class CreateStudent:
             age=data.age,
             name=data.name,
             home_address=data.home_address,
-            timezone=data.timezone,
+            utc_offset=utc_offset,
         )
 
         with self.transaction_manager.begin():

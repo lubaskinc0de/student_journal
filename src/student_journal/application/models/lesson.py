@@ -1,14 +1,14 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import date, datetime
 
 from student_journal.domain.lesson import Lesson
 
 
 @dataclass(frozen=True, slots=True)
 class WeekLessons:
-    week_start: datetime
-    lessons: dict[datetime, Lesson]
-    week_end: datetime
+    week_start: date
+    lessons: dict[date, list[Lesson]]
+    week_end: date
 
 
 @dataclass(frozen=True, slots=True)

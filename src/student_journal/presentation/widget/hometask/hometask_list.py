@@ -2,7 +2,6 @@ from dishka import Container
 from PyQt6 import QtGui
 from PyQt6.QtWidgets import QListWidgetItem, QWidget
 
-from student_journal.adapters.error_locator import ErrorLocator
 from student_journal.application.hometask.read_home_task import ReadHomeTask
 from student_journal.application.hometask.read_home_tasks import ReadHomeTasks
 from student_journal.application.lesson.read_lesson import ReadLesson
@@ -10,13 +9,12 @@ from student_journal.presentation.ui.hometask_list_ui import Ui_HometaskList
 from student_journal.presentation.widget.hometask.edit_hometask import EditHomeTask
 
 
-class HometaskList(QWidget):
+class HomeTaskList(QWidget):
     def __init__(self, container: Container) -> None:
         super().__init__()
 
         self.container = container
-        self.error_locator = container.get(ErrorLocator)
-        self.current_form: None | EditHomeTask = None
+        self.current_widget: None | EditHomeTask = None
 
         self.ui = Ui_HometaskList()
         self.ui.setupUi(self)
@@ -61,5 +59,5 @@ class HometaskList(QWidget):
             lesson = read_lesson.execute(task.lesson_id)
 
         form = EditHomeTask(self.container, task_id, lesson)
-        self.current_form = form
+        self.current_widget = form
         form.show()

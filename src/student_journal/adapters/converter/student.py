@@ -8,6 +8,9 @@ student_to_list_retort = Retort(
         name_mapping(
             Student,
             as_list=True,
+            skip=[
+                "utc_offset",
+            ],
         ),
     ],
 )

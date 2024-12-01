@@ -7,7 +7,7 @@ from student_journal.adapters.converter import (
 )
 from student_journal.application.common.home_task_gateway import HomeTaskGateway
 from student_journal.application.exceptions.home_task import (
-    HomeTaskDoesNotExistError,
+    HomeTaskNotFoundError,
 )
 from student_journal.domain.home_task import HomeTask
 from student_journal.domain.value_object.task_id import HomeTaskId
@@ -25,7 +25,7 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
         res = self.cursor.execute(query, (str(task_id),)).fetchone()
 
         if not res:
-            raise HomeTaskDoesNotExistError
+            raise HomeTaskNotFoundError
 
         home_task = home_task_retort.load(res, HomeTask)
 

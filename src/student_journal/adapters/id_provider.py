@@ -8,8 +8,8 @@ import tomli_w
 from student_journal.application.common.id_provider import IdProvider
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.exceptions.student import (
-    StudentDoesNotExistError,
     StudentIsNotAuthenticatedError,
+    StudentNotFoundError,
 )
 from student_journal.domain.value_object.student_id import StudentId
 
@@ -47,7 +47,7 @@ class FileIdProvider(IdProvider):
                 ValueError,
                 tomllib.TOMLDecodeError,
                 KeyError,
-                StudentDoesNotExistError,
+                StudentNotFoundError,
             ) as e:
                 raise StudentIsNotAuthenticatedError from e
             else:

@@ -3,7 +3,7 @@ from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow, QMenu, QStackedWidget, QWidget
 
 from student_journal.presentation.widget.help.about import About
-from student_journal.presentation.widget.hometask.hometask_list import HometaskList
+from student_journal.presentation.widget.hometask.hometask_list import HomeTaskList
 from student_journal.presentation.widget.lesson.edit_lesson import EditLesson
 from student_journal.presentation.widget.lesson.schedule import Schedule
 from student_journal.presentation.widget.student.edit_student import EditStudent
@@ -26,7 +26,7 @@ class Dashboard(QMainWindow):
         self.add_subject_form = EditSubject(container, None)
         self.add_lesson_form = EditLesson(container, None)
         self.edit_student_form = EditStudent(container)
-        self.hometask_list_form = HometaskList(container)
+        self.hometask_list_form = HomeTaskList(container)
         self.teacher_list_form = TeacherList(container)
         self.subject_list_form = SubjectList(container)
         self.schedule = Schedule(container)

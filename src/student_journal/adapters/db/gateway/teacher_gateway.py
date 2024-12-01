@@ -7,7 +7,7 @@ from student_journal.adapters.converter import (
 )
 from student_journal.application.common.teacher_gateway import TeacherGateway
 from student_journal.application.exceptions.teacher import (
-    TeacherDoesNotExistError,
+    TeacherNotFoundError,
 )
 from student_journal.domain.teacher import Teacher
 from student_journal.domain.value_object.teacher_id import TeacherId
@@ -25,7 +25,7 @@ class SQLiteTeacherGateway(TeacherGateway):
         res = self.cursor.execute(query, (str(teacher_id),)).fetchone()
 
         if not res:
-            raise TeacherDoesNotExistError
+            raise TeacherNotFoundError
 
         teacher = teacher_retort.load(res, Teacher)
 

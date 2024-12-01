@@ -7,7 +7,7 @@ from student_journal.adapters.converter.home_task import (
     home_task_retort,
 )
 from student_journal.application.common.home_task_gateway import HomeTaskGateway
-from student_journal.application.exceptions.home_task import HomeTaskDoesNotExistError
+from student_journal.application.exceptions.home_task import HomeTaskNotFoundError
 from student_journal.domain.home_task import HomeTask
 
 READ_HOME_TASK_SQL = "SELECT * FROM Hometask"
@@ -41,7 +41,7 @@ def test_read(
 def test_read_not_exist(
     home_task_gateway: HomeTaskGateway,
 ) -> None:
-    with pytest.raises(HomeTaskDoesNotExistError):
+    with pytest.raises(HomeTaskNotFoundError):
         home_task_gateway.read_home_task(TASK_ID)
 
 

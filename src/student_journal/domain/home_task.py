@@ -4,7 +4,6 @@ from student_journal.domain.value_object.lesson_id import LessonId
 from student_journal.domain.value_object.task_id import HomeTaskId
 
 
-# домашнее задание
 @dataclass(slots=True)
 class HomeTask:
     task_id: HomeTaskId

@@ -5,15 +5,15 @@ from typing import Final, Protocol
 from student_journal.application.exceptions.base import ApplicationError
 from student_journal.application.exceptions.home_task import (
     HomeTaskDescriptionError,
-    HomeTaskDoesNotExistError,
+    HomeTaskNotFoundError,
 )
 from student_journal.application.exceptions.lesson import (
     LessonAlreadyExistError,
-    LessonAtError,
-    LessonDoesNotExistError,
     LessonIndexNumberError,
+    LessonInPastError,
     LessonMarkError,
     LessonNoteError,
+    LessonNotFoundError,
     LessonRoomError,
     LessonSubjectError,
 )
@@ -21,47 +21,47 @@ from student_journal.application.exceptions.student import (
     StudentAgeError,
     StudentAlreadyExistError,
     StudentAvatarDoesNotExistsError,
-    StudentDoesNotExistError,
     StudentHomeAddressError,
     StudentIsNotAuthenticatedError,
     StudentNameError,
+    StudentNotFoundError,
     StudentTimezoneError,
 )
 from student_journal.application.exceptions.subject import (
     SubjectAlreadyExistsError,
-    SubjectDoesNotExistError,
+    SubjectNotFoundError,
     SubjectTitleError,
 )
 from student_journal.application.exceptions.teacher import (
     TeacherAlreadyExistsError,
-    TeacherDoesNotExistError,
     TeacherFullNameError,
+    TeacherNotFoundError,
 )
 
 _messages: Final[dict[type[ApplicationError | OperationalError], str]] = {
     HomeTaskDescriptionError: "Неверное описание домашнего задания",
-    HomeTaskDoesNotExistError: "Домашнее задание не существует",
+    HomeTaskNotFoundError: "Домашнее задание не существует",
     LessonSubjectError: "Неверный предмет урока",
-    LessonAtError: "Неверное время урока",
+    LessonInPastError: "Датавремя урока меньше текущей датывремени",
     LessonMarkError: "Неверная оценка урока",
     LessonNoteError: "Неверная заметка урока",
     LessonRoomError: "Неверный номер аудитории",
     LessonIndexNumberError: "Неверный индекс урока",
-    LessonDoesNotExistError: "Урок не существует",
+    LessonNotFoundError: "Урок не существует",
     LessonAlreadyExistError: "Урок уже существует",
     StudentNameError: "Неверное имя студента",
     StudentAgeError: "Неверный возраст студента",
     StudentHomeAddressError: "Неверный адрес студента",
     StudentAvatarDoesNotExistsError: "Аватар студента не существует",
-    StudentDoesNotExistError: "Студент не существует",
+    StudentNotFoundError: "Студент не существует",
     StudentAlreadyExistError: "Студент уже существует",
     StudentTimezoneError: "Неверная временная зона студента",
     StudentIsNotAuthenticatedError: "Студент не аутентифицирован",
     SubjectTitleError: "Неверное название предмета",
     SubjectAlreadyExistsError: "Предмет уже существует",
-    SubjectDoesNotExistError: "Предмет не существует",
+    SubjectNotFoundError: "Предмет не существует",
     TeacherFullNameError: "Неверное полное имя учителя",
-    TeacherDoesNotExistError: "Учитель не существует",
+    TeacherNotFoundError: "Учитель не существует",
     TeacherAlreadyExistsError: "Учитель уже существует",
     OperationalError: "Ошибка целостности БД!",
 }

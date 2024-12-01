@@ -7,7 +7,7 @@ from unit.teacher.conftest import TEACHER, TEACHER2
 from student_journal.adapters.converter.subject import subject_retort
 from student_journal.application.common.subject_gateway import SubjectGateway
 from student_journal.application.common.teacher_gateway import TeacherGateway
-from student_journal.application.exceptions.subject import SubjectDoesNotExistError
+from student_journal.application.exceptions.subject import SubjectNotFoundError
 from student_journal.domain.subject import Subject
 
 READ_SUBJECT_SQL = """
@@ -52,7 +52,7 @@ def test_read_subject(
 def test_read_subject_not_exist(
     subject_gateway: SubjectGateway,
 ) -> None:
-    with pytest.raises(SubjectDoesNotExistError):
+    with pytest.raises(SubjectNotFoundError):
         subject_gateway.read_subject(SUBJECT_ID)
 
 

@@ -24,7 +24,6 @@ class EditStudent(QWidget):
         self.name = ""
         self.age: int | None = None
         self.home_address: str | None = None
-        self.timezone: int = 3
         self.avatar: str | None = None
 
         self.ui.submit_btn.clicked.connect(self.on_submit_btn)
@@ -32,7 +31,6 @@ class EditStudent(QWidget):
         self.ui.name_input.textChanged.connect(self.on_name_input)
         self.ui.age_input.valueChanged.connect(self.on_age_input)
         self.ui.address_input.textChanged.connect(self.on_address_input)
-        self.ui.timezone_input.valueChanged.connect(self.on_timezone_input)
         self.ui.avatar_upload_btn.clicked.connect(self.on_avatar_upload_btn)
 
         self.load_student()
@@ -47,7 +45,6 @@ class EditStudent(QWidget):
                 self.ui.age_input.setValue(student.age)
             if student.home_address:
                 self.ui.address_input.setText(student.home_address)
-            self.ui.timezone_input.setValue(student.timezone)
             self.ui.avg_mark.setValue(student.student_overall_avg_mark)
 
             self.avatar = student.avatar
@@ -68,7 +65,6 @@ class EditStudent(QWidget):
                 name=self.name,
                 age=self.age,
                 home_address=self.home_address,
-                timezone=self.timezone,
                 avatar=self.avatar,
             )
             command = r_container.get(UpdateStudent)
@@ -83,9 +79,6 @@ class EditStudent(QWidget):
 
     def on_address_input(self) -> None:
         self.home_address = self.ui.address_input.text()
-
-    def on_timezone_input(self) -> None:
-        self.timezone = self.ui.timezone_input.value()
 
     def on_avatar_upload_btn(self) -> None:
         file_dialog = QFileDialog(self)

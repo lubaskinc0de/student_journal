@@ -1,7 +1,11 @@
 from dishka import Container
 from PyQt6.QtWidgets import QWidget
 
-from student_journal.adapters.error_locator import ErrorLocator
+from student_journal.adapters.exceptions.ui.subject import (
+    SubjectIsNotSpecifiedError,
+    TeacherIsNotSelectedError,
+    TitleIsNotSpecifiedError,
+)
 from student_journal.application.subject.create_subject import CreateSubject, NewSubject
 from student_journal.application.subject.delete_subject import DeleteSubject
 from student_journal.application.subject.read_subject import ReadSubject
@@ -25,12 +29,11 @@ class EditSubject(QWidget):
 
         self.container = container
         self.subject_id = subject_id
-        self.error_locator = container.get(ErrorLocator)
 
         self.ui = Ui_EditSubject()
         self.ui.setupUi(self)
 
-        self.title = ""
+        self.title: str | None = None
         self.teacher_id: TeacherId | None = None
 
         self.ui.submit_btn.clicked.connect(self.on_submit_btn)
@@ -67,7 +70,10 @@ class EditSubject(QWidget):
 
     def on_submit_btn(self) -> None:
         if not self.teacher_id:
-            return
+            raise TeacherIsNotSelectedError
+
+        if not self.title:
+            raise TitleIsNotSpecifiedError
 
         with self.container() as r_container:
             if not self.subject_id:
@@ -89,7 +95,7 @@ class EditSubject(QWidget):
 
     def on_delete_btn(self) -> None:
         if not self.subject_id:
-            return
+            raise SubjectIsNotSpecifiedError
 
         with self.container() as r_container:
             command = r_container.get(DeleteSubject)

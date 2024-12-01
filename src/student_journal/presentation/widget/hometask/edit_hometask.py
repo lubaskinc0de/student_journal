@@ -1,7 +1,7 @@
 from dishka import Container
 from PyQt6.QtWidgets import QWidget
 
-from student_journal.adapters.error_locator import ErrorLocator
+from student_journal.adapters.exceptions.ui.hometask import DescriptionNotSpecifiedError
 from student_journal.application.hometask.create_home_task import (
     CreateHomeTask,
     NewHomeTask,
@@ -30,13 +30,12 @@ class EditHomeTask(QWidget):
         self.container = container
         self.home_task_id = home_task_id
         self.lesson = lesson
-        self.error_locator = container.get(ErrorLocator)
 
         self.ui = Ui_EditHometask()
         self.ui.setupUi(self)
 
         self.is_done: bool = False
-        self.description: str = ""
+        self.description: str | None = None
 
         self.ui.submit_btn.clicked.connect(self.on_submit_btn)
         self.ui.delete_btn.clicked.connect(self.on_delete_btn)
@@ -69,6 +68,9 @@ class EditHomeTask(QWidget):
 
     def on_submit_btn(self) -> None:
         lesson_id = self.lesson.lesson_id
+
+        if not self.description:
+            raise DescriptionNotSpecifiedError
 
         with self.container() as r_container:
             if not self.home_task_id:

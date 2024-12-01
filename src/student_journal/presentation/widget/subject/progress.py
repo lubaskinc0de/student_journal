@@ -1,6 +1,6 @@
 from dishka import Container
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QTableWidgetItem, QWidget
+from PyQt6.QtWidgets import QHeaderView, QTableWidgetItem, QWidget
 
 from student_journal.application.models.subject import SubjectReadModel
 from student_journal.application.subject.read_subjects import ReadSubjects
@@ -17,6 +17,9 @@ class Progress(QWidget):
         self.ui.refresh.clicked.connect(self.on_refresh)
         self.ui.sorting.currentIndexChanged.connect(self.on_sort_changed)
         self.ui.show_without_mark.stateChanged.connect(self.on_toggle_without_mark)
+        self.ui.table.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.Stretch,
+        )
 
         self.load_subjects()
 
@@ -56,7 +59,8 @@ class Progress(QWidget):
 
             marks_list_item = QTableWidgetItem(
                 f"{' '.join(map(str, subject.marks_list))}"
-                if subject.marks_list else "—",
+                if subject.marks_list
+                else "—",
             )
             marks_list_item.setFlags(Qt.ItemFlag.ItemIsEditable)
             self.ui.table.setItem(row, 2, marks_list_item)
@@ -69,4 +73,3 @@ class Progress(QWidget):
 
     def on_toggle_without_mark(self) -> None:
         self.load_subjects()
-

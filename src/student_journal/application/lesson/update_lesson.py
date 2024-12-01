@@ -31,10 +31,11 @@ class UpdateLesson:
 
     def execute(self, data: UpdatedLesson) -> LessonId:
         student = self.student_gateway.read_student(self.idp.get_id())
+        local_at = data.at.replace(tzinfo=student.get_timezone())
 
         validate_lesson_invariants(
-            at=data.at,
-            student_timezone=student.timezone,
+            at=local_at,
+            student_timezone=student.utc_offset,
             mark=data.mark,
             note=data.note,
             room=data.room,
@@ -44,11 +45,10 @@ class UpdateLesson:
         lesson = Lesson(
             lesson_id=data.lesson_id,
             subject_id=data.subject_id,
-            at=data.at,
+            at=local_at,
             mark=data.mark,
             note=data.note,
             room=data.room,
-            index_number=data.index_number,
         )
 
         with self.transaction_manager.begin():
