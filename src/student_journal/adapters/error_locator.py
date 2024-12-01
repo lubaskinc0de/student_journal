@@ -2,6 +2,25 @@ from abc import abstractmethod
 from sqlite3 import OperationalError
 from typing import Final, Protocol
 
+from student_journal.adapters.exceptions.ui.hometask import DescriptionNotSpecifiedError
+from student_journal.adapters.exceptions.ui.lesson import (
+    LessonIsNotSpecifiedError,
+    SubjectIsNotSelectedError,
+)
+from student_journal.adapters.exceptions.ui.schedule import (
+    WeekPeriodUnsetError,
+    WeekStartUnsetError,
+)
+from student_journal.adapters.exceptions.ui.student import NameNotSpecifiedError
+from student_journal.adapters.exceptions.ui.subject import (
+    SubjectIsNotSpecifiedError,
+    TeacherIsNotSelectedError,
+    TitleIsNotSpecifiedError,
+)
+from student_journal.adapters.exceptions.ui.teacher import (
+    FullNameNotSpecifiedError,
+    TeacherIsNotSpecifiedError,
+)
 from student_journal.application.exceptions.base import ApplicationError
 from student_journal.application.exceptions.home_task import (
     HomeTaskDescriptionError,
@@ -64,6 +83,17 @@ _messages: Final[dict[type[ApplicationError | OperationalError], str]] = {
     TeacherNotFoundError: "Учитель не существует",
     TeacherAlreadyExistsError: "Учитель уже существует",
     OperationalError: "Ошибка целостности БД!",
+    DescriptionNotSpecifiedError: "Необходимо указать описание!",
+    LessonIsNotSpecifiedError: "Урок не указан",
+    SubjectIsNotSelectedError: "Предмет не выбран",
+    WeekStartUnsetError: "Необходимо выбрать неделю",
+    WeekPeriodUnsetError: "Необходимо выбрать месяц и год",
+    NameNotSpecifiedError: "Имя студента не указано",
+    TeacherIsNotSelectedError: "Учитель не выбран",
+    TitleIsNotSpecifiedError: "Название предмета не указано",
+    SubjectIsNotSpecifiedError: "Предмет не указан",
+    FullNameNotSpecifiedError: "Полное имя учителя не указано",
+    TeacherIsNotSpecifiedError: "Учитель не указан",
 }
 
 
