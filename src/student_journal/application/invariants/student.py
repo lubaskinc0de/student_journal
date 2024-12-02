@@ -5,17 +5,15 @@ from student_journal.application.exceptions.student import (
     StudentAvatarDoesNotExistsError,
     StudentHomeAddressError,
     StudentNameError,
-    StudentTimezoneError,
 )
 
 MIN_AGE = 6
 MAX_AGE = 100
 AGE_RANGE = range(MIN_AGE, MAX_AGE)
-NAME_MAX_LENGTH = 255
+NAME_MAX_LENGTH = 60
 NAME_MIN_LENGTH = 2
 HOME_ADDRESS_MAX_LENGTH = 255
 HOME_ADDRESS_MIN_LENGTH = 2
-TIMEZONE_RANGE = range(-12, 15)
 
 
 def validate_student_invariants(
@@ -23,7 +21,6 @@ def validate_student_invariants(
     name: str,
     home_address: str | None,
     avatar: str | None,
-    timezone: int,
 ) -> None:
     if (age is not None) and age not in AGE_RANGE:
         raise StudentAgeError
@@ -36,9 +33,6 @@ def validate_student_invariants(
         HOME_ADDRESS_MAX_LENGTH,
     ):
         raise StudentHomeAddressError
-
-    if timezone not in TIMEZONE_RANGE:
-        raise StudentTimezoneError
 
     if (avatar is not None) and not Path(avatar).exists():
         raise StudentAvatarDoesNotExistsError

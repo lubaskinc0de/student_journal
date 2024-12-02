@@ -19,7 +19,6 @@ class NewLesson:
     mark: int | None
     note: str | None
     room: int = 1
-    index_number: int = 0
 
 
 @dataclass(slots=True)
@@ -40,7 +39,6 @@ class CreateLesson:
             mark=data.mark,
             note=data.note,
             room=data.room,
-            index_number=data.index_number,
         )
 
         lesson_id = LessonId(uuid4())

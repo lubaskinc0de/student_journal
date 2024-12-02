@@ -45,6 +45,7 @@ class EditTeacher(QWidget):
                 command = r_container.get(ReadTeacher)
                 teacher = command.execute(self.teacher_id)
                 self.ui.full_name_input.setText(teacher.full_name)
+                self.full_name = teacher.full_name
 
             self.ui.main_label.setText("Редактировать учителя")
 

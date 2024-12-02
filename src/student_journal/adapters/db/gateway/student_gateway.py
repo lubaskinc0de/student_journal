@@ -25,7 +25,7 @@ class SQLiteStudentGateway(StudentGateway):
         if not res:
             raise StudentNotFoundError
 
-        student = student_retort.load(res, Student)
+        student = student_retort.load(dict(res), Student)
 
         return student
 

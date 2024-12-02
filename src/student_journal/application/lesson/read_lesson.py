@@ -16,5 +16,7 @@ class ReadLesson:
     def execute(self, lesson_id: LessonId) -> Lesson:
         self.idp.ensure_authenticated()
         student = self.student_gateway.read_student(self.idp.get_id())
+
         lesson = self.gateway.read_lesson(lesson_id, student.get_timezone())
+
         return lesson

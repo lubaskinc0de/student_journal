@@ -57,9 +57,12 @@ class EditSubject(QWidget):
                 teacher = read_teacher.execute(subject.teacher_id)
 
                 self.ui.title_input.setText(subject.title)
-                idx = self.ui.teacher_combo.findData(subject.teacher_id)
+                self.title = subject.title
+
+                self.teacher_id = subject.teacher_id
+                idx = self.ui.teacher_combo.findText(teacher.full_name)
+
                 self.ui.teacher_combo.setCurrentIndex(idx)
-                self.ui.teacher_combo.setCurrentText(teacher.full_name)
 
     def load_teachers(self) -> None:
         with self.container() as r_container:

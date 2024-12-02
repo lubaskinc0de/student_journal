@@ -41,10 +41,15 @@ class EditStudent(QWidget):
             student = command.execute()
 
             self.ui.name_input.setText(student.name)
+            self.name = student.name
+
             if student.age:
+                self.age = student.age
                 self.ui.age_input.setValue(student.age)
             if student.home_address:
+                self.home_address = student.home_address
                 self.ui.address_input.setText(student.home_address)
+
             self.ui.avg_mark.setValue(student.student_overall_avg_mark)
 
             self.avatar = student.avatar

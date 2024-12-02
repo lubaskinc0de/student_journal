@@ -19,7 +19,6 @@ class UpdatedLesson:
     mark: int | None
     note: str | None
     room: int
-    index_number: int
 
 
 @dataclass(slots=True)
@@ -39,7 +38,6 @@ class UpdateLesson:
             mark=data.mark,
             note=data.note,
             room=data.room,
-            index_number=data.index_number,
         )
 
         lesson = Lesson(

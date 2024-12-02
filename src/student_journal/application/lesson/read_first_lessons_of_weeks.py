@@ -16,6 +16,7 @@ class ReadFirstLessonsOfWeeks:
         self.idp.ensure_authenticated()
 
         student = self.student_gateway.read_student(self.idp.get_id())
+
         return self.gateway.read_first_lessons_of_weeks(
             month,
             year,

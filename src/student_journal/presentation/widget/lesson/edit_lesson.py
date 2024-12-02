@@ -12,7 +12,7 @@ from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.exceptions.lesson import (
     LessonInPastError,
 )
-from student_journal.application.invariants.lesson import MIN_INDEX_NUMBER, MIN_ROOM
+from student_journal.application.invariants.lesson import MIN_ROOM
 from student_journal.application.lesson.create_lesson import CreateLesson, NewLesson
 from student_journal.application.lesson.delete_lesson import DeleteLesson
 from student_journal.application.lesson.read_lesson import ReadLesson
@@ -20,10 +20,12 @@ from student_journal.application.lesson.update_lesson import (
     UpdatedLesson,
     UpdateLesson,
 )
+from student_journal.application.subject.read_subject import ReadSubject
 from student_journal.application.subject.read_subjects import ReadSubjects
 from student_journal.domain.value_object.lesson_id import LessonId
 from student_journal.domain.value_object.subject_id import SubjectId
 from student_journal.presentation.ui.edit_lesson import EditLessonUI
+from student_journal.presentation.widget.hometask.edit_hometask import EditHomeTask
 
 
 class EditLesson(QWidget):
@@ -48,11 +50,11 @@ class EditLesson(QWidget):
         self.note: str | None = None
         self.mark: int | None = None
         self.room = MIN_ROOM
-        self.index_number = MIN_INDEX_NUMBER
         self.subject_id: SubjectId | None = None
         self.lesson_date: None | date = None
         self.lesson_time: None | time = self.ui.time_edit.time().toPyTime()
         self.date_time: None | datetime = None
+        self.current_widget: QWidget | None = None
 
         if lesson_at:
             lesson_date = lesson_at[0]
@@ -92,9 +94,9 @@ class EditLesson(QWidget):
         self.ui.note_edit.textChanged.connect(self.on_note_edit_changed)
         self.ui.mark_spinbox.valueChanged.connect(self.on_mark_changed)
         self.ui.room_spinbox.valueChanged.connect(self.on_room_changed)
-        self.ui.index_number_spinbox.valueChanged.connect(self.on_index_number_changed)
         self.ui.refresh.clicked.connect(self.load_subjects)
         self.ui.date_popup.clicked.connect(self.open_calendar_dialog)
+        self.ui.add_hometask.clicked.connect(self.on_add_hometask)
 
     def load_subjects(self) -> None:
         with self.container() as r_container:
@@ -112,6 +114,9 @@ class EditLesson(QWidget):
         with self.container() as r_container:
             command = r_container.get(ReadLesson)
             lesson = command.execute(self.lesson_id)
+
+            read_subject = r_container.get(ReadSubject)
+            subject = read_subject.execute(lesson.subject_id)
 
             self.lesson_date = lesson.at.date()
             self.lesson_time = lesson.at.time()
@@ -138,7 +143,8 @@ class EditLesson(QWidget):
             self.room = lesson.room
 
             self.subject_id = lesson.subject_id
-            index = self.ui.subject_combo.findData(self.subject_id)
+            index = self.ui.subject_combo.findText(subject.title)
+
             if index != -1:
                 self.ui.subject_combo.setCurrentIndex(index)
 
@@ -162,7 +168,6 @@ class EditLesson(QWidget):
                     note=self.note,
                     mark=self.mark,
                     room=self.room,
-                    index_number=self.index_number,
                 )
                 command = r_container.get(CreateLesson)
                 command.execute(data)
@@ -174,7 +179,6 @@ class EditLesson(QWidget):
                     note=self.note,
                     mark=self.mark,
                     room=self.room,
-                    index_number=self.index_number,
                 )
                 command_update = r_container.get(UpdateLesson)
                 command_update.execute(data_update)
@@ -191,6 +195,18 @@ class EditLesson(QWidget):
 
         self.close()
 
+    def on_add_hometask(self) -> None:
+        if not self.lesson_id:
+            raise LessonIsNotSpecifiedError
+
+        with self.container() as r_container:
+            command = r_container.get(ReadLesson)
+            lesson = command.execute(self.lesson_id)
+
+        form = EditHomeTask(self.container, None, lesson)
+        self.current_widget = form
+        self.current_widget.show()
+
     def on_subject_combo_changed(self) -> None:
         self.subject_id = self.ui.subject_combo.currentData()
 
@@ -206,9 +222,6 @@ class EditLesson(QWidget):
 
     def on_room_changed(self) -> None:
         self.room = self.ui.room_spinbox.value()
-
-    def on_index_number_changed(self) -> None:
-        self.index_number = self.ui.index_number_spinbox.value()
 
     def open_calendar_dialog(self) -> None:
         dialog = QDialog(self)

@@ -23,7 +23,7 @@ class SQLiteSubjectGateway(SubjectGateway):
         if not res:
             raise SubjectNotFoundError
 
-        subject = subject_retort.load(res, Subject)
+        subject = subject_retort.load(dict(res), Subject)
 
         return subject
 

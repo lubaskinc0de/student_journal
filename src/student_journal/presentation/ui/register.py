@@ -3,7 +3,6 @@ from student_journal.application.invariants.student import (
     MAX_AGE,
     MIN_AGE,
     NAME_MAX_LENGTH,
-    TIMEZONE_RANGE,
 )
 from student_journal.presentation.ui.raw.register_ui import Ui_Register
 

@@ -24,13 +24,13 @@ test = [
 lint = [
     'pre-commit==3.8.0',
     'ruff==0.8.0',
-    'mypy==1.11.2',
+    'mypy==1.13.0',
 ]
 dev = [
     'pyqt6-tools==6.4.2.3.3',
 ]
 ci = [
-    'mypy==1.11.2',
+    'mypy==1.13.0',
     'pytest==8.3.3',
     'ruff==0.8.0',
 ]
@@ -52,7 +52,7 @@ show_column_numbers = true
 show_error_context = true
 check_untyped_defs = true
 ignore_missing_imports = false
-warn_no_return = false
+warn_no_return = true
 disallow_untyped_calls = false
 
 files = ["src/"]
@@ -75,7 +75,6 @@ ignore = [
   'RET504',
   'D103',
   'PLR0913',
-  'ANN101',
   'S101',
   'EM101',
   'TRY003',
@@ -94,6 +93,7 @@ ignore = [
   'PGH003',
   'ERA001',
   'FBT001',
+  'N802',
   # Does not work correctly
   'TC002',
   'TC001',

@@ -8,6 +8,7 @@ from student_journal.adapters.exceptions.ui.lesson import (
     SubjectIsNotSelectedError,
 )
 from student_journal.adapters.exceptions.ui.schedule import (
+    CannotCopyScheduleError,
     WeekPeriodUnsetError,
     WeekStartUnsetError,
 )
@@ -28,7 +29,6 @@ from student_journal.application.exceptions.home_task import (
 )
 from student_journal.application.exceptions.lesson import (
     LessonAlreadyExistError,
-    LessonIndexNumberError,
     LessonInPastError,
     LessonMarkError,
     LessonNoteError,
@@ -65,7 +65,6 @@ _messages: Final[dict[type[ApplicationError | OperationalError], str]] = {
     LessonMarkError: "Неверная оценка урока",
     LessonNoteError: "Неверная заметка урока",
     LessonRoomError: "Неверный номер аудитории",
-    LessonIndexNumberError: "Неверный индекс урока",
     LessonNotFoundError: "Урок не существует",
     LessonAlreadyExistError: "Урок уже существует",
     StudentNameError: "Неверное имя студента",
@@ -94,6 +93,8 @@ _messages: Final[dict[type[ApplicationError | OperationalError], str]] = {
     SubjectIsNotSpecifiedError: "Предмет не указан",
     FullNameNotSpecifiedError: "Полное имя учителя не указано",
     TeacherIsNotSpecifiedError: "Учитель не указан",
+    CannotCopyScheduleError: "Невозможно скопировать расписание, "
+    "так как в следующей неделе уже есть уроки.",
 }
 
 

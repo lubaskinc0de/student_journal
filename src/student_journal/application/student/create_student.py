@@ -34,7 +34,6 @@ class CreateStudent:
             name=data.name,
             home_address=data.home_address,
             avatar=data.avatar,
-            timezone=utc_offset,
         )
 
         student_id = StudentId(uuid4())

@@ -16,6 +16,7 @@ class ReadLessonsForWeek:
     def execute(self, week_start: date) -> WeekLessons:
         self.idp.ensure_authenticated()
         student = self.student_gateway.read_student(self.idp.get_id())
+
         lessons_by_date = self.gateway.read_lessons_for_week(
             week_start,
             as_tz=student.get_timezone(),

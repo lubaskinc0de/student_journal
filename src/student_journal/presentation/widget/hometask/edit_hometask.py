@@ -51,7 +51,11 @@ class EditHomeTask(QWidget):
             with self.container() as r_container:
                 command = r_container.get(ReadHomeTask)
                 home_task = command.execute(self.home_task_id)
+
+                self.description = home_task.description
                 self.ui.description.setText(home_task.description)
+
+                self.is_done = home_task.is_done
                 self.ui.is_done.setChecked(home_task.is_done)
 
         self.load_lessons()
@@ -63,7 +67,8 @@ class EditHomeTask(QWidget):
                 self.lesson.subject_id,
             )
 
-        self.ui.lesson.addItem(subject.title, self.lesson.lesson_id)
+        at = self.lesson.at.strftime("%d.%m %H:%M")
+        self.ui.lesson.addItem(f"{subject.title} ({at})", self.lesson.lesson_id)
         self.ui.lesson.setEnabled(False)
 
     def on_submit_btn(self) -> None:

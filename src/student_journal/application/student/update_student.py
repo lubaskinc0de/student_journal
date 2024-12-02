@@ -30,7 +30,6 @@ class UpdateStudent:
             name=data.name,
             home_address=data.home_address,
             avatar=data.avatar,
-            timezone=student.utc_offset,
         )
 
         student = Student(

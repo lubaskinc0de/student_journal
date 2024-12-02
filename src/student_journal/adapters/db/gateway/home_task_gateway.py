@@ -6,9 +6,7 @@ from student_journal.adapters.converter import (
     home_task_to_list_retort,
 )
 from student_journal.application.common.home_task_gateway import HomeTaskGateway
-from student_journal.application.exceptions.home_task import (
-    HomeTaskNotFoundError,
-)
+from student_journal.application.exceptions.home_task import HomeTaskNotFoundError
 from student_journal.domain.home_task import HomeTask
 from student_journal.domain.value_object.task_id import HomeTaskId
 
@@ -24,11 +22,10 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
             """
         res = self.cursor.execute(query, (str(task_id),)).fetchone()
 
-        if not res:
+        if res is None:
             raise HomeTaskNotFoundError
 
-        home_task = home_task_retort.load(res, HomeTask)
-
+        home_task = home_task_retort.load(dict(res), HomeTask)
         return home_task
 
     def write_home_task(self, home_task: HomeTask) -> None:
@@ -40,18 +37,18 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
         params = home_task_to_list_retort.dump(home_task)
         self.cursor.execute(query, params)
 
-    def read_home_tasks(self, is_done: bool | None = False) -> list[HomeTask]:
+    def read_home_tasks(self, is_done: bool = False) -> list[HomeTask]:
         query = """
             SELECT task_id, lesson_id, description, is_done
             FROM Hometask
             """
-        if is_done is not None:
+        if is_done is False:
             query += " WHERE is_done = ?"
             res = self.cursor.execute(query, (is_done,)).fetchall()
         else:
             res = self.cursor.execute(query).fetchall()
 
-        home_tasks = home_task_retort.load(res, list[HomeTask])
+        home_tasks = home_task_retort.load([dict(row) for row in res], list[HomeTask])
 
         return home_tasks
 

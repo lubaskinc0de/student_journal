@@ -27,7 +27,7 @@ class SQLiteLessonGateway(LessonGateway):
         if not res:
             raise LessonNotFoundError
 
-        lesson = lesson_retort.load(res, Lesson)
+        lesson = lesson_retort.load(dict(res), Lesson)
         lesson.at = lesson.at.astimezone(as_tz)
 
         return lesson
@@ -104,7 +104,10 @@ class SQLiteLessonGateway(LessonGateway):
 
         res = self.cursor.execute(query, params).fetchall()
 
-        lessons_list = lesson_to_list_retort.load(res, list[Lesson])
+        lessons_list = lesson_retort.load(
+            [dict(row) for row in res],
+            list[Lesson],
+        )
 
         for lesson in lessons_list:
             lesson.at = datetime.strptime(
@@ -159,7 +162,8 @@ class SQLiteLessonGateway(LessonGateway):
 
         res = self.cursor.execute(query, params).fetchall()
 
-        lessons_list = lesson_to_list_retort.load(res, list[Lesson])
+        entries = [dict(row) for row in res]
+        lessons_list = lesson_retort.load(entries, list[Lesson])
 
         for lesson in lessons_list:
             lesson.at = datetime.strptime(
