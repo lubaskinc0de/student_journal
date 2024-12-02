@@ -12,7 +12,7 @@ readme = 'README.md'
 requires-python = '>=3.11'
 dependencies = [
     'adaptix==3.0.0b8',
-    'PyQt6==6.7.1',
+    'PyQt6==6.5.0',
     'dishka==1.4.0',
     'tomli-w==1.1.0',
 ]
