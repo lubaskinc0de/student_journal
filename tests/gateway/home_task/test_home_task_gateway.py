@@ -1,14 +1,13 @@
 from sqlite3 import Cursor
 
 import pytest
-
-from student_journal.application.exceptions.home_task import HomeTaskNotFoundError
 from unit.conftest import HOME_TASK, HOME_TASK_2, LESSON_ID, TASK_ID
 
 from student_journal.adapters.converter.home_task import (
     home_task_retort,
 )
 from student_journal.application.common.home_task_gateway import HomeTaskGateway
+from student_journal.application.exceptions.home_task import HomeTaskNotFoundError
 from student_journal.domain.home_task import HomeTask
 
 READ_HOME_TASK_SQL = "SELECT * FROM Hometask"

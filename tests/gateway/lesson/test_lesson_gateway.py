@@ -2,8 +2,6 @@ from datetime import UTC, datetime
 from sqlite3 import Cursor
 
 import pytest
-
-from student_journal.application.exceptions.lesson import LessonNotFoundError
 from unit.conftest import (
     LESSON,
     LESSON_ID,
@@ -16,6 +14,7 @@ from unit.conftest import (
 
 from student_journal.adapters.converter.lesson import lesson_retort
 from student_journal.application.common.lesson_gateway import LessonGateway
+from student_journal.application.exceptions.lesson import LessonNotFoundError
 from student_journal.domain.lesson import Lesson
 
 READ_LESSON_SQL = "SELECT * FROM Lesson"

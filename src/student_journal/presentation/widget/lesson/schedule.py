@@ -78,7 +78,7 @@ class Schedule(QWidget):
         self.setup_table()
 
         self.ui.days_table.setContextMenuPolicy(
-            QtCore.Qt.ContextMenuPolicy.CustomContextMenu
+            QtCore.Qt.ContextMenuPolicy.CustomContextMenu,
         )
         self.ui.days_table.customContextMenuRequested.connect(self.on_context_menu)
 
