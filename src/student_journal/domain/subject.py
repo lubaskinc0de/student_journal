@@ -8,5 +8,5 @@ from student_journal.domain.value_object.teacher_id import TeacherId
 @dataclass(slots=True)
 class Subject:
     subject_id: SubjectId
-    teacher_id: TeacherId  # преподоаватель урока
-    title: str  # название урока
+    teacher_id: TeacherId
+    title: str

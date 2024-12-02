@@ -1,0 +1,19 @@
+from .base import ApplicationError
+
+
+class LessonSubjectError(ApplicationError): ...
+
+
+class LessonMarkError(ApplicationError): ...
+
+
+class LessonNoteError(ApplicationError): ...
+
+
+class LessonRoomError(ApplicationError): ...
+
+
+class LessonNotFoundError(ApplicationError): ...
+
+
+class LessonAlreadyExistError(ApplicationError): ...

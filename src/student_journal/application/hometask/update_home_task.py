@@ -1,0 +1,46 @@
+from dataclasses import dataclass
+
+from student_journal.application.common.home_task_gateway import HomeTaskGateway
+from student_journal.application.common.id_provider import IdProvider
+from student_journal.application.common.transaction_manager import TransactionManager
+from student_journal.application.invariants.home_task import (
+    validate_home_task_invariants,
+)
+from student_journal.domain.home_task import HomeTask
+from student_journal.domain.value_object.lesson_id import LessonId
+from student_journal.domain.value_object.task_id import HomeTaskId
+
+
+@dataclass(slots=True, frozen=True)
+class UpdatedHomeTask:
+    task_id: HomeTaskId
+    lesson_id: LessonId
+    description: str
+    is_done: bool = False
+
+
+@dataclass(slots=True)
+class UpdateHomeTask:
+    gateway: HomeTaskGateway
+    transaction_manager: TransactionManager
+    idp: IdProvider
+
+    def execute(self, data: UpdatedHomeTask) -> HomeTaskId:
+        self.idp.ensure_authenticated()
+
+        validate_home_task_invariants(
+            description=data.description,
+        )
+
+        home_task = HomeTask(
+            task_id=data.task_id,
+            lesson_id=data.lesson_id,
+            description=data.description,
+            is_done=data.is_done,
+        )
+
+        with self.transaction_manager.begin():
+            self.gateway.update_home_task(home_task)
+            self.transaction_manager.commit()
+
+        return data.task_id

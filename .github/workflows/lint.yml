@@ -1,0 +1,27 @@
+name: Lint and Test
+on: [push, pull_request]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11.9'
+      - name: Install dependencies
+        run: |
+          python -m pip install uv==0.4.18
+          uv pip install -e ".[ci]" --system
+      - name: Run ruff for tests
+        uses: astral-sh/ruff-action@v1
+        with:
+          src: "./tests"
+      - name: Run mypy
+        run: mypy
+      - name: Test
+        run: pytest
+      - name: Ruff
+        run: ruff check --fix
+      - name: Format
+        run: ruff format

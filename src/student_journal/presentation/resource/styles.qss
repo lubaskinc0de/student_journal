@@ -1,0 +1,141 @@
+/* Общий стиль для приложения */
+QWidget {
+    background-color: #2B2B3D;
+    color: #C1CEFE;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Главные окна */
+QMainWindow {
+    background-color: #2B2B3D;
+    border: 1px solid #624CAB;
+    border-radius: 8px;
+}
+
+/* Кнопки */
+QPushButton {
+    background-color: #624CAB;
+    color: #FFFFFF;
+    border: 1px solid #758ECD;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+QPushButton:hover {
+    background-color: #7189FF;
+}
+
+QPushButton:pressed {
+    background-color: #3A3A4F;
+}
+
+/* Меню */
+QMenuBar {
+    background-color: #3A3A4F;
+    color: #C1CEFE;
+    border: 1px solid #624CAB;
+}
+
+QMenuBar::item {
+    background-color: transparent;
+    padding: 5px 10px;
+}
+
+QMenuBar::item:selected {
+    background-color: #624CAB;
+    color: #FFFFFF;
+}
+
+QMenu {
+    background-color: #3A3A4F;
+    color: #C1CEFE;
+    border: 1px solid #758ECD;
+}
+
+QMenu::item {
+    background-color: transparent;
+    padding: 5px 10px;
+}
+
+QMenu::item:selected {
+    background-color: #7189FF;
+    color: #FFFFFF;
+}
+
+/* Таблицы и списки */
+QTableWidget, QListWidget, QTreeWidget {
+    background-color: #3A3A4F;
+    color: #C1CEFE;
+    border: 1px solid #624CAB;
+    border-radius: 5px;
+}
+
+QHeaderView::section {
+    background-color: #758ECD;
+    color: #FFFFFF;
+    padding: 5px;
+    border: 1px solid #624CAB;
+}
+
+/* Вкладки */
+QTabWidget::pane {
+    border: 1px solid #624CAB;
+    background-color: #3A3A4F;
+}
+
+QTabBar::tab {
+    background-color: #3A3A4F;
+    color: #C1CEFE;
+    padding: 5px 10px;
+    border: 1px solid #624CAB;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+QTabBar::tab:selected {
+    background-color: #624CAB;
+    color: #FFFFFF;
+}
+
+/* Поля ввода текста */
+QLineEdit, QTextEdit {
+    background-color: #3A3A4F;
+    color: #C1CEFE;
+    border: 1px solid #758ECD;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+/* Слайдеры */
+QSlider::groove:horizontal {
+    height: 5px;
+    background-color: #624CAB;
+}
+
+QSlider::handle:horizontal {
+    width: 15px;
+    height: 15px;
+    background-color: #7189FF;
+    border: 1px solid #C1CEFE;
+    border-radius: 7px;
+}
+
+QSlider::handle:horizontal:hover {
+    background-color: #C1CEFE;
+}
+
+/* ScrollBar */
+QScrollBar:vertical, QScrollBar:horizontal {
+    background-color: #3A3A4F;
+    border: 1px solid #624CAB;
+    width: 10px;
+}
+
+QScrollBar::handle {
+    background-color: #7189FF;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:hover {
+    background-color: #C1CEFE;
+}
