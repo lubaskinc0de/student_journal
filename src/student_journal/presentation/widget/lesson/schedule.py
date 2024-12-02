@@ -134,6 +134,10 @@ class Schedule(QWidget):
 
         index = self.ui.days_table.indexAt(event.position().toPoint())
 
+        if not index.isValid():
+            event.ignore()
+            return
+
         source_index = self.ui.days_table.currentIndex()
         if not source_index.isValid():
             return
@@ -144,12 +148,8 @@ class Schedule(QWidget):
 
         lesson_id: LessonId = source_item.data(0x100)
 
-        if index.isValid():
-            event.acceptProposedAction()
-            self.copy_lesson_to_new_date(lesson_id, index.column())
-        else:
-            event.ignore()
-
+        event.acceptProposedAction()
+        self.copy_lesson_to_new_date(lesson_id, index.column())
         self.load_schedule()
 
     def copy_lesson_to_new_date(self, lesson_id: LessonId, column: int) -> None:

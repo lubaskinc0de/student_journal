@@ -8,7 +8,7 @@ from student_journal.application.student.update_student import (
     UpdatedStudent,
     UpdateStudent,
 )
-from student_journal.presentation.ui.edit_student_ui import Ui_EditStudent
+from student_journal.presentation.ui.edit_student import EditStudentUI
 
 
 class EditStudent(QWidget):
@@ -18,7 +18,7 @@ class EditStudent(QWidget):
         self.container = container
         self.error_locator = container.get(ErrorLocator)
 
-        self.ui = Ui_EditStudent()
+        self.ui = EditStudentUI()
         self.ui.setupUi(self)
 
         self.name = ""
@@ -32,6 +32,7 @@ class EditStudent(QWidget):
         self.ui.age_input.valueChanged.connect(self.on_age_input)
         self.ui.address_input.textChanged.connect(self.on_address_input)
         self.ui.avatar_upload_btn.clicked.connect(self.on_avatar_upload_btn)
+        self.ui.refresh.clicked.connect(self.refresh_avg_mark)
 
         self.load_student()
 
@@ -54,6 +55,12 @@ class EditStudent(QWidget):
 
             self.avatar = student.avatar
             self.update_avatar_preview()
+
+    def refresh_avg_mark(self) -> None:
+        with self.container() as r_container:
+            command = r_container.get(ReadStudent)
+            student = command.execute()
+            self.ui.avg_mark.setValue(student.student_overall_avg_mark)
 
     def update_avatar_preview(self) -> None:
         if self.avatar:

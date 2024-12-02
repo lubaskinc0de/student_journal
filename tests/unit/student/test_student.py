@@ -29,7 +29,7 @@ from unit.student.mock.student_gateway import MockedStudentGateway
 BAD_INVARIANTS = (
     [
         (MIN_AGE - 1, "Ilya", None, None, StudentAgeError),
-        (MAX_AGE, "Ilya", None, None, StudentAgeError),
+        (MAX_AGE + 1, "Ilya", None, None, StudentAgeError),
         (14, (NAME_MAX_LENGTH + 1) * "a", None, None, StudentNameError),
         (14, (NAME_MIN_LENGTH - 1) * "a", None, None, StudentNameError),
         (

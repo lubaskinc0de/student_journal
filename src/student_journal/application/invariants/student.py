@@ -9,7 +9,7 @@ from student_journal.application.exceptions.student import (
 
 MIN_AGE = 6
 MAX_AGE = 100
-AGE_RANGE = range(MIN_AGE, MAX_AGE)
+AGE_RANGE = range(MIN_AGE, MAX_AGE + 1)
 NAME_MAX_LENGTH = 60
 NAME_MIN_LENGTH = 2
 HOME_ADDRESS_MAX_LENGTH = 255

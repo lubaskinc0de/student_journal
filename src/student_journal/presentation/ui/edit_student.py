@@ -4,10 +4,10 @@ from student_journal.application.invariants.student import (
     MIN_AGE,
     NAME_MAX_LENGTH,
 )
-from student_journal.presentation.ui.raw.register_ui import Ui_Register
+from student_journal.presentation.ui.raw.edit_student_ui import Ui_EditStudent
 
 
-class RegisterUI(Ui_Register):
+class EditStudentUI(Ui_EditStudent):
     def setupUi(self, *args, **kwargs):
         super().setupUi(*args, **kwargs)
         self.set_invariants()
