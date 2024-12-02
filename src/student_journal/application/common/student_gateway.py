@@ -6,7 +6,6 @@ from student_journal.domain.value_object.student_id import StudentId
 
 
 class StudentGateway(Protocol):
-    @abstractmethod
     def read_student(self, student_id: StudentId) -> Student: ...
 
     @abstractmethod

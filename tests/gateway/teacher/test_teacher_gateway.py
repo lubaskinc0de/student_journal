@@ -5,7 +5,7 @@ from unit.teacher.conftest import TEACHER, TEACHER2, TEACHER_ID
 
 from student_journal.adapters.converter.teacher import teacher_retort
 from student_journal.application.common.teacher_gateway import TeacherGateway
-from student_journal.application.exceptions.teacher import TeacherDoesNotExistError
+from student_journal.application.exceptions.teacher import TeacherNotFoundError
 from student_journal.domain.teacher import Teacher
 
 READ_TEACHER_SQL = "SELECT * FROM Teacher"
@@ -40,7 +40,7 @@ def test_read(
 def test_read_not_exist(
     teacher_gateway: TeacherGateway,
 ) -> None:
-    with pytest.raises(TeacherDoesNotExistError):
+    with pytest.raises(TeacherNotFoundError):
         teacher_gateway.read_teacher(TEACHER_ID)
 
 

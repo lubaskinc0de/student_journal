@@ -14,7 +14,7 @@ class SubjectList(QWidget):
 
         self.container = container
         self.error_locator = container.get(ErrorLocator)
-        self.current_form: None | EditSubject = None
+        self.current_widget: None | EditSubject = None
 
         self.ui = Ui_SubjectList()
         self.ui.setupUi(self)
@@ -41,7 +41,7 @@ class SubjectList(QWidget):
 
     def on_add_more(self) -> None:
         form = EditSubject(self.container, subject_id=None)
-        self.current_form = form
+        self.current_widget = form
         form.show()
 
     def on_item_double_clicked(self, item: QListWidgetItem) -> None:
@@ -52,5 +52,5 @@ class SubjectList(QWidget):
             subject = command.execute(subject_id)
 
         form = EditSubject(self.container, subject_id=subject.subject_id)
-        self.current_form = form
+        self.current_widget = form
         form.show()

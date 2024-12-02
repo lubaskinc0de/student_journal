@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>345</height>
+    <height>383</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -53,51 +53,41 @@
       <widget class="QLineEdit" name="address_input"/>
      </item>
      <item row="3" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Часовой пояс</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QSpinBox" name="timezone_input"/>
-     </item>
-     <item row="4" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
         <string>Аватар</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
+     <item row="3" column="1">
       <widget class="QLabel" name="avatar_preview">
        <property name="text">
         <string>TextLabel</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="0">
+     <item row="4" column="0">
       <widget class="QLabel" name="label_8">
        <property name="text">
         <string>Изменить</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
+     <item row="4" column="1">
       <widget class="QPushButton" name="avatar_upload_btn">
        <property name="text">
         <string>Выбрать файл</string>
        </property>
       </widget>
      </item>
-     <item row="6" column="0">
+     <item row="5" column="0">
       <widget class="QLabel" name="label_7">
        <property name="text">
         <string>Средний балл</string>
        </property>
       </widget>
      </item>
-     <item row="6" column="1">
+     <item row="5" column="1">
       <widget class="QDoubleSpinBox" name="avg_mark">
        <property name="enabled">
         <bool>true</bool>

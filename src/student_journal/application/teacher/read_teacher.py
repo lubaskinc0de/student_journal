@@ -13,6 +13,6 @@ class ReadTeacher:
 
     def execute(self, teacher_id: TeacherId) -> Teacher:
         self.idp.ensure_authenticated()
-
         teacher = self.gateway.read_teacher(teacher_id)
+
         return teacher

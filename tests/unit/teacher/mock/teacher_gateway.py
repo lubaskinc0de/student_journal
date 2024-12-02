@@ -1,5 +1,5 @@
 from student_journal.application.common.teacher_gateway import TeacherGateway
-from student_journal.application.exceptions.teacher import TeacherDoesNotExistError
+from student_journal.application.exceptions.teacher import TeacherNotFoundError
 from student_journal.domain.teacher import Teacher
 from student_journal.domain.value_object.teacher_id import TeacherId
 
@@ -13,7 +13,7 @@ class MockedTeacherGateway(TeacherGateway):
 
     def read_teacher(self, teacher_id: TeacherId) -> Teacher:
         if not (teacher := self._teachers.get(teacher_id)):
-            raise TeacherDoesNotExistError
+            raise TeacherNotFoundError
 
         return teacher
 

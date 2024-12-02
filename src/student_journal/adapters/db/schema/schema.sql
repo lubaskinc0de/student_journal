@@ -4,8 +4,6 @@ CREATE TABLE IF NOT EXISTS "Student" (
 	"avatar" TEXT,
 	"name" VARCHAR NOT NULL,
 	"home_address" VARCHAR,
-	-- от -14 до 12
-	"timezone" INTEGER NOT NULL,
 	PRIMARY KEY("student_id")
 );
 
@@ -22,7 +20,7 @@ CREATE TABLE IF NOT EXISTS "Subject" (
 	"teacher_id" TEXT NOT NULL,
 	PRIMARY KEY("subject_id"),
 	FOREIGN KEY ("teacher_id") REFERENCES "Teacher"("teacher_id")
-	ON UPDATE NO ACTION ON DELETE SET NULL
+	ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS "Lesson" (
@@ -32,7 +30,6 @@ CREATE TABLE IF NOT EXISTS "Lesson" (
 	"mark" INTEGER,
 	"note" TEXT,
 	"room" INTEGER NOT NULL,
-	"index_number" INTEGER NOT NULL,
 	PRIMARY KEY("lesson_id"),
 	FOREIGN KEY ("subject_id") REFERENCES "Subject"("subject_id")
 	ON UPDATE NO ACTION ON DELETE CASCADE
@@ -45,5 +42,5 @@ CREATE TABLE IF NOT EXISTS "Hometask" (
 	"lesson_id" TEXT NOT NULL,
 	PRIMARY KEY("task_id"),
 	FOREIGN KEY ("lesson_id") REFERENCES "Lesson"("lesson_id")
-	ON UPDATE NO ACTION ON DELETE NO ACTION
+	ON UPDATE NO ACTION ON DELETE CASCADE
 );

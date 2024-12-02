@@ -9,7 +9,6 @@ from student_journal.application.exceptions.student import (
     StudentAvatarDoesNotExistsError,
     StudentHomeAddressError,
     StudentNameError,
-    StudentTimezoneError,
 )
 from student_journal.application.invariants.student import (
     HOME_ADDRESS_MAX_LENGTH,
@@ -29,20 +28,18 @@ from unit.student.mock.student_gateway import MockedStudentGateway
 
 BAD_INVARIANTS = (
     [
-        (MIN_AGE - 1, "Ilya", None, None, StudentAgeError, 0),
-        (MAX_AGE, "Ilya", None, None, StudentAgeError, 0),
-        (14, (NAME_MAX_LENGTH + 1) * "a", None, None, StudentNameError, 0),
-        (14, (NAME_MIN_LENGTH - 1) * "a", None, None, StudentNameError, 0),
+        (MIN_AGE - 1, "Ilya", None, None, StudentAgeError),
+        (MAX_AGE, "Ilya", None, None, StudentAgeError),
+        (14, (NAME_MAX_LENGTH + 1) * "a", None, None, StudentNameError),
+        (14, (NAME_MIN_LENGTH - 1) * "a", None, None, StudentNameError),
         (
             14,
             "Ilya",
             (HOME_ADDRESS_MAX_LENGTH + 1) * "a",
             None,
             StudentHomeAddressError,
-            0,
         ),
-        (14, "Ilya", None, None, StudentTimezoneError, 28),
-        (14, "Ilya", None, string.ascii_letters, StudentAvatarDoesNotExistsError, 0),
+        (14, "Ilya", None, string.ascii_letters, StudentAvatarDoesNotExistsError),
     ],
 )
 
@@ -67,7 +64,7 @@ def test_create_student(
 
 
 @pytest.mark.parametrize(
-    ("age", "name", "home_address", "avatar", "exc_class", "timezone"),
+    ("age", "name", "home_address", "avatar", "exc_class"),
     *BAD_INVARIANTS,
 )
 def test_create_student_bad_invariants(
@@ -77,14 +74,12 @@ def test_create_student_bad_invariants(
     home_address: str | None,
     avatar: str | None,
     exc_class: type[ApplicationError],
-    timezone: int,
 ) -> None:
     data = NewStudent(
         age=age,
         avatar=avatar,
         name=name,
         home_address=home_address,
-        timezone=timezone,
     )
 
     with pytest.raises(exc_class):
@@ -125,7 +120,7 @@ def test_update_student(
 
 
 @pytest.mark.parametrize(
-    ("age", "name", "home_address", "avatar", "exc_class", "timezone"),
+    ("age", "name", "home_address", "avatar", "exc_class"),
     *BAD_INVARIANTS,
 )
 def test_update_student_bad_invariants(
@@ -136,7 +131,6 @@ def test_update_student_bad_invariants(
     home_address: str | None,
     avatar: str | None,
     exc_class: type[ApplicationError],
-    timezone: int,
 ) -> None:
     student_gateway.write_student(STUDENT)
 
@@ -147,6 +141,5 @@ def test_update_student_bad_invariants(
                 avatar=avatar,
                 name=name,
                 home_address=home_address,
-                timezone=timezone,
             ),
         )

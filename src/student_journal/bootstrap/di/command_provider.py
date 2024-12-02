@@ -6,7 +6,11 @@ from student_journal.application.hometask.read_home_task import ReadHomeTask
 from student_journal.application.hometask.read_home_tasks import ReadHomeTasks
 from student_journal.application.hometask.update_home_task import UpdateHomeTask
 from student_journal.application.lesson.create_lesson import CreateLesson
+from student_journal.application.lesson.delete_all_lessons import DeleteAllLessons
 from student_journal.application.lesson.delete_lesson import DeleteLesson
+from student_journal.application.lesson.delete_lessons_for_week import (
+    DeleteLessonsForWeek,
+)
 from student_journal.application.lesson.read_first_lessons_of_weeks import (
     ReadFirstLessonsOfWeeks,
 )
@@ -58,4 +62,6 @@ class CommandProvider(Provider):
         ReadHomeTask,
         ReadHomeTasks,
         UpdateHomeTask,
+        DeleteLessonsForWeek,
+        DeleteAllLessons,
     )

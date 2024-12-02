@@ -17,4 +17,5 @@ class SQLiteConnectionFactory:
         conn.row_factory = sqlite3.Row
 
         with closing(conn) as c:
+            c.execute("PRAGMA foreign_keys = ON;")
             yield c

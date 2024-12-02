@@ -19,7 +19,6 @@ class UpdatedLesson:
     mark: int | None
     note: str | None
     room: int
-    index_number: int
 
 
 @dataclass(slots=True)
@@ -31,24 +30,21 @@ class UpdateLesson:
 
     def execute(self, data: UpdatedLesson) -> LessonId:
         student = self.student_gateway.read_student(self.idp.get_id())
+        local_at = data.at.replace(tzinfo=student.get_timezone())
 
         validate_lesson_invariants(
-            at=data.at,
-            student_timezone=student.timezone,
             mark=data.mark,
             note=data.note,
             room=data.room,
-            index_number=data.index_number,
         )
 
         lesson = Lesson(
             lesson_id=data.lesson_id,
             subject_id=data.subject_id,
-            at=data.at,
+            at=local_at,
             mark=data.mark,
             note=data.note,
             room=data.room,
-            index_number=data.index_number,
         )
 
         with self.transaction_manager.begin():

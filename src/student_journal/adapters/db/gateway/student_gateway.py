@@ -6,7 +6,7 @@ from student_journal.adapters.converter.student import (
     student_to_list_retort,
 )
 from student_journal.application.common.student_gateway import StudentGateway
-from student_journal.application.exceptions.student import StudentDoesNotExistError
+from student_journal.application.exceptions.student import StudentNotFoundError
 from student_journal.domain.student import Student
 from student_journal.domain.value_object.student_id import StudentId
 
@@ -17,24 +17,24 @@ class SQLiteStudentGateway(StudentGateway):
 
     def read_student(self, student_id: StudentId) -> Student:
         query = (
-            "SELECT student_id, age, avatar, name, home_address, timezone "
+            "SELECT student_id, age, avatar, name, home_address "
             "FROM Student WHERE student_id = ?"
         )
         res = self.cursor.execute(query, (str(student_id),)).fetchone()
 
-        if not res:
-            raise StudentDoesNotExistError
+        if res is None:
+            raise StudentNotFoundError
 
-        student = student_retort.load(res, Student)
+        student = student_retort.load(dict(res), Student)
 
         return student
 
     def write_student(self, student: Student) -> None:
         query = (
             "INSERT INTO Student "
-            "(student_id, age, avatar, name, home_address, timezone) "
+            "(student_id, age, avatar, name, home_address) "
             "VALUES "
-            "(?, ?, ?, ?, ?, ?)"
+            "(?, ?, ?, ?, ?)"
         )
         params = student_to_list_retort.dump(student)
         self.cursor.execute(query, params)
@@ -42,7 +42,7 @@ class SQLiteStudentGateway(StudentGateway):
     def update_student(self, student: Student) -> None:
         query = (
             "UPDATE Student "
-            "SET age = ?, avatar = ?, name = ?, home_address = ?, timezone = ? "
+            "SET age = ?, avatar = ?, name = ?, home_address = ? "
             "WHERE student_id = ?"
         )
         params = student_to_list_retort.dump(student)

@@ -63,7 +63,7 @@ class MonthYearPickerDialog(QDialog):
         self.year_combo = QComboBox(self)
         current_year = QDate.currentDate().year()
         self.year_combo.addItems(
-            [str(year) for year in (range(current_year - 50, current_year + 51),)],
+            [str(year) for year in tuple(range(current_year - 50, current_year + 51))],
         )
         self.year_combo.setCurrentText(str(current_year))
         layout.addWidget(self.year_combo)
@@ -79,3 +79,7 @@ class MonthYearPickerDialog(QDialog):
         self.selected_month = self.month_combo.currentIndex() + 1
         self.selected_year = int(self.year_combo.currentText())
         self.accept()
+
+    def set_initial_selection(self, month: int, year: int) -> None:
+        self.month_combo.setCurrentIndex(month - 1)
+        self.year_combo.setCurrentText(str(year))

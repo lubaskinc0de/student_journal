@@ -33,27 +33,36 @@ LESSON = Lesson(
     mark=None,
     note=None,
     room=5,
-    index_number=3,
 )
+
 LESSON_MONDAY_ID = LessonId(uuid4())
 LESSON_MONDAY = Lesson(
     lesson_id=LESSON_MONDAY_ID,
     subject_id=SUBJECT_ID,
-    at=datetime(2024, 11, 11, tzinfo=student_timezone),
+    at=datetime(2024, 11, 11, hour=8, minute=0, tzinfo=student_timezone),
     mark=None,
     note=None,
     room=5,
-    index_number=3,
 )
+
+LESSON_WEDNESDAY_ID = LessonId(uuid4())
+LESSON_WEDNESDAY = Lesson(
+    lesson_id=LESSON_WEDNESDAY_ID,
+    subject_id=SUBJECT_ID,
+    at=datetime(2024, 11, 13, hour=8, minute=0, tzinfo=student_timezone),
+    mark=None,
+    note=None,
+    room=5,
+)
+
 LESSON_MONDAY_2_ID = LessonId(uuid4())
 LESSON_MONDAY_2 = Lesson(
     lesson_id=LESSON_MONDAY_2_ID,
     subject_id=SUBJECT_ID,
-    at=datetime(2024, 11, 18, tzinfo=student_timezone),
+    at=datetime(2024, 11, 19, tzinfo=student_timezone),
     mark=None,
     note=None,
     room=5,
-    index_number=3,
 )
 
 TASK_ID = HomeTaskId(uuid4())

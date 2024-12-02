@@ -14,7 +14,6 @@ class UpdatedStudent:
     avatar: str | None
     name: str
     home_address: str | None
-    timezone: int = 0
 
 
 @dataclass(slots=True)
@@ -24,12 +23,13 @@ class UpdateStudent:
     idp: IdProvider
 
     def execute(self, data: UpdatedStudent) -> StudentId:
+        student = self.gateway.read_student(self.idp.get_id())
+
         validate_student_invariants(
             age=data.age,
             name=data.name,
             home_address=data.home_address,
             avatar=data.avatar,
-            timezone=data.timezone,
         )
 
         student = Student(
@@ -38,7 +38,7 @@ class UpdateStudent:
             age=data.age,
             name=data.name,
             home_address=data.home_address,
-            timezone=data.timezone,
+            utc_offset=student.utc_offset,
         )
 
         with self.transaction_manager.begin():

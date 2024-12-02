@@ -1,7 +1,10 @@
 from dishka import Container
 from PyQt6.QtWidgets import QWidget
 
-from student_journal.adapters.error_locator import ErrorLocator
+from student_journal.adapters.exceptions.ui.teacher import (
+    FullNameNotSpecifiedError,
+    TeacherIsNotSpecifiedError,
+)
 from student_journal.application.teacher import (
     CreateTeacher,
     DeleteTeacher,
@@ -24,12 +27,11 @@ class EditTeacher(QWidget):
 
         self.container = container
         self.teacher_id = teacher_id
-        self.error_locator = container.get(ErrorLocator)
 
         self.ui = Ui_EditTeacher()
         self.ui.setupUi(self)
 
-        self.full_name = ""
+        self.full_name: str | None = None
 
         self.ui.submit_btn.clicked.connect(self.on_submit_btn)
         self.ui.delete_btn.clicked.connect(self.on_delete_btn)
@@ -43,10 +45,14 @@ class EditTeacher(QWidget):
                 command = r_container.get(ReadTeacher)
                 teacher = command.execute(self.teacher_id)
                 self.ui.full_name_input.setText(teacher.full_name)
+                self.full_name = teacher.full_name
 
             self.ui.main_label.setText("Редактировать учителя")
 
     def on_submit_btn(self) -> None:
+        if not self.full_name:
+            raise FullNameNotSpecifiedError
+
         with self.container() as r_container:
             if not self.teacher_id:
                 data = NewTeacher(
@@ -67,7 +73,7 @@ class EditTeacher(QWidget):
 
     def on_delete_btn(self) -> None:
         if not self.teacher_id:
-            return
+            raise TeacherIsNotSpecifiedError
 
         with self.container() as r_container:
             command = r_container.get(DeleteTeacher)
