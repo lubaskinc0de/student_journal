@@ -20,7 +20,7 @@ class SQLiteSubjectGateway(SubjectGateway):
         query = "SELECT subject_id, title, teacher_id FROM Subject WHERE subject_id = ?"
         res = self.cursor.execute(query, (str(subject_id),)).fetchone()
 
-        if not res:
+        if res is None:
             raise SubjectNotFoundError
 
         subject = subject_retort.load(dict(res), Subject)

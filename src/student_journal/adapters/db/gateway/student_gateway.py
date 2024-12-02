@@ -22,7 +22,7 @@ class SQLiteStudentGateway(StudentGateway):
         )
         res = self.cursor.execute(query, (str(student_id),)).fetchone()
 
-        if not res:
+        if res is None:
             raise StudentNotFoundError
 
         student = student_retort.load(dict(res), Student)

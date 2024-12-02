@@ -22,7 +22,7 @@ class SQLiteTeacherGateway(TeacherGateway):
             """
         res = self.cursor.execute(query, (str(teacher_id),)).fetchone()
 
-        if not res:
+        if res is None:
             raise TeacherNotFoundError
 
         teacher = teacher_retort.load(dict(res), Teacher)

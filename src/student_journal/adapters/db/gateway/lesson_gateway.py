@@ -24,7 +24,7 @@ class SQLiteLessonGateway(LessonGateway):
             """
         res = self.cursor.execute(query, (str(lesson_id),)).fetchone()
 
-        if not res:
+        if res is None:
             raise LessonNotFoundError
 
         lesson = lesson_retort.load(dict(res), Lesson)
