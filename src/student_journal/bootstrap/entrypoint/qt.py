@@ -5,6 +5,8 @@ from functools import partial
 from importlib.resources import as_file, files
 from types import TracebackType
 
+from PyQt6 import QtWidgets
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QApplication, QMessageBox
 
 import student_journal
@@ -60,6 +62,12 @@ def except_hook(
 
 
 def main(_argv: list[str]) -> None:
+    if hasattr(Qt, "AA_EnableHighDpiScaling"):
+        QtWidgets.QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)  # noqa: FBT003
+
+    if hasattr(Qt, "AA_UseHighDpiPixmaps"):
+        QtWidgets.QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)  # noqa: FBT003
+
     container = get_container_for_gui()
     resources = files(student_journal.presentation.resource)
 

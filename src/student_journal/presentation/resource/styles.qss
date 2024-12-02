@@ -3,6 +3,7 @@ QWidget {
     background-color: #2B2B3D;
     color: #C1CEFE;
     font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 16px;
 }
 
 /* Главные окна */
