@@ -6,13 +6,13 @@ build-backend = 'setuptools.build_meta'
 
 [project]
 name = 'student_journal'
-version = '0.0.1'
+version = '1.0.0'
 description = 'Student journal project'
 readme = 'README.md'
 requires-python = '>=3.11'
 dependencies = [
     'adaptix==3.0.0b8',
-    'PyQt6==6.4.2',
+    'PyQt6==6.5.0',
     'dishka==1.4.0',
     'tomli-w==1.1.0',
 ]
@@ -25,9 +25,6 @@ lint = [
     'pre-commit==3.8.0',
     'ruff==0.8.0',
     'mypy==1.13.0',
-]
-dev = [
-    'pyqt6-tools==6.4.2.3.3',
 ]
 ci = [
     'mypy==1.13.0',
