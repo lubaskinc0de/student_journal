@@ -4,13 +4,9 @@ from dishka import Container
 from PyQt6.QtWidgets import QCalendarWidget, QDialog, QPushButton, QVBoxLayout, QWidget
 
 from student_journal.adapters.exceptions.ui.lesson import (
+    LessonAtIsNotSpecifiedError,
     LessonIsNotSpecifiedError,
     SubjectIsNotSelectedError,
-)
-from student_journal.application.common.id_provider import IdProvider
-from student_journal.application.common.student_gateway import StudentGateway
-from student_journal.application.exceptions.lesson import (
-    LessonInPastError,
 )
 from student_journal.application.invariants.lesson import MIN_ROOM
 from student_journal.application.lesson.create_lesson import CreateLesson, NewLesson
@@ -20,6 +16,7 @@ from student_journal.application.lesson.update_lesson import (
     UpdatedLesson,
     UpdateLesson,
 )
+from student_journal.application.student.read_student import ReadStudent
 from student_journal.application.subject.read_subject import ReadSubject
 from student_journal.application.subject.read_subjects import ReadSubjects
 from student_journal.domain.value_object.lesson_id import LessonId
@@ -42,10 +39,9 @@ class EditLesson(QWidget):
         self.setup_ui()
 
         with self.container() as r_container:
-            idp = r_container.get(IdProvider)
-            gateway = r_container.get(StudentGateway)
-            student = gateway.read_student(idp.get_id())
-            self.tzinfo = student.get_timezone()
+            command = r_container.get(ReadStudent)
+            student = command.execute()
+            self.tzinfo = student.time_zone
 
         self.note: str | None = None
         self.mark: int | None = None
@@ -153,7 +149,7 @@ class EditLesson(QWidget):
             raise SubjectIsNotSelectedError
 
         if not self.lesson_date or not self.lesson_time:
-            raise LessonInPastError
+            raise LessonAtIsNotSpecifiedError
 
         with self.container() as r_container:
             self.date_time = datetime.combine(

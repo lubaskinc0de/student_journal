@@ -4,6 +4,7 @@ from typing import Final, Protocol
 
 from student_journal.adapters.exceptions.ui.hometask import DescriptionNotSpecifiedError
 from student_journal.adapters.exceptions.ui.lesson import (
+    LessonAtIsNotSpecifiedError,
     LessonIsNotSpecifiedError,
     SubjectIsNotSelectedError,
 )
@@ -29,7 +30,6 @@ from student_journal.application.exceptions.home_task import (
 )
 from student_journal.application.exceptions.lesson import (
     LessonAlreadyExistError,
-    LessonInPastError,
     LessonMarkError,
     LessonNoteError,
     LessonNotFoundError,
@@ -61,12 +61,12 @@ _messages: Final[dict[type[ApplicationError | OperationalError], str]] = {
     HomeTaskDescriptionError: "Неверное описание домашнего задания",
     HomeTaskNotFoundError: "Домашнее задание не существует",
     LessonSubjectError: "Неверный предмет урока",
-    LessonInPastError: "Датавремя урока меньше текущей датывремени",
     LessonMarkError: "Неверная оценка урока",
     LessonNoteError: "Неверная заметка урока",
     LessonRoomError: "Неверный номер аудитории",
     LessonNotFoundError: "Урок не существует",
     LessonAlreadyExistError: "Урок уже существует",
+    LessonAtIsNotSpecifiedError: "Время урока не указано",
     StudentNameError: "Неверное имя студента",
     StudentAgeError: "Неверный возраст студента",
     StudentHomeAddressError: "Неверный адрес студента",

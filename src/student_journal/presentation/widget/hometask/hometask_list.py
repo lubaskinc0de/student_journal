@@ -10,7 +10,6 @@ from student_journal.application.hometask.update_home_task import (
     UpdateHomeTask,
 )
 from student_journal.application.lesson.read_lesson import ReadLesson
-from student_journal.application.subject.read_subject import ReadSubject
 from student_journal.domain.value_object.task_id import HomeTaskId
 from student_journal.presentation.ui.hometask_list_ui import Ui_HometaskList
 from student_journal.presentation.widget.hometask.edit_hometask import EditHomeTask
@@ -42,15 +41,10 @@ class HomeTaskList(QWidget):
         self.ui.list_hometask.clear()
         with self.container() as r_container:
             command = r_container.get(ReadHomeTasks)
-            read_subject = r_container.get(ReadSubject)
-            read_lesson = r_container.get(ReadLesson)
             tasks = command.execute(self.show_done).home_tasks
 
             for task in tasks:
-                lesson = read_lesson.execute(task.lesson_id)
-                subject = read_subject.execute(lesson.subject_id)
-
-                task_text = f"{subject.title}: {task.description[:50]}"
+                task_text = f"{task.subject.title}: {task.description[:50]}"
 
                 item = QListWidgetItem(task_text)
                 item.setData(0x100, task.task_id)

@@ -18,4 +18,4 @@ class ReadStudent:
         )
 
         avg = self.gateway.get_overall_avg_mark()
-        return convert_student_to_read_model(student, avg)
+        return convert_student_to_read_model(student, avg, student.get_timezone())

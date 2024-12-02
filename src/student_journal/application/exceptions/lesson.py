@@ -4,9 +4,6 @@ from .base import ApplicationError
 class LessonSubjectError(ApplicationError): ...
 
 
-class LessonInPastError(ApplicationError): ...
-
-
 class LessonMarkError(ApplicationError): ...
 
 

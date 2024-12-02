@@ -33,8 +33,6 @@ class UpdateLesson:
         local_at = data.at.replace(tzinfo=student.get_timezone())
 
         validate_lesson_invariants(
-            at=local_at,
-            student_timezone=student.utc_offset,
             mark=data.mark,
             note=data.note,
             room=data.room,
