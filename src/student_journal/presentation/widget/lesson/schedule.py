@@ -169,9 +169,8 @@ class Schedule(QWidget):
                     month=new_date.month,
                     day=new_date.day,
                 ),
-                mark=lesson.mark,
-                note=lesson.note,
-                room=lesson.room,
+                mark=None,
+                note=None,
             )
 
             create_command = r_container.get(CreateLesson)
