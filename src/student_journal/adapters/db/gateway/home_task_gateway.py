@@ -38,7 +38,7 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
         params = home_task_to_list_retort.dump(home_task)
         self.cursor.execute(query, params)
 
-    def read_home_tasks(self, is_done: bool = False) -> list[HomeTaskReadModel]:
+    def read_home_tasks(self, *, show_done: bool = False) -> list[HomeTaskReadModel]:
         query = """
             SELECT Hometask.task_id, Hometask.description, Hometask.is_done,
             Lesson.lesson_id as lesson_lesson_id,
@@ -54,9 +54,9 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
             JOIN Lesson ON Hometask.lesson_id = Lesson.lesson_id
             JOIN Subject ON Lesson.subject_id = Subject.subject_id
             """
-        if is_done is False:
+        if show_done is False:
             query += " WHERE is_done = ?"
-            res = self.cursor.execute(query, (is_done,)).fetchall()
+            res = self.cursor.execute(query, (show_done,)).fetchall()
         else:
             res = self.cursor.execute(query).fetchall()
 

@@ -50,6 +50,7 @@ class SQLiteSubjectGateway(SubjectGateway):
 
     def read_subjects(
         self,
+        *,
         sort_by_title: bool = False,
         sort_by_avg_mark: bool = False,
         show_empty: bool = True,
