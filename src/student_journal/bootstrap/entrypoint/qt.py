@@ -77,7 +77,7 @@ def main(_argv: list[str]) -> None:
     main_wnd.setWindowTitle("Дневник Школьника")
 
     with as_file(resources.joinpath("styles.qss")) as qss_path:
-        app.setStyleSheet(qss_path.read_text())
+        app.setStyleSheet(qss_path.read_text("utf-8"))
 
     main_wnd.show()
 
