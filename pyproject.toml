@@ -12,7 +12,7 @@ readme = 'README.md'
 requires-python = '>=3.11'
 dependencies = [
     'adaptix==3.0.0b8',
-    'PyQt6==6.5.0',
+    'PyQt6==6.7.1',
     'dishka==1.4.0',
     'tomli-w==1.1.0',
 ]
@@ -82,15 +82,8 @@ ignore = [
   'PLR0912',
   'C901',
   # Not applicable for now
-  'FIX002',
-  'TD003',
-  'TD002',
-  'ARG001',
-  'FBT002',
-  'PGH003',
-  'ERA001',
-  'FBT001',
   'N802',
+  'PGH003',
   # Does not work correctly
   'TC002',
   'TC001',

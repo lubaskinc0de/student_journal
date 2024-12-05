@@ -39,7 +39,6 @@ def test_read(
 
 def test_read_not_exist(
     student_gateway: StudentGateway,
-    cursor: Cursor,
 ) -> None:
     with pytest.raises(StudentNotFoundError):
         student_gateway.read_student(STUDENT_ID)

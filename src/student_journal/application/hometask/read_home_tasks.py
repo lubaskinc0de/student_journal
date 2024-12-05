@@ -10,9 +10,9 @@ class ReadHomeTasks:
     gateway: HomeTaskGateway
     idp: IdProvider
 
-    def execute(self, is_done: bool = False) -> HomeTasksReadModel:
+    def execute(self, *, show_done: bool = False) -> HomeTasksReadModel:
         student_id = self.idp.get_id()
-        home_tasks = self.gateway.read_home_tasks(is_done)
+        home_tasks = self.gateway.read_home_tasks(show_done=show_done)
 
         return HomeTasksReadModel(
             student_id=student_id,

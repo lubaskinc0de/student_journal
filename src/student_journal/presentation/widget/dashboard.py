@@ -1,6 +1,6 @@
 from dishka import Container
 from PyQt6.QtGui import QAction
-from PyQt6.QtWidgets import QMainWindow, QMenu, QStackedWidget, QWidget
+from PyQt6.QtWidgets import QMainWindow, QMenu, QMenuBar, QStackedWidget, QWidget
 
 from student_journal.presentation.widget.help.about import About
 from student_journal.presentation.widget.hometask.hometask_list import HomeTaskList
@@ -91,7 +91,8 @@ class Dashboard(QMainWindow):
         self.stacked_widget.setCurrentWidget(widget)
 
     def create_menu_bar(self) -> None:
-        menu_bar = self.menuBar()
+        menu_bar = QMenuBar(self)
+        self.setMenuBar(menu_bar)
 
         help_menu = QMenu("&Помощь", self)
         menu_bar.addMenu(help_menu)

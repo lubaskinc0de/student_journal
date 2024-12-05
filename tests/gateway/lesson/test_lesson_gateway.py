@@ -67,7 +67,6 @@ def test_read(
 
 def test_read_not_exist(
     lesson_gateway: LessonGateway,
-    cursor: Cursor,
 ) -> None:
     with pytest.raises(LessonNotFoundError):
         lesson_gateway.read_lesson(LESSON_ID, student_timezone)
