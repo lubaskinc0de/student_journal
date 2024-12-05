@@ -12,9 +12,10 @@ readme = 'README.md'
 requires-python = '>=3.11'
 dependencies = [
     'adaptix==3.0.0b8',
-    'PyQt6==6.5.0',
+    'PyQt6==6.7.1',
     'dishka==1.4.0',
     'tomli-w==1.1.0',
+    'faker==33.1.0',
 ]
 
 [project.optional-dependencies]
@@ -30,6 +31,9 @@ ci = [
     'mypy==1.13.0',
     'pytest==8.3.3',
     'ruff==0.8.0',
+]
+build = [
+    'pyinstaller==6.11.1',
 ]
 
 [tool.setuptools.packages.find]
@@ -82,15 +86,8 @@ ignore = [
   'PLR0912',
   'C901',
   # Not applicable for now
-  'FIX002',
-  'TD003',
-  'TD002',
-  'ARG001',
-  'FBT002',
-  'PGH003',
-  'ERA001',
-  'FBT001',
   'N802',
+  'PGH003',
   # Does not work correctly
   'TC002',
   'TC001',

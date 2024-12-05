@@ -3,7 +3,7 @@ from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QFileDialog, QWidget
 
 from student_journal.adapters.error_locator import ErrorLocator
-from student_journal.application.student.read_student import ReadStudent
+from student_journal.application.student.read_current_student import ReadCurrentStudent
 from student_journal.application.student.update_student import (
     UpdatedStudent,
     UpdateStudent,
@@ -38,7 +38,7 @@ class EditStudent(QWidget):
 
     def load_student(self) -> None:
         with self.container() as r_container:
-            command = r_container.get(ReadStudent)
+            command = r_container.get(ReadCurrentStudent)
             student = command.execute()
 
             self.ui.name_input.setText(student.name)
@@ -58,7 +58,7 @@ class EditStudent(QWidget):
 
     def refresh_avg_mark(self) -> None:
         with self.container() as r_container:
-            command = r_container.get(ReadStudent)
+            command = r_container.get(ReadCurrentStudent)
             student = command.execute()
             self.ui.avg_mark.setValue(student.student_overall_avg_mark)
 

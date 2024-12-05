@@ -41,7 +41,7 @@ class HomeTaskList(QWidget):
         self.ui.list_hometask.clear()
         with self.container() as r_container:
             command = r_container.get(ReadHomeTasks)
-            tasks = command.execute(self.show_done).home_tasks
+            tasks = command.execute(show_done=self.show_done).home_tasks
 
             for task in tasks:
                 task_text = f"{task.subject.title}: {task.description[:50]}"
@@ -88,10 +88,14 @@ class HomeTaskList(QWidget):
             mark_done_action = menu.addAction("Выполнено")
             delete_action = menu.addAction("Удалить")
 
+            if mark_done_action is None or delete_action is None:
+                raise RuntimeError("Hometask list context actions is None")
+
             mark_done_action.triggered.connect(lambda: self.mark_task_done(item))
             delete_action.triggered.connect(lambda: self.delete_task(item))
 
-            menu.exec(self.ui.list_hometask.viewport().mapToGlobal(position))
+            if (viewport := self.ui.list_hometask.viewport()) is not None:
+                menu.exec(viewport.mapToGlobal(position))
 
     def mark_task_done(self, item: QListWidgetItem) -> None:
         task_id: HomeTaskId = item.data(0x100)

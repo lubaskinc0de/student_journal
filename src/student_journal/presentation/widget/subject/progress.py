@@ -17,9 +17,11 @@ class Progress(QWidget):
         self.ui.refresh.clicked.connect(self.on_refresh)
         self.ui.sorting.currentIndexChanged.connect(self.on_sort_changed)
         self.ui.show_without_mark.stateChanged.connect(self.on_toggle_without_mark)
-        self.ui.table.horizontalHeader().setSectionResizeMode(
-            QHeaderView.ResizeMode.Stretch,
-        )
+
+        if (header := self.ui.table.horizontalHeader()) is not None:
+            header.setSectionResizeMode(
+                QHeaderView.ResizeMode.Stretch,
+            )
 
         self.load_subjects()
 

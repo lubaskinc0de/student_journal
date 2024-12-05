@@ -71,9 +71,6 @@ class Schedule(QWidget):
 
         self.model = QStandardItemModel()
         self.ui.days_table.setModel(self.model)
-        self.ui.days_table.horizontalHeader().setSectionResizeMode(
-            QtWidgets.QHeaderView.ResizeMode.Stretch,
-        )
 
         self.setup_table()
 
@@ -86,12 +83,23 @@ class Schedule(QWidget):
         self.place_add_buttons()
 
     def setup_table(self) -> None:
+        if (header := self.ui.days_table.horizontalHeader()) is not None:
+            header.setSectionResizeMode(
+                QtWidgets.QHeaderView.ResizeMode.Stretch,
+            )
+        else:
+            raise RuntimeError("Header in Schedule is None!")
+
         self.ui.days_table.setDragEnabled(True)
         self.ui.days_table.setAcceptDrops(True)
         self.ui.days_table.setDropIndicatorShown(True)
         self.ui.days_table.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
-        self.ui.days_table.viewport().setAcceptDrops(True)
-        self.ui.days_table.viewport().installEventFilter(self)
+
+        if (viewport := self.ui.days_table.viewport()) is not None:
+            viewport.setAcceptDrops(True)
+            viewport.installEventFilter(self)
+        else:
+            raise RuntimeError("Viewport in Schedule is None!")
         self.ui.days_table.setEditTriggers(
             QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers,
         )
@@ -105,7 +113,14 @@ class Schedule(QWidget):
             layout.addWidget(btn)
             btn.clicked.connect(self.add_new_lesson)
 
-    def eventFilter(self, source: QtCore.QObject, event: QtCore.QEvent) -> bool:
+    def eventFilter(
+        self,
+        source: QtCore.QObject | None,
+        event: QtCore.QEvent | None,
+    ) -> bool:
+        if event is None or source is None:
+            return super().eventFilter(source, event)
+
         if source == self.ui.days_table.viewport():
             if event.type() == QtCore.QEvent.Type.DragEnter:
                 self.dragEnterEvent(event)  # type: ignore
@@ -120,16 +135,25 @@ class Schedule(QWidget):
                 return True
         return super().eventFilter(source, event)
 
-    def dragEnterEvent(self, event: QDragEnterEvent) -> None:
-        if event.mimeData().hasFormat("application/x-qabstractitemmodeldatalist"):
+    def dragEnterEvent(self, event: QDragEnterEvent | None) -> None:
+        if event is None or (mimedata := event.mimeData()) is None:
+            return
+
+        if mimedata.hasFormat("application/x-qabstractitemmodeldatalist"):
             event.acceptProposedAction()
 
-    def dragMoveEvent(self, event: QDragMoveEvent) -> None:
-        if event.mimeData().hasFormat("application/x-qabstractitemmodeldatalist"):
+    def dragMoveEvent(self, event: QDragMoveEvent | None) -> None:
+        if event is None or (mimedata := event.mimeData()) is None:
+            return
+
+        if mimedata.hasFormat("application/x-qabstractitemmodeldatalist"):
             event.acceptProposedAction()
 
-    def dropEvent(self, event: QDropEvent) -> None:
-        if not self.week_start:
+    def dropEvent(self, event: QDropEvent | None) -> None:
+        if event is None:
+            return
+
+        if self.week_start is None:
             return
 
         index = self.ui.days_table.indexAt(event.position().toPoint())
@@ -144,7 +168,7 @@ class Schedule(QWidget):
 
         source_item = self.model.item(source_index.row(), source_index.column())
         if source_item is None:
-            return  # type: ignore
+            return
 
         lesson_id: LessonId = source_item.data(0x100)
 
@@ -171,6 +195,7 @@ class Schedule(QWidget):
                 ),
                 mark=None,
                 note=None,
+                room=lesson.room,
             )
 
             create_command = r_container.get(CreateLesson)
@@ -273,8 +298,8 @@ class Schedule(QWidget):
         lessons: list[LessonId],
     ) -> dict[LessonId, Subject]:
         with self.container() as r_container:
-            gateway = r_container.get(LessonGateway)
-            return gateway.read_subjects_for_lessons(lessons)  # type: ignore
+            gateway: LessonGateway = r_container.get(LessonGateway)
+            return gateway.read_subjects_for_lessons(lessons)
 
     def copy_to_next_week(self) -> None:
         if not self.week_start:
@@ -310,8 +335,8 @@ class Schedule(QWidget):
                     new_lesson = NewLesson(
                         subject_id=lesson.subject_id,
                         at=lesson.at + timedelta(weeks=1),
-                        mark=lesson.mark,
-                        note=lesson.note,
+                        mark=None,
+                        note=None,
                         room=lesson.room,
                     )
                     command.execute(new_lesson)
@@ -399,7 +424,7 @@ class Schedule(QWidget):
             item = self.model.item(index.row(), index.column())
 
             if item is None:
-                return  # type: ignore
+                return
 
             lesson_id: LessonId = item.data(0x100)
 
@@ -415,8 +440,14 @@ class Schedule(QWidget):
                 lesson_id: LessonId = item.data(0x100)
                 menu = QtWidgets.QMenu()
                 delete_action = menu.addAction("Удалить")
+
+                if delete_action is None:
+                    raise RuntimeError("Schedule context action is None!")
+
                 delete_action.triggered.connect(lambda: self.delete_lesson(lesson_id))
-                menu.exec(self.ui.days_table.viewport().mapToGlobal(position))
+
+                if (viewport := self.ui.days_table.viewport()) is not None:
+                    menu.exec(viewport.mapToGlobal(position))
 
     def delete_lesson(self, lesson_id: LessonId) -> None:
         with self.container() as r_container:
