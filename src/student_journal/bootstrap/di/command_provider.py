@@ -18,6 +18,7 @@ from student_journal.application.lesson.read_lesson import ReadLesson
 from student_journal.application.lesson.read_lessons_for_week import ReadLessonsForWeek
 from student_journal.application.lesson.update_lesson import UpdateLesson
 from student_journal.application.student.create_student import CreateStudent
+from student_journal.application.student.read_current_student import ReadCurrentStudent
 from student_journal.application.student.read_student import ReadStudent
 from student_journal.application.student.update_student import UpdateStudent
 from student_journal.application.subject.create_subject import CreateSubject
@@ -39,6 +40,7 @@ class CommandProvider(Provider):
 
     commands = provide_all(
         CreateStudent,
+        ReadCurrentStudent,
         ReadStudent,
         UpdateStudent,
         CreateTeacher,

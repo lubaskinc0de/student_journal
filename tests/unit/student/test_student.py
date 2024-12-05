@@ -18,7 +18,7 @@ from student_journal.application.invariants.student import (
     NAME_MIN_LENGTH,
 )
 from student_journal.application.student.create_student import CreateStudent, NewStudent
-from student_journal.application.student.read_student import ReadStudent
+from student_journal.application.student.read_current_student import ReadCurrentStudent
 from student_journal.application.student.update_student import (
     UpdatedStudent,
     UpdateStudent,
@@ -87,7 +87,7 @@ def test_create_student_bad_invariants(
 
 
 def test_read_student(
-    read_student: ReadStudent,
+    read_student: ReadCurrentStudent,
     student_gateway: MockedStudentGateway,
 ) -> None:
     student_gateway.write_student(STUDENT)

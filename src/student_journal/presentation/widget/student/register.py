@@ -1,9 +1,12 @@
 from dishka import Container
 from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtGui import QPixmap
-from PyQt6.QtWidgets import QFileDialog, QWidget
+from PyQt6.QtWidgets import QFileDialog, QMessageBox, QWidget
 
 from student_journal.adapters.exceptions.ui.student import NameNotSpecifiedError
+from student_journal.adapters.id_provider import FileIdProvider
+from student_journal.adapters.load_test_data import TestDataLoader
+from student_journal.application.common.id_provider import IdProvider
 from student_journal.application.student.create_student import CreateStudent, NewStudent
 from student_journal.presentation.ui.register import RegisterUI
 
@@ -31,6 +34,7 @@ class Register(QWidget):
         self.ui.age_input.valueChanged.connect(self.on_age_input)
         self.ui.address_input.textChanged.connect(self.on_address_input)
         self.ui.avatar_upload_btn.clicked.connect(self.on_avatar_upload_btn)
+        self.ui.insert_test_data.clicked.connect(self.on_insert_test_data)
 
         self.update_avatar_preview()
 
@@ -46,6 +50,7 @@ class Register(QWidget):
             raise NameNotSpecifiedError
 
         with self.container() as r_container:
+            idp = r_container.get(FileIdProvider)
             data = NewStudent(
                 age=self.age,
                 name=self.name,
@@ -54,6 +59,41 @@ class Register(QWidget):
             )
             command = r_container.get(CreateStudent)
             student_id = command.execute(data)
+            idp.save(student_id)
+        self.finish.emit(student_id.hex)
+
+    def on_insert_test_data(self) -> None:
+        reply = QMessageBox.question(
+            self,
+            "Вы уверены?",
+            "Эта операция заполнит приложение тестовыми данными "
+            "(операция может занять какое-то время). "
+            "Атомарность операции не гарантируется",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No,
+        )
+
+        if reply == QMessageBox.StandardButton.No:
+            return
+
+        with self.container() as r_container:
+            loader = r_container.get(TestDataLoader)
+            idp = r_container.get(FileIdProvider)
+            student_id = loader.insert_student()
+            idp.save(student_id)
+
+        with self.container() as r_container:
+            loader = r_container.get(TestDataLoader)
+            idp = r_container.get(IdProvider)
+            loader.insert_data(idp.get_id())
+
+        QMessageBox.information(
+            self,
+            "Операция завершена",
+            "Данные загружены",
+            QMessageBox.StandardButton.Ok,
+        )
+
         self.finish.emit(student_id.hex)
 
     def on_name_input(self) -> None:

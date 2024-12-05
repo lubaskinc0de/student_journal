@@ -195,6 +195,7 @@ class Schedule(QWidget):
                 ),
                 mark=None,
                 note=None,
+                room=lesson.room,
             )
 
             create_command = r_container.get(CreateLesson)
@@ -334,8 +335,8 @@ class Schedule(QWidget):
                     new_lesson = NewLesson(
                         subject_id=lesson.subject_id,
                         at=lesson.at + timedelta(weeks=1),
-                        mark=lesson.mark,
-                        note=lesson.note,
+                        mark=None,
+                        note=None,
                         room=lesson.room,
                     )
                     command.execute(new_lesson)

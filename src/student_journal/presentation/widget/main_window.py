@@ -1,13 +1,10 @@
-from uuid import UUID
-
 from dishka import Container
 from PyQt6.QtWidgets import QMainWindow, QStackedWidget
 
-from student_journal.adapters.id_provider import FileIdProvider
+from student_journal.application.common.id_provider import IdProvider
 from student_journal.application.exceptions.student import (
     StudentIsNotAuthenticatedError,
 )
-from student_journal.domain.value_object.student_id import StudentId
 from student_journal.presentation.widget.dashboard import Dashboard
 from student_journal.presentation.widget.student.register import Register
 
@@ -19,7 +16,7 @@ class MainWindow(QMainWindow):
         self.container = container
 
         with self.container() as r_container:
-            self.idp = r_container.get(FileIdProvider)
+            self.idp: IdProvider = r_container.get(IdProvider)
             self.dashboard: None | Dashboard = None
 
             self.register_form = Register(container)
@@ -46,7 +43,5 @@ class MainWindow(QMainWindow):
         self.stacked_widget.addWidget(self.dashboard)
         self.stacked_widget.setCurrentWidget(self.dashboard)
 
-    def finish_register(self, student_id: str) -> None:
-        student_id_uuid = StudentId(UUID(student_id))
-        self.idp.save(student_id_uuid)
+    def finish_register(self) -> None:
         self.display_dashboard()
