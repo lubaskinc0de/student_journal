@@ -59,11 +59,17 @@
 1. установить проект и его зависимости
 ```cmd
 pip install -e .
+pip install -e ".[build]"
+pip install -e ".[lint]"
+pip install -e ".[test]"
 ```
 
-2. установить зависимости сборки
-```
-pip install -e ".[build]"
+2. (опционально) проверить проект - может занять время.
+
+```commandline
+pytest
+mypy
+ruff check
 ```
 
 3. собрать бинарник
@@ -72,7 +78,7 @@ pip install -e ".[build]"
 pyinstaller student-journal.spec
 ```
 
-или
+или (если установлен make)
 
 ```
 make all
