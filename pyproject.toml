@@ -15,6 +15,7 @@ dependencies = [
     'PyQt6==6.7.1',
     'dishka==1.4.0',
     'tomli-w==1.1.0',
+    'faker==33.1.0',
 ]
 
 [project.optional-dependencies]

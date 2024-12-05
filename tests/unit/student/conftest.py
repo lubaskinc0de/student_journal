@@ -4,7 +4,7 @@ from student_journal.application.common.id_provider import IdProvider
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.student.create_student import CreateStudent
-from student_journal.application.student.read_student import ReadStudent
+from student_journal.application.student.read_current_student import ReadCurrentStudent
 from student_journal.application.student.update_student import UpdateStudent
 from unit.student.mock.student_gateway import MockedStudentGateway
 
@@ -29,8 +29,8 @@ def create_student(
 def read_student(
     student_gateway: StudentGateway,
     idp: IdProvider,
-) -> ReadStudent:
-    return ReadStudent(
+) -> ReadCurrentStudent:
+    return ReadCurrentStudent(
         gateway=student_gateway,
         idp=idp,
     )

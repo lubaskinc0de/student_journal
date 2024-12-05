@@ -14,6 +14,7 @@ class EditLessonUI(Ui_EditLesson):
 
     def set_invariants(self):
         self.room_spinbox.setMinimum(MIN_ROOM)
+        self.room_spinbox.setMaximum(1_000_000)
         self.mark_spinbox.setMinimum(0)
 
         self.mark_spinbox.setValue(0)

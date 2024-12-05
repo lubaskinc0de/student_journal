@@ -16,7 +16,7 @@ from student_journal.application.lesson.update_lesson import (
     UpdatedLesson,
     UpdateLesson,
 )
-from student_journal.application.student.read_student import ReadStudent
+from student_journal.application.student.read_current_student import ReadCurrentStudent
 from student_journal.application.subject.read_subject import ReadSubject
 from student_journal.application.subject.read_subjects import ReadSubjects
 from student_journal.domain.value_object.lesson_id import LessonId
@@ -39,7 +39,7 @@ class EditLesson(QWidget):
         self.setup_ui()
 
         with self.container() as r_container:
-            command = r_container.get(ReadStudent)
+            command = r_container.get(ReadCurrentStudent)
             student = command.execute()
             self.tzinfo = student.time_zone
 
