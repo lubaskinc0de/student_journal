@@ -61,15 +61,21 @@
 pip install -e .
 ```
 
-2. установить pyinstaller
+2. установить зависимости сборки
 ```
-pip install pyinstaller
+pip install -e ".[build]"
 ```
 
 3. собрать бинарник
 
 ```
 pyinstaller student-journal.spec
+```
+
+или
+
+```
+make all
 ```
 
 Известные проблемы:
