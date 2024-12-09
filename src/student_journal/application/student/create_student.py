@@ -1,3 +1,4 @@
+import logging
 import time
 from dataclasses import dataclass
 from uuid import uuid4
@@ -5,8 +6,8 @@ from uuid import uuid4
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.invariants.student import validate_student_invariants
-from student_journal.domain.student import Student
-from student_journal.domain.value_object.student_id import StudentId
+from student_journal.domain.entity.student import Student
+from student_journal.domain.id_type.student_id import StudentId
 
 
 @dataclass(slots=True, frozen=True)
@@ -49,5 +50,7 @@ class CreateStudent:
         with self.transaction_manager.begin():
             self.gateway.write_student(student)
             self.transaction_manager.commit()
+
+        logging.debug("Student created: %s", student_id)
 
         return student_id

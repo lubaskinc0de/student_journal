@@ -8,9 +8,9 @@ from student_journal.adapters.converter.subject import subject_retort
 from student_journal.application.common.lesson_gateway import LessonGateway
 from student_journal.application.exceptions.lesson import LessonNotFoundError
 from student_journal.application.models.lesson import LessonsByDate, WeekLessons
-from student_journal.domain.lesson import Lesson
-from student_journal.domain.subject import Subject
-from student_journal.domain.value_object.lesson_id import LessonId
+from student_journal.domain.entity.lesson import Lesson
+from student_journal.domain.entity.subject import Subject
+from student_journal.domain.id_type.lesson_id import LessonId
 
 
 @dataclass(slots=True, frozen=True)

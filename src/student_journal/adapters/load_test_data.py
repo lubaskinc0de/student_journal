@@ -14,7 +14,7 @@ from student_journal.application.student.create_student import CreateStudent, Ne
 from student_journal.application.student.read_student import ReadStudent
 from student_journal.application.subject.create_subject import CreateSubject, NewSubject
 from student_journal.application.teacher import CreateTeacher, NewTeacher
-from student_journal.domain.value_object.student_id import StudentId
+from student_journal.domain.id_type.student_id import StudentId
 
 fake = Faker(locale="ru_RU")
 

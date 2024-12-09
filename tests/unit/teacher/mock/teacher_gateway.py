@@ -1,7 +1,7 @@
 from student_journal.application.common.teacher_gateway import TeacherGateway
 from student_journal.application.exceptions.teacher import TeacherNotFoundError
-from student_journal.domain.teacher import Teacher
-from student_journal.domain.value_object.teacher_id import TeacherId
+from student_journal.domain.entity.teacher import Teacher
+from student_journal.domain.id_type.teacher_id import TeacherId
 
 
 class MockedTeacherGateway(TeacherGateway):

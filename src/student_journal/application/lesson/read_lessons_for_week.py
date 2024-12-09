@@ -1,9 +1,10 @@
 from dataclasses import dataclass
 from datetime import date
 
-from student_journal.application.common.id_provider import IdProvider
+from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.common.lesson_gateway import LessonGateway
 from student_journal.application.common.student_gateway import StudentGateway
+from student_journal.application.exceptions.student import StudentNotFoundError
 from student_journal.application.models.lesson import WeekLessons
 
 
@@ -11,11 +12,14 @@ from student_journal.application.models.lesson import WeekLessons
 class ReadLessonsForWeek:
     gateway: LessonGateway
     student_gateway: StudentGateway
-    idp: IdProvider
+    idp: StudentIdProvider
 
     def execute(self, week_start: date) -> WeekLessons:
-        self.idp.ensure_authenticated()
+        self.idp.ensure_auth()
         student = self.student_gateway.read_student(self.idp.get_id())
+
+        if not student:
+            raise StudentNotFoundError
 
         lessons_by_date = self.gateway.read_lessons_for_week(
             week_start,

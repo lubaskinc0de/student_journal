@@ -10,7 +10,7 @@ from student_journal.application.hometask.update_home_task import (
     UpdateHomeTask,
 )
 from student_journal.application.lesson.read_lesson import ReadLesson
-from student_journal.domain.value_object.task_id import HomeTaskId
+from student_journal.domain.id_type.task_id import HomeTaskId
 from student_journal.presentation.ui.hometask_list_ui import Ui_HometaskList
 from student_journal.presentation.widget.hometask.edit_hometask import EditHomeTask
 

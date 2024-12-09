@@ -8,8 +8,8 @@ from student_journal.adapters.converter import (
 from student_journal.application.common.home_task_gateway import HomeTaskGateway
 from student_journal.application.exceptions.home_task import HomeTaskNotFoundError
 from student_journal.application.models.home_task import HomeTaskReadModel
-from student_journal.domain.home_task import HomeTask
-from student_journal.domain.value_object.task_id import HomeTaskId
+from student_journal.domain.entity.home_task import HomeTask
+from student_journal.domain.id_type.task_id import HomeTaskId
 
 
 @dataclass(slots=True, frozen=True)

@@ -1,19 +1,20 @@
 from abc import abstractmethod
 from typing import Protocol
 
-from student_journal.domain.teacher import Teacher
-from student_journal.domain.value_object.teacher_id import TeacherId
+from student_journal.domain.id_type.student_id import StudentId
+from student_journal.domain.id_type.teacher_id import TeacherId
+from student_journal.domain.entity.teacher import Teacher
 
 
 class TeacherGateway(Protocol):
     @abstractmethod
-    def read_teacher(self, teacher_id: TeacherId) -> Teacher: ...
+    def read_teacher(self, teacher_id: TeacherId) -> Teacher | None: ...
 
     @abstractmethod
     def write_teacher(self, teacher: Teacher) -> None: ...
 
     @abstractmethod
-    def read_teachers(self) -> list[Teacher]: ...
+    def read_teachers(self, student_id: StudentId) -> list[Teacher]: ...
 
     @abstractmethod
     def update_teacher(self, teacher: Teacher) -> None: ...

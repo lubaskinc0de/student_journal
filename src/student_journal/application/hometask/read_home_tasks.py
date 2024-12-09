@@ -1,14 +1,14 @@
 from dataclasses import dataclass
 
 from student_journal.application.common.home_task_gateway import HomeTaskGateway
-from student_journal.application.common.id_provider import IdProvider
+from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.models.home_task import HomeTasksReadModel
 
 
 @dataclass(slots=True)
 class ReadHomeTasks:
     gateway: HomeTaskGateway
-    idp: IdProvider
+    idp: StudentIdProvider
 
     def execute(self, *, show_done: bool = False) -> HomeTasksReadModel:
         student_id = self.idp.get_id()

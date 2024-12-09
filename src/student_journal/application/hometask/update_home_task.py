@@ -1,14 +1,14 @@
 from dataclasses import dataclass
 
 from student_journal.application.common.home_task_gateway import HomeTaskGateway
-from student_journal.application.common.id_provider import IdProvider
+from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.invariants.home_task import (
     validate_home_task_invariants,
 )
-from student_journal.domain.home_task import HomeTask
-from student_journal.domain.value_object.lesson_id import LessonId
-from student_journal.domain.value_object.task_id import HomeTaskId
+from student_journal.domain.entity.home_task import HomeTask
+from student_journal.domain.id_type.lesson_id import LessonId
+from student_journal.domain.id_type.task_id import HomeTaskId
 
 
 @dataclass(slots=True, frozen=True)
@@ -23,10 +23,10 @@ class UpdatedHomeTask:
 class UpdateHomeTask:
     gateway: HomeTaskGateway
     transaction_manager: TransactionManager
-    idp: IdProvider
+    idp: StudentIdProvider
 
     def execute(self, data: UpdatedHomeTask) -> HomeTaskId:
-        self.idp.ensure_authenticated()
+        self.idp.ensure_auth()
 
         validate_home_task_invariants(
             description=data.description,

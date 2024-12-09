@@ -2,14 +2,15 @@ from dataclasses import dataclass
 from datetime import datetime
 from uuid import uuid4
 
-from student_journal.application.common.id_provider import IdProvider
+from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.common.lesson_gateway import LessonGateway
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
+from student_journal.application.exceptions.student import StudentNotFoundError
 from student_journal.application.invariants.lesson import validate_lesson_invariants
-from student_journal.domain.lesson import Lesson
-from student_journal.domain.value_object.lesson_id import LessonId
-from student_journal.domain.value_object.subject_id import SubjectId
+from student_journal.domain.entity.lesson import Lesson
+from student_journal.domain.id_type.lesson_id import LessonId
+from student_journal.domain.id_type.subject_id import SubjectId
 
 
 @dataclass(slots=True, frozen=True)
@@ -26,10 +27,13 @@ class CreateLesson:
     gateway: LessonGateway
     student_gateway: StudentGateway
     transaction_manager: TransactionManager
-    idp: IdProvider
+    idp: StudentIdProvider
 
     def execute(self, data: NewLesson) -> LessonId:
         student = self.student_gateway.read_student(self.idp.get_id())
+
+        if not student:
+            raise StudentNotFoundError
 
         local_at = data.at.replace(tzinfo=student.get_timezone())
 

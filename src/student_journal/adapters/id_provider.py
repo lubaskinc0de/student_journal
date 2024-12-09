@@ -5,13 +5,13 @@ from uuid import UUID
 
 import tomli_w
 
-from student_journal.application.common.id_provider import IdProvider
+from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.exceptions.student import (
     StudentIsNotAuthenticatedError,
     StudentNotFoundError,
 )
-from student_journal.domain.value_object.student_id import StudentId
+from student_journal.domain.id_type.student_id import StudentId
 
 
 @dataclass(slots=True, frozen=True)
@@ -20,17 +20,17 @@ class CredentialsConfig:
 
 
 @dataclass(slots=True, frozen=True)
-class SimpleIdProvider(IdProvider):
+class SimpleStudentIdProvider(StudentIdProvider):
     student_id: StudentId
 
     def get_id(self) -> StudentId:
         return self.student_id
 
-    def ensure_authenticated(self) -> None: ...
+    def ensure_auth(self) -> None: ...
 
 
 @dataclass(slots=True, frozen=True)
-class FileIdProvider(IdProvider):
+class FileStudentIdProvider(StudentIdProvider):
     config: CredentialsConfig
     gateway: StudentGateway
 
@@ -64,5 +64,5 @@ class FileIdProvider(IdProvider):
                 f,
             )
 
-    def ensure_authenticated(self) -> None:
+    def ensure_auth(self) -> None:
         self.get_id()

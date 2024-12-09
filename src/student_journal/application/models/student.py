@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from datetime import timezone
 
-from student_journal.domain.value_object.student_id import StudentId
+from student_journal.domain.id_type.student_id import StudentId
 
 
 @dataclass(slots=True, frozen=True)

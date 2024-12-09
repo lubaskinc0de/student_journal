@@ -8,7 +8,7 @@ from student_journal.adapters.converter.home_task import (
 )
 from student_journal.application.common.home_task_gateway import HomeTaskGateway
 from student_journal.application.exceptions.home_task import HomeTaskNotFoundError
-from student_journal.domain.home_task import HomeTask
+from student_journal.domain.entity.home_task import HomeTask
 
 READ_HOME_TASK_SQL = "SELECT * FROM Hometask"
 

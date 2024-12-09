@@ -13,8 +13,8 @@ from student_journal.application.hometask.update_home_task import (
     UpdateHomeTask,
 )
 from student_journal.application.subject.read_subject import ReadSubject
-from student_journal.domain.lesson import Lesson
-from student_journal.domain.value_object.task_id import HomeTaskId
+from student_journal.domain.entity.lesson import Lesson
+from student_journal.domain.id_type.task_id import HomeTaskId
 from student_journal.presentation.ui.edit_hometask_ui import Ui_EditHometask
 
 

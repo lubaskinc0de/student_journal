@@ -4,9 +4,9 @@ from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QFileDialog, QMessageBox, QWidget
 
 from student_journal.adapters.exceptions.ui.student import NameNotSpecifiedError
-from student_journal.adapters.id_provider import FileIdProvider
+from student_journal.adapters.id_provider import FileStudentIdProvider
 from student_journal.adapters.load_test_data import TestDataLoader
-from student_journal.application.common.id_provider import IdProvider
+from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.student.create_student import CreateStudent, NewStudent
 from student_journal.presentation.ui.register import RegisterUI
 
@@ -50,7 +50,7 @@ class Register(QWidget):
             raise NameNotSpecifiedError
 
         with self.container() as r_container:
-            idp = r_container.get(FileIdProvider)
+            idp = r_container.get(FileStudentIdProvider)
             data = NewStudent(
                 age=self.age,
                 name=self.name,
@@ -78,13 +78,13 @@ class Register(QWidget):
 
         with self.container() as r_container:
             loader = r_container.get(TestDataLoader)
-            idp = r_container.get(FileIdProvider)
+            idp = r_container.get(FileStudentIdProvider)
             student_id = loader.insert_student()
             idp.save(student_id)
 
         with self.container() as r_container:
             loader = r_container.get(TestDataLoader)
-            idp = r_container.get(IdProvider)
+            idp = r_container.get(StudentIdProvider)
             loader.insert_data(idp.get_id())
 
         QMessageBox.information(

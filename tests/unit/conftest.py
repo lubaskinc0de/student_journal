@@ -4,15 +4,15 @@ from uuid import uuid4
 import pytest
 from common.mock.transaction_manager import MockedTransactionManager
 
-from student_journal.adapters.id_provider import SimpleIdProvider
-from student_journal.application.common.id_provider import IdProvider
-from student_journal.domain.home_task import HomeTask
-from student_journal.domain.lesson import Lesson
-from student_journal.domain.student import Student
-from student_journal.domain.value_object.lesson_id import LessonId
-from student_journal.domain.value_object.student_id import StudentId
-from student_journal.domain.value_object.subject_id import SubjectId
-from student_journal.domain.value_object.task_id import HomeTaskId
+from student_journal.adapters.id_provider import SimpleStudentIdProvider
+from student_journal.application.common.id_provider import StudentIdProvider
+from student_journal.domain.entity.home_task import HomeTask
+from student_journal.domain.entity.lesson import Lesson
+from student_journal.domain.entity.student import Student
+from student_journal.domain.id_type.lesson_id import LessonId
+from student_journal.domain.id_type.student_id import StudentId
+from student_journal.domain.id_type.subject_id import SubjectId
+from student_journal.domain.id_type.task_id import HomeTaskId
 
 student_timezone = timezone(timedelta(hours=3))
 STUDENT_ID = StudentId(uuid4())
@@ -83,8 +83,8 @@ HOME_TASK_2 = HomeTask(
 
 
 @pytest.fixture
-def idp() -> IdProvider:
-    return SimpleIdProvider(STUDENT_ID)
+def idp() -> StudentIdProvider:
+    return SimpleStudentIdProvider(STUDENT_ID)
 
 
 @pytest.fixture

@@ -15,7 +15,7 @@ from unit.conftest import (
 from student_journal.adapters.converter.lesson import lesson_retort
 from student_journal.application.common.lesson_gateway import LessonGateway
 from student_journal.application.exceptions.lesson import LessonNotFoundError
-from student_journal.domain.lesson import Lesson
+from student_journal.domain.entity.lesson import Lesson
 
 READ_LESSON_SQL = "SELECT * FROM Lesson"
 

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from student_journal.application.common.id_provider import IdProvider
+from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.common.subject_gateway import SubjectGateway
 from student_journal.application.models.subject import SubjectReadModel
 
@@ -8,7 +8,7 @@ from student_journal.application.models.subject import SubjectReadModel
 @dataclass(slots=True)
 class ReadSubjects:
     gateway: SubjectGateway
-    idp: IdProvider
+    idp: StudentIdProvider
 
     def execute(
         self,
@@ -17,7 +17,7 @@ class ReadSubjects:
         sort_by_avg_mark: bool = False,
         show_empty: bool = True,
     ) -> list[SubjectReadModel]:
-        self.idp.ensure_authenticated()
+        self.idp.ensure_auth()
 
         subjects = self.gateway.read_subjects(
             sort_by_title=sort_by_title,

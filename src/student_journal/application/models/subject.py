@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from student_journal.domain.teacher import Teacher
-from student_journal.domain.value_object.subject_id import SubjectId
+from student_journal.domain.entity.teacher import Teacher
+from student_journal.domain.id_type.subject_id import SubjectId
 
 
 @dataclass(slots=True, frozen=True)

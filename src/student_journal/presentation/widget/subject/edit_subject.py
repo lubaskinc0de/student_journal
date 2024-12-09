@@ -14,8 +14,8 @@ from student_journal.application.subject.update_subject import (
     UpdateSubject,
 )
 from student_journal.application.teacher import ReadTeacher, ReadTeachers
-from student_journal.domain.value_object.subject_id import SubjectId
-from student_journal.domain.value_object.teacher_id import TeacherId
+from student_journal.domain.id_type.subject_id import SubjectId
+from student_journal.domain.id_type.teacher_id import TeacherId
 from student_journal.presentation.ui.edit_subject_ui import Ui_EditSubject
 
 

@@ -1,12 +1,12 @@
 from abc import abstractmethod
 from typing import Protocol
 
-from student_journal.domain.value_object.student_id import StudentId
+from student_journal.domain.id_type.student_id import StudentId
 
 
-class IdProvider(Protocol):
+class StudentIdProvider(Protocol):
     @abstractmethod
     def get_id(self) -> StudentId: ...
 
     @abstractmethod
-    def ensure_authenticated(self) -> None: ...
+    def ensure_auth(self) -> None: ...

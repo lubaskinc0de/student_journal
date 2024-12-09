@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 
-from student_journal.application.common.id_provider import IdProvider
+from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.common.subject_gateway import SubjectGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.invariants.subject import validate_subject_invariants
-from student_journal.domain.subject import Subject
-from student_journal.domain.value_object.subject_id import SubjectId
-from student_journal.domain.value_object.teacher_id import TeacherId
+from student_journal.domain.entity.subject import Subject
+from student_journal.domain.id_type.subject_id import SubjectId
+from student_journal.domain.id_type.teacher_id import TeacherId
 
 
 @dataclass(slots=True, frozen=True)
@@ -20,10 +20,10 @@ class UpdatedSubject:
 class UpdateSubject:
     gateway: SubjectGateway
     transaction_manager: TransactionManager
-    idp: IdProvider
+    idp: StudentIdProvider
 
     def execute(self, data: UpdatedSubject) -> SubjectId:
-        self.idp.ensure_authenticated()
+        self.idp.ensure_auth()
 
         validate_subject_invariants(data.title)
 

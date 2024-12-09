@@ -1,6 +1,6 @@
 from adaptix import Retort, loader, name_mapping
 
-from student_journal.domain.home_task import HomeTask
+from student_journal.domain.entity.home_task import HomeTask
 
 home_task_retort = Retort(strict_coercion=False)
 

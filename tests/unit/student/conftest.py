@@ -1,6 +1,6 @@
 import pytest
 
-from student_journal.application.common.id_provider import IdProvider
+from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.student.create_student import CreateStudent
@@ -28,7 +28,7 @@ def create_student(
 @pytest.fixture
 def read_student(
     student_gateway: StudentGateway,
-    idp: IdProvider,
+    idp: StudentIdProvider,
 ) -> ReadCurrentStudent:
     return ReadCurrentStudent(
         gateway=student_gateway,
@@ -39,7 +39,7 @@ def read_student(
 @pytest.fixture
 def update_student(
     student_gateway: StudentGateway,
-    idp: IdProvider,
+    idp: StudentIdProvider,
     transaction_manager: TransactionManager,
 ) -> UpdateStudent:
     return UpdateStudent(
