@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.common.teacher_gateway import TeacherGateway
 from student_journal.application.common.transaction_manager import TransactionManager
+from student_journal.application.exceptions.teacher import TeacherNotFoundError
 from student_journal.application.invariants.teacher import validate_teacher_invariants
 from student_journal.domain.access_service.generic import StudentAccessService
 from student_journal.domain.entity.teacher import Teacher
@@ -26,17 +27,20 @@ class UpdateTeacher:
     def execute(self, data: UpdatedTeacher) -> TeacherId:
         with self.transaction_manager.begin():
             self.idp.ensure_auth()
-            student_id = self.idp.get_id()
+            orig_teacher = self.gateway.read_teacher(data.teacher_id)
 
+            if orig_teacher is None:
+                raise TeacherNotFoundError
+
+            self.access.ensure_has_access(orig_teacher)
             validate_teacher_invariants(full_name=data.full_name)
 
             teacher = Teacher(
                 teacher_id=data.teacher_id,
                 full_name=data.full_name,
                 avatar=data.avatar,
-                student_id=student_id,
+                student_id=orig_teacher.student_id,
             )
-            self.access.ensure_has_access(teacher)
 
             self.gateway.update_teacher(teacher)
             self.transaction_manager.commit()

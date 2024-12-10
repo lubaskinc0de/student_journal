@@ -23,17 +23,18 @@ class CreateSubject:
     idp: StudentIdProvider
 
     def execute(self, data: NewSubject) -> SubjectId:
-        self.idp.ensure_auth()
-        validate_subject_invariants(data.title)
-
-        subject_id = SubjectId(uuid4())
-        subject = Subject(
-            subject_id=subject_id,
-            title=data.title,
-            teacher_id=data.teacher_id,
-        )
-
         with self.transaction_manager.begin():
+            self.idp.ensure_auth()
+            validate_subject_invariants(data.title)
+
+            subject_id = SubjectId(uuid4())
+            subject = Subject(
+                subject_id=subject_id,
+                title=data.title,
+                teacher_id=data.teacher_id,
+                student_id=self.idp.get_id(),
+            )
+
             self.gateway.write_subject(subject)
             self.transaction_manager.commit()
 

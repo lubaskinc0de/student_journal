@@ -23,6 +23,7 @@ class ReadSubjects:
             sort_by_title=sort_by_title,
             sort_by_avg_mark=sort_by_avg_mark,
             show_empty=show_empty,
+            student_id=self.idp.get_id(),
         )
 
         return subjects
