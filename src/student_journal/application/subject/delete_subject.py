@@ -14,7 +14,7 @@ class DeleteSubject:
     idp: StudentIdProvider
 
     def execute(self, subject_id: SubjectId) -> None:
-        self.idp.ensure_auth()
+        self.idp.require_auth()
 
         with self.transaction_manager.begin():
             self.gateway.delete_subject(subject_id)

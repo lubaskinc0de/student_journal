@@ -5,7 +5,7 @@ from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.exceptions.student import StudentNotFoundError
-from student_journal.application.invariants.student import validate_student_invariants
+from student_journal.application.validators.student import validate_student
 from student_journal.domain.entity.student import Student
 from student_journal.domain.id_type.student_id import StudentId
 
@@ -25,7 +25,7 @@ class UpdateStudent:
     idp: StudentIdProvider
 
     def execute(self, data: UpdatedStudent) -> StudentId:
-        validate_student_invariants(
+        validate_student(
             age=data.age,
             name=data.name,
             home_address=data.home_address,
@@ -33,13 +33,13 @@ class UpdateStudent:
         )
 
         with self.transaction_manager.begin():
-            student = self.gateway.read_student(self.idp.get_id())
+            student = self.gateway.read_student(self.idp.get_student_id())
 
             if not student:
                 raise StudentNotFoundError
 
             student = Student(
-                student_id=self.idp.get_id(),
+                student_id=self.idp.get_student_id(),
                 avatar=data.avatar,
                 age=data.age,
                 name=data.name,

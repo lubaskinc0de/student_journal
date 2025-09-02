@@ -13,7 +13,7 @@ class ReadCurrentStudent:
     idp: StudentIdProvider
 
     def execute(self) -> StudentReadModel:
-        current_student_id = self.idp.get_id()
+        current_student_id = self.idp.get_student_id()
         student = self.gateway.read_student(
             current_student_id,
         )

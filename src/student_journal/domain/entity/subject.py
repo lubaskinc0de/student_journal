@@ -12,3 +12,9 @@ class Subject:
     teacher_id: TeacherId
     title: str
     student_id: StudentId
+
+    def can_manage(self, student_id: StudentId) -> bool:
+        return self.student_id == student_id
+
+    def can_view(self, student_id: StudentId) -> bool:
+        return self.student_id == student_id

@@ -15,7 +15,7 @@ class ReadTeacher:
     idp: StudentIdProvider
 
     def execute(self, teacher_id: TeacherId) -> Teacher:
-        self.idp.ensure_auth()
+        self.idp.require_auth()
         teacher = self.gateway.read_teacher(teacher_id)
 
         if not teacher:

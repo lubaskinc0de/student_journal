@@ -13,7 +13,7 @@ class ReadHomeTask:
     idp: StudentIdProvider
 
     def execute(self, task_id: HomeTaskId) -> HomeTask:
-        self.idp.ensure_auth()
+        self.idp.require_auth()
 
         home_task = self.gateway.read_home_task(task_id)
 

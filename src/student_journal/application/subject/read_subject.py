@@ -15,7 +15,7 @@ class ReadSubject:
     access: StudentAccessService[Subject]
 
     def execute(self, subject_id: SubjectId) -> Subject:
-        self.idp.ensure_auth()
+        self.idp.require_auth()
         subject = self.gateway.read_subject(subject_id)
 
         if not subject:

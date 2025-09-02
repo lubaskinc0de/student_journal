@@ -14,7 +14,7 @@ class DeleteTeacher:
     idp: StudentIdProvider
 
     def execute(self, teacher_id: TeacherId) -> None:
-        self.idp.ensure_auth()
+        self.idp.require_auth()
 
         with self.transaction_manager.begin():
             self.gateway.delete_teacher(teacher_id)

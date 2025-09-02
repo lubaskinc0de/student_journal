@@ -5,7 +5,7 @@ from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.common.subject_gateway import SubjectGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.exceptions.subject import SubjectNotFoundError
-from student_journal.application.invariants.subject import validate_subject_invariants
+from student_journal.application.validators.subject import validate_subject
 from student_journal.domain.access_service.generic import StudentAccessService
 from student_journal.domain.entity.subject import Subject
 from student_journal.domain.id_type.subject_id import SubjectId
@@ -27,10 +27,10 @@ class UpdateSubject:
     access: StudentAccessService[Subject]
 
     def execute(self, data: UpdatedSubject) -> SubjectId:
-        validate_subject_invariants(data.title)
+        validate_subject(data.title)
 
         with self.transaction_manager.begin():
-            self.idp.ensure_auth()
+            self.idp.require_auth()
 
             orig_subject = self.gateway.read_subject(data.subject_id)
 

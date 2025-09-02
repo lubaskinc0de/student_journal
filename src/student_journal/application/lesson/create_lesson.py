@@ -7,7 +7,7 @@ from student_journal.application.common.lesson_gateway import LessonGateway
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.exceptions.student import StudentNotFoundError
-from student_journal.application.invariants.lesson import validate_lesson_invariants
+from student_journal.application.validators.lesson import validate_lesson
 from student_journal.domain.entity.lesson import Lesson
 from student_journal.domain.id_type.lesson_id import LessonId
 from student_journal.domain.id_type.subject_id import SubjectId
@@ -30,14 +30,14 @@ class CreateLesson:
     idp: StudentIdProvider
 
     def execute(self, data: NewLesson) -> LessonId:
-        student = self.student_gateway.read_student(self.idp.get_id())
+        student = self.student_gateway.read_student(self.idp.get_student_id())
 
         if not student:
             raise StudentNotFoundError
 
         local_at = data.at.replace(tzinfo=student.get_timezone())
 
-        validate_lesson_invariants(
+        validate_lesson(
             mark=data.mark,
             note=data.note,
             room=data.room,

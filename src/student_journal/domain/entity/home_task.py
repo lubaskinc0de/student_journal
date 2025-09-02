@@ -12,3 +12,9 @@ class HomeTask:
     student_id: StudentId
     description: str
     is_done: bool = False
+
+    def can_manage(self, student_id: StudentId) -> bool:
+        return self.student_id == student_id
+
+    def can_view(self, student_id: StudentId) -> bool:
+        return self.student_id == student_id

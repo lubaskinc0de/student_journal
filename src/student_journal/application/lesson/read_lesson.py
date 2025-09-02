@@ -16,8 +16,8 @@ class ReadLesson:
     idp: StudentIdProvider
 
     def execute(self, lesson_id: LessonId) -> Lesson:
-        self.idp.ensure_auth()
-        student = self.student_gateway.read_student(self.idp.get_id())
+        self.idp.require_auth()
+        student = self.student_gateway.read_student(self.idp.get_student_id())
 
         if not student:
             raise StudentNotFoundError

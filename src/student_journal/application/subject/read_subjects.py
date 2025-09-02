@@ -17,13 +17,13 @@ class ReadSubjects:
         sort_by_avg_mark: bool = False,
         show_empty: bool = True,
     ) -> list[SubjectReadModel]:
-        self.idp.ensure_auth()
+        self.idp.require_auth()
 
         subjects = self.gateway.read_subjects(
             sort_by_title=sort_by_title,
             sort_by_avg_mark=sort_by_avg_mark,
             show_empty=show_empty,
-            student_id=self.idp.get_id(),
+            student_id=self.idp.get_student_id(),
         )
 
         return subjects

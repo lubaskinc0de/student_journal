@@ -10,3 +10,9 @@ class Teacher:
     student_id: StudentId
     full_name: str
     avatar: str | None
+
+    def can_manage(self, student_id: StudentId) -> bool:
+        return self.student_id == student_id
+
+    def can_view(self, student_id: StudentId) -> bool:
+        return self.student_id == student_id

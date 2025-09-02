@@ -15,8 +15,8 @@ class ReadLessonsForWeek:
     idp: StudentIdProvider
 
     def execute(self, week_start: date) -> WeekLessons:
-        self.idp.ensure_auth()
-        student = self.student_gateway.read_student(self.idp.get_id())
+        self.idp.require_auth()
+        student = self.student_gateway.read_student(self.idp.get_student_id())
 
         if not student:
             raise StudentNotFoundError

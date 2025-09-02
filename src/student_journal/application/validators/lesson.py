@@ -12,7 +12,7 @@ NOTE_MIN_LENGTH = 1
 MIN_ROOM = 1
 
 
-def validate_lesson_invariants(
+def validate_lesson(
     mark: int | None,
     note: str | None,
     room: int,

@@ -12,7 +12,7 @@ class DeleteAllLessons:
     transaction_manager: TransactionManager
 
     def execute(self) -> None:
-        self.idp.ensure_auth()
+        self.idp.require_auth()
         with self.transaction_manager.begin():
             self.gateway.delete_all_lessons()
             self.transaction_manager.commit()

@@ -1,6 +1,6 @@
 from datetime import time
 
-from student_journal.application.invariants.lesson import (
+from student_journal.application.validators.lesson import (
     MIN_ROOM,
     MAX_MARK,
 )

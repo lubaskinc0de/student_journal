@@ -13,7 +13,7 @@ class DeleteLesson:
     idp: StudentIdProvider
 
     def execute(self, lesson_id: LessonId) -> None:
-        self.idp.ensure_auth()
+        self.idp.require_auth()
 
         with self.transaction_manager.begin():
             self.gateway.delete_lesson(lesson_id)

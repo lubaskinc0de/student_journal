@@ -10,7 +10,7 @@ from student_journal.application.exceptions.student import (
     StudentHomeAddressError,
     StudentNameError,
 )
-from student_journal.application.invariants.student import (
+from student_journal.application.validators.student import (
     HOME_ADDRESS_MAX_LENGTH,
     MAX_AGE,
     MIN_AGE,

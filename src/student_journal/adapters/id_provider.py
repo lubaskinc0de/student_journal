@@ -24,10 +24,10 @@ class CredentialsConfig:
 class SimpleStudentIdProvider(StudentIdProvider):
     student_id: StudentId
 
-    def get_id(self) -> StudentId:
+    def get_student_id(self) -> StudentId:
         return self.student_id
 
-    def ensure_auth(self) -> None: ...
+    def require_auth(self) -> None: ...
 
 
 @dataclass(slots=True, frozen=True)
@@ -35,7 +35,7 @@ class FileStudentIdProvider(StudentIdProvider):
     config: CredentialsConfig
     gateway: StudentGateway
 
-    def get_id(self) -> StudentId:
+    def get_student_id(self) -> StudentId:
         if not self.config.path.exists() or not self.config.path.is_file():
             logging.warning("Credentials file not found: %s", self.config.path)
             raise StudentIsNotAuthenticatedError from FileNotFoundError
@@ -69,5 +69,5 @@ class FileStudentIdProvider(StudentIdProvider):
             )
         logging.info("Saved student %s creds to file system", student_id)
 
-    def ensure_auth(self) -> None:
-        self.get_id()
+    def require_auth(self) -> None:
+        self.get_student_id()

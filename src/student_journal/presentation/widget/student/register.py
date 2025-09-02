@@ -85,7 +85,7 @@ class Register(QWidget):
         with self.container() as r_container:
             loader = r_container.get(TestDataLoader)
             idp = r_container.get(StudentIdProvider)
-            loader.insert_data(idp.get_id())
+            loader.insert_data(idp.get_student_id())
 
         QMessageBox.information(
             self,

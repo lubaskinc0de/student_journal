@@ -5,7 +5,7 @@ from uuid import uuid4
 
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
-from student_journal.application.invariants.student import validate_student_invariants
+from student_journal.application.validators.student import validate_student
 from student_journal.domain.entity.student import Student
 from student_journal.domain.id_type.student_id import StudentId
 
@@ -30,7 +30,7 @@ class CreateStudent:
 
         utc_offset //= 3600
 
-        validate_student_invariants(
+        validate_student(
             age=data.age,
             name=data.name,
             home_address=data.home_address,

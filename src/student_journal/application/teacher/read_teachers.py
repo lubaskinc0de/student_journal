@@ -11,6 +11,6 @@ class ReadTeachers:
     idp: StudentIdProvider
 
     def execute(self) -> list[Teacher]:
-        student_id = self.idp.get_id()
+        student_id = self.idp.get_student_id()
         teachers = self.gateway.read_teachers(student_id)
         return teachers
