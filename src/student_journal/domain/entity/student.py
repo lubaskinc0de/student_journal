@@ -11,7 +11,6 @@ class Student:
     avatar: str | None
     name: str
     home_address: str | None
-    utc_offset: int = 3
 
     def get_timezone(self) -> timezone:
         return timezone(timedelta(hours=self.utc_offset))

@@ -1,13 +1,16 @@
-import logging
-import time
 from dataclasses import dataclass
 from uuid import uuid4
 
+import structlog
+
+from student_journal.application.common.logger import Logger, retort
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.validators.student import validate_student
 from student_journal.domain.entity.student import Student
 from student_journal.domain.id_type.student_id import StudentId
+
+logger: Logger = structlog.get_logger()
 
 
 @dataclass(slots=True, frozen=True)
@@ -24,12 +27,6 @@ class CreateStudent:
     transaction_manager: TransactionManager
 
     def execute(self, data: NewStudent) -> StudentId:
-        utc_offset = (
-            -time.timezone if not time.localtime().tm_isdst else -time.altzone
-        )  # get system utc offset
-
-        utc_offset //= 3600
-
         validate_student(
             age=data.age,
             name=data.name,
@@ -44,13 +41,11 @@ class CreateStudent:
             age=data.age,
             name=data.name,
             home_address=data.home_address,
-            utc_offset=utc_offset,
         )
 
         with self.transaction_manager.begin():
             self.gateway.write_student(student)
             self.transaction_manager.commit()
 
-        logging.debug("Student created: %s", student_id)
-
+        logger.debug("Created new Student", data=retort.dump(student))
         return student_id

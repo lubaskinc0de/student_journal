@@ -1,13 +1,17 @@
-import logging
 from dataclasses import dataclass
 
+import structlog
+
 from student_journal.application.common.id_provider import StudentIdProvider
+from student_journal.application.common.logger import Logger, retort
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.exceptions.student import StudentNotFoundError
 from student_journal.application.validators.student import validate_student
 from student_journal.domain.entity.student import Student
 from student_journal.domain.id_type.student_id import StudentId
+
+logger: Logger = structlog.get_logger()
 
 
 @dataclass(slots=True, frozen=True)
@@ -33,9 +37,9 @@ class UpdateStudent:
         )
 
         with self.transaction_manager.begin():
-            student = self.gateway.read_student(self.idp.get_student_id())
+            orig_student = self.gateway.read_student(self.idp.get_student_id())
 
-            if not student:
+            if not orig_student:
                 raise StudentNotFoundError
 
             student = Student(
@@ -44,12 +48,15 @@ class UpdateStudent:
                 age=data.age,
                 name=data.name,
                 home_address=data.home_address,
-                utc_offset=student.utc_offset,
             )
 
             self.gateway.update_student(student)
             self.transaction_manager.commit()
 
-            logging.debug("Student updated: %s", student.student_id)
+            logger.debug(
+                "Student updated",
+                old_data=retort.dump(orig_student),
+                data=retort.dump(student),
+            )
 
         return student.student_id
