@@ -1,9 +1,12 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import UTC, datetime
 from uuid import uuid4
+
+import structlog
 
 from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.common.lesson_gateway import LessonGateway
+from student_journal.application.common.logger import Logger, retort
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.exceptions.student import StudentNotFoundError
@@ -11,6 +14,8 @@ from student_journal.application.validators.lesson import validate_lesson
 from student_journal.domain.entity.lesson import Lesson
 from student_journal.domain.id_type.lesson_id import LessonId
 from student_journal.domain.id_type.subject_id import SubjectId
+
+logger: Logger = structlog.get_logger()
 
 
 @dataclass(slots=True, frozen=True)
@@ -35,8 +40,6 @@ class CreateLesson:
         if not student:
             raise StudentNotFoundError
 
-        local_at = data.at.replace(tzinfo=student.get_timezone())
-
         validate_lesson(
             mark=data.mark,
             note=data.note,
@@ -47,7 +50,7 @@ class CreateLesson:
         lesson = Lesson(
             lesson_id=lesson_id,
             subject_id=data.subject_id,
-            at=local_at,
+            at=datetime.now(tz=UTC),
             mark=data.mark,
             note=data.note,
             room=data.room,
@@ -57,5 +60,9 @@ class CreateLesson:
         with self.transaction_manager.begin():
             self.gateway.write_lesson(lesson)
             self.transaction_manager.commit()
+
+        logger.debug(
+            "Created new Lesson", data=retort.dump(lesson), user_id=student.student_id,
+        )
 
         return lesson_id

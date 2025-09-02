@@ -40,16 +40,6 @@ class SQLiteLessonGateway(LessonGateway):
             VALUES (?, ?, ?, ?, ?, ?)
             """
 
-        lesson = Lesson(
-            subject_id=lesson.subject_id,
-            at=lesson.at.astimezone(UTC),
-            mark=lesson.mark,
-            note=lesson.note,
-            room=lesson.room,
-            lesson_id=lesson.lesson_id,
-            student_id=lesson.student_id,
-        )
-
         params = lesson_to_list_retort.dump(lesson)
         self.cursor.execute(query, params)
 
@@ -59,16 +49,6 @@ class SQLiteLessonGateway(LessonGateway):
             subject_id = ?, at = ?, mark = ?, note = ?, room = ?
             WHERE lesson_id = ?
             """
-
-        lesson = Lesson(
-            subject_id=lesson.subject_id,
-            at=lesson.at.astimezone(UTC),
-            mark=lesson.mark,
-            note=lesson.note,
-            room=lesson.room,
-            lesson_id=lesson.lesson_id,
-            student_id=lesson.student_id,
-        )
 
         params = lesson_to_list_retort.dump(lesson)
         params.append(params.pop(0))
@@ -231,9 +211,9 @@ class SQLiteLessonGateway(LessonGateway):
 
         self.cursor.execute(query, params)
 
-    def delete_all_lessons(self) -> None:
+    def delete_all_lessons(self, student_id: StudentId) -> None:
         query = """
-        DELETE FROM Lesson
+        DELETE FROM Lesson WHERE student_id = ?
         """
 
-        self.cursor.execute(query)
+        self.cursor.execute(query, (student_id, ))

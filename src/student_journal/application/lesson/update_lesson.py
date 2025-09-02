@@ -1,8 +1,11 @@
 from dataclasses import dataclass
 from datetime import UTC, datetime
 
+import structlog
+
 from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.common.lesson_gateway import LessonGateway
+from student_journal.application.common.logger import Logger, retort
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.exceptions.lesson import LessonNotFoundError
@@ -11,6 +14,8 @@ from student_journal.application.validators.lesson import validate_lesson
 from student_journal.domain.entity.lesson import Lesson
 from student_journal.domain.id_type.lesson_id import LessonId
 from student_journal.domain.id_type.subject_id import SubjectId
+
+logger: Logger = structlog.get_logger()
 
 
 @dataclass(slots=True, frozen=True)
@@ -39,8 +44,7 @@ class UpdateLesson:
         if orig_object is None:
             raise LessonNotFoundError
 
-        local_at = data.at.replace(tzinfo=student.get_timezone())
-
+        utc_at = data.at.astimezone(UTC)
         validate_lesson(
             mark=data.mark,
             note=data.note,
@@ -50,7 +54,7 @@ class UpdateLesson:
         lesson = Lesson(
             lesson_id=data.lesson_id,
             subject_id=data.subject_id,
-            at=local_at,
+            at=utc_at,
             mark=data.mark,
             note=data.note,
             room=data.room,
@@ -61,4 +65,10 @@ class UpdateLesson:
             self.gateway.update_lesson(lesson)
             self.transaction_manager.commit()
 
+        logger.debug(
+            "Updated lesson",
+            old_data=retort.dump(orig_object),
+            data=retort.dump(lesson),
+            user_id=self.idp.get_student_id(),
+        )
         return data.lesson_id
