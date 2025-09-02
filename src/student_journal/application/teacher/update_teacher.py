@@ -1,3 +1,4 @@
+import logging
 from dataclasses import dataclass
 
 from student_journal.application.common.id_provider import StudentIdProvider
@@ -25,6 +26,8 @@ class UpdateTeacher:
     access: StudentAccessService[Teacher]
 
     def execute(self, data: UpdatedTeacher) -> TeacherId:
+        validate_teacher_invariants(full_name=data.full_name)
+
         with self.transaction_manager.begin():
             self.idp.ensure_auth()
             orig_teacher = self.gateway.read_teacher(data.teacher_id)
@@ -33,7 +36,6 @@ class UpdateTeacher:
                 raise TeacherNotFoundError
 
             self.access.ensure_has_access(orig_teacher)
-            validate_teacher_invariants(full_name=data.full_name)
 
             teacher = Teacher(
                 teacher_id=data.teacher_id,
@@ -44,5 +46,5 @@ class UpdateTeacher:
 
             self.gateway.update_teacher(teacher)
             self.transaction_manager.commit()
-
+        logging.debug("Updated teacher: %s")
         return data.teacher_id

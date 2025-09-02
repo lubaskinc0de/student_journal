@@ -37,6 +37,7 @@ class CreateHomeTask:
             lesson_id=data.lesson_id,
             description=data.description,
             is_done=data.is_done,
+            student_id=self.idp.get_id(),
         )
 
         with self.transaction_manager.begin():

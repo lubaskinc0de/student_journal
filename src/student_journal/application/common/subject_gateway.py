@@ -2,9 +2,9 @@ from abc import abstractmethod
 from typing import Protocol
 
 from student_journal.application.models.subject import SubjectReadModel
+from student_journal.domain.entity.subject import Subject
 from student_journal.domain.id_type.student_id import StudentId
 from student_journal.domain.id_type.subject_id import SubjectId
-from student_journal.domain.entity.subject import Subject
 
 
 class SubjectGateway(Protocol):

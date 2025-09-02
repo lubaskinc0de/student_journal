@@ -1,10 +1,11 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import UTC, datetime
 
 from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.common.lesson_gateway import LessonGateway
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
+from student_journal.application.exceptions.lesson import LessonNotFoundError
 from student_journal.application.exceptions.student import StudentNotFoundError
 from student_journal.application.invariants.lesson import validate_lesson_invariants
 from student_journal.domain.entity.lesson import Lesson
@@ -34,6 +35,10 @@ class UpdateLesson:
         if not student:
             raise StudentNotFoundError
 
+        orig_object = self.gateway.read_lesson(lesson_id=data.lesson_id, as_tz=UTC)
+        if orig_object is None:
+            raise LessonNotFoundError
+
         local_at = data.at.replace(tzinfo=student.get_timezone())
 
         validate_lesson_invariants(
@@ -49,6 +54,7 @@ class UpdateLesson:
             mark=data.mark,
             note=data.note,
             room=data.room,
+            student_id=orig_object.student_id,
         )
 
         with self.transaction_manager.begin():

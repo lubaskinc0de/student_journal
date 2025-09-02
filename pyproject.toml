@@ -19,6 +19,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+dev = ["student_journal[test,lint,build]"]
 test = [
     'pytest==8.3.3',
 ]

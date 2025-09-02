@@ -66,7 +66,7 @@ class EditSubject(QWidget):
 
     def load_teachers(self) -> None:
         with self.container() as r_container:
-            teachers = r_container.get(ReadTeachers).execute().teachers
+            teachers = r_container.get(ReadTeachers).execute()
             self.ui.teacher_combo.clear()
             for teacher in teachers:
                 self.ui.teacher_combo.addItem(teacher.full_name, teacher.teacher_id)

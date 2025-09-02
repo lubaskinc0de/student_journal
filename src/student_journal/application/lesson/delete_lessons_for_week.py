@@ -25,6 +25,7 @@ class DeleteLessonsForWeek:
         dates = self.gateway.read_lessons_for_week(
             week_start,
             as_tz=student.get_timezone(),
+            student_id=student.student_id,
         )
 
         ids = []

@@ -25,18 +25,18 @@ class UpdateStudent:
     idp: StudentIdProvider
 
     def execute(self, data: UpdatedStudent) -> StudentId:
+        validate_student_invariants(
+            age=data.age,
+            name=data.name,
+            home_address=data.home_address,
+            avatar=data.avatar,
+        )
+
         with self.transaction_manager.begin():
             student = self.gateway.read_student(self.idp.get_id())
 
             if not student:
                 raise StudentNotFoundError
-
-            validate_student_invariants(
-                age=data.age,
-                name=data.name,
-                home_address=data.home_address,
-                avatar=data.avatar,
-            )
 
             student = Student(
                 student_id=self.idp.get_id(),

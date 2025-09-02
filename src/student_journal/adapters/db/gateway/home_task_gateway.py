@@ -9,6 +9,7 @@ from student_journal.application.common.home_task_gateway import HomeTaskGateway
 from student_journal.application.exceptions.home_task import HomeTaskNotFoundError
 from student_journal.application.models.home_task import HomeTaskReadModel
 from student_journal.domain.entity.home_task import HomeTask
+from student_journal.domain.id_type.student_id import StudentId
 from student_journal.domain.id_type.task_id import HomeTaskId
 
 
@@ -38,7 +39,9 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
         params = home_task_to_list_retort.dump(home_task)
         self.cursor.execute(query, params)
 
-    def read_home_tasks(self, *, show_done: bool = False) -> list[HomeTaskReadModel]:
+    def read_home_tasks(
+        self, student_id: StudentId, *, show_done: bool = False,
+    ) -> list[HomeTaskReadModel]:
         query = """
             SELECT Hometask.task_id, Hometask.description, Hometask.is_done,
             Lesson.lesson_id as lesson_lesson_id,
@@ -53,12 +56,13 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
             FROM Hometask
             JOIN Lesson ON Hometask.lesson_id = Lesson.lesson_id
             JOIN Subject ON Lesson.subject_id = Subject.subject_id
+            WHERE Hometask.student_id = ?
             """
         if show_done is False:
-            query += " WHERE is_done = ?"
-            res = self.cursor.execute(query, (show_done,)).fetchall()
+            query += " AND is_done = ?"
+            res = self.cursor.execute(query, (student_id, show_done)).fetchall()
         else:
-            res = self.cursor.execute(query).fetchall()
+            res = self.cursor.execute(query, (student_id,)).fetchall()
 
         rows = [dict(row) for row in res]
         result = []

@@ -51,6 +51,7 @@ class CreateLesson:
             mark=data.mark,
             note=data.note,
             room=data.room,
+            student_id=student.student_id,
         )
 
         with self.transaction_manager.begin():

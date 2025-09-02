@@ -3,10 +3,10 @@ from datetime import date, timezone
 from typing import Protocol
 
 from student_journal.application.models.lesson import LessonsByDate, WeekLessons
-from student_journal.domain.id_type.lesson_id import LessonId
-from student_journal.domain.id_type.student_id import StudentId
 from student_journal.domain.entity.lesson import Lesson
 from student_journal.domain.entity.subject import Subject
+from student_journal.domain.id_type.lesson_id import LessonId
+from student_journal.domain.id_type.student_id import StudentId
 
 
 class LessonGateway(Protocol):

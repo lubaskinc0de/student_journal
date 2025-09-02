@@ -1,3 +1,4 @@
+import logging
 from dataclasses import dataclass
 
 from student_journal.application.common.id_provider import StudentIdProvider
@@ -18,3 +19,4 @@ class DeleteTeacher:
         with self.transaction_manager.begin():
             self.gateway.delete_teacher(teacher_id)
             self.transaction_manager.commit()
+        logging.debug("Deleted teacher: %s", teacher_id)

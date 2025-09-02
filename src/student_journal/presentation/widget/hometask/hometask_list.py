@@ -41,7 +41,7 @@ class HomeTaskList(QWidget):
         self.ui.list_hometask.clear()
         with self.container() as r_container:
             command = r_container.get(ReadHomeTasks)
-            tasks = command.execute(show_done=self.show_done).home_tasks
+            tasks = command.execute(show_done=self.show_done)
 
             for task in tasks:
                 task_text = f"{task.subject.title}: {task.description[:50]}"

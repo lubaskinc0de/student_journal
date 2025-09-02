@@ -4,5 +4,4 @@ T = TypeVar("T")
 
 
 class StudentAccessService(Generic[T]):
-    def ensure_has_access(self, obj: T) -> None:
-        ...
+    def ensure_has_access(self, obj: T) -> None: ...

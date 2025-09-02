@@ -1,3 +1,4 @@
+import logging
 from dataclasses import dataclass
 
 from student_journal.application.common.id_provider import StudentIdProvider
@@ -26,9 +27,10 @@ class UpdateSubject:
     access: StudentAccessService[Subject]
 
     def execute(self, data: UpdatedSubject) -> SubjectId:
+        validate_subject_invariants(data.title)
+
         with self.transaction_manager.begin():
             self.idp.ensure_auth()
-            validate_subject_invariants(data.title)
 
             orig_subject = self.gateway.read_subject(data.subject_id)
 
@@ -45,5 +47,5 @@ class UpdateSubject:
 
             self.gateway.update_subject(subject)
             self.transaction_manager.commit()
-
+        logging.debug("Updated subject: %s", data.subject_id)
         return data.subject_id

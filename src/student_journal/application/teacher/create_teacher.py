@@ -6,7 +6,6 @@ from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.common.teacher_gateway import TeacherGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.invariants.teacher import validate_teacher_invariants
-
 from student_journal.domain.entity.teacher import Teacher
 from student_journal.domain.id_type.teacher_id import TeacherId
 
@@ -24,10 +23,11 @@ class CreateTeacher:
     idp: StudentIdProvider
 
     def execute(self, data: NewTeacher) -> TeacherId:
+        validate_teacher_invariants(full_name=data.full_name)
+
         with self.transaction_manager.begin():
             self.idp.ensure_auth()
             student_id = self.idp.get_id()
-            validate_teacher_invariants(full_name=data.full_name)
 
             teacher_id = TeacherId(uuid4())
             teacher = Teacher(

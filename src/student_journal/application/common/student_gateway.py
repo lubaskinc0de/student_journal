@@ -1,8 +1,8 @@
 from abc import abstractmethod
 from typing import Protocol
 
-from student_journal.domain.id_type.student_id import StudentId
 from student_journal.domain.entity.student import Student
+from student_journal.domain.id_type.student_id import StudentId
 
 
 class StudentGateway(Protocol):

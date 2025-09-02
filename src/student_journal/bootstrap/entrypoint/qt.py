@@ -46,6 +46,7 @@ def except_hook(
 ) -> None:
     match exc_value:
         case StudentIsNotAuthenticatedError() as e:
+            logging.info("Student is not authenticated, redirecting to register.")
             text = error_locator.get_text(e)
             display_error_text(wnd, text)
             app.closeAllWindows()
@@ -85,6 +86,7 @@ def main(_argv: list[str]) -> None:
     sys.excepthook = partial(except_hook, app, locator, main_wnd)
 
     signal.signal(signal.SIGINT, signal.SIG_DFL)
+    logging.info("Starting application..")
     sys.exit(app.exec())
 
 

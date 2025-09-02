@@ -1,3 +1,4 @@
+import logging
 from abc import abstractmethod
 from sqlite3 import OperationalError
 from typing import Final, Protocol
@@ -108,4 +109,5 @@ class SimpleErrorLocator(ErrorLocator):
         try:
             return _messages[type(error)]
         except KeyError:
+            logging.warning("Cannot locate error: %s", error.__class__.__qualname__)
             return error.__class__.__qualname__

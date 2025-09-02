@@ -9,6 +9,7 @@ from student_journal.application.common.subject_gateway import SubjectGateway
 from student_journal.application.exceptions.subject import SubjectNotFoundError
 from student_journal.application.models.subject import SubjectReadModel
 from student_journal.domain.entity.subject import Subject
+from student_journal.domain.id_type.student_id import StudentId
 from student_journal.domain.id_type.subject_id import SubjectId
 
 
@@ -54,6 +55,7 @@ class SQLiteSubjectGateway(SubjectGateway):
         sort_by_title: bool = False,
         sort_by_avg_mark: bool = False,
         show_empty: bool = True,
+        student_id: StudentId,
     ) -> list[SubjectReadModel]:
         query = """
         SELECT
@@ -68,6 +70,7 @@ class SQLiteSubjectGateway(SubjectGateway):
         JOIN Teacher t ON s.teacher_id = t.teacher_id
         LEFT JOIN Lesson l ON s.subject_id = l.subject_id
         GROUP BY s.subject_id, s.title, t.teacher_id, t.full_name, t.avatar
+        WHERE s.student_id = ?
         """
 
         if not show_empty:
@@ -80,7 +83,7 @@ class SQLiteSubjectGateway(SubjectGateway):
         else:
             query += "ORDER BY s.subject_id"
 
-        res = self.cursor.execute(query).fetchall()
+        res = self.cursor.execute(query, (student_id, )).fetchall()
         entries = [dict(x) for x in res]
 
         for each in entries:

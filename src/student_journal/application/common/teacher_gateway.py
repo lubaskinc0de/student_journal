@@ -1,9 +1,9 @@
 from abc import abstractmethod
 from typing import Protocol
 
+from student_journal.domain.entity.teacher import Teacher
 from student_journal.domain.id_type.student_id import StudentId
 from student_journal.domain.id_type.teacher_id import TeacherId
-from student_journal.domain.entity.teacher import Teacher
 
 
 class TeacherGateway(Protocol):

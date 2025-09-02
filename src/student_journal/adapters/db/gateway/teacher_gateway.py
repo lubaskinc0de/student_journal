@@ -8,6 +8,7 @@ from student_journal.adapters.converter import (
 from student_journal.application.common.teacher_gateway import TeacherGateway
 from student_journal.application.exceptions.teacher import TeacherNotFoundError
 from student_journal.domain.entity.teacher import Teacher
+from student_journal.domain.id_type.student_id import StudentId
 from student_journal.domain.id_type.teacher_id import TeacherId
 
 
@@ -38,12 +39,13 @@ class SQLiteTeacherGateway(TeacherGateway):
         params = teacher_to_list_retort.dump(teacher)
         self.cursor.execute(query, params)
 
-    def read_teachers(self) -> list[Teacher]:
+    def read_teachers(self, student_id: StudentId) -> list[Teacher]:
         query = """
             SELECT teacher_id, full_name, avatar
             FROM Teacher
+            WHERE student_id = ?
             """
-        res = self.cursor.execute(query).fetchall()
+        res = self.cursor.execute(query, (student_id, )).fetchall()
 
         teachers = teacher_retort.load([dict(row) for row in res], list[Teacher])
 

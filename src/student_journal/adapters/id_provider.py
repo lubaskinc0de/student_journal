@@ -1,3 +1,4 @@
+import logging
 import tomllib
 from dataclasses import dataclass
 from pathlib import Path
@@ -36,6 +37,7 @@ class FileStudentIdProvider(StudentIdProvider):
 
     def get_id(self) -> StudentId:
         if not self.config.path.exists() or not self.config.path.is_file():
+            logging.warning("Credentials file not found: %s", self.config.path)
             raise StudentIsNotAuthenticatedError from FileNotFoundError
 
         with self.config.path.open("rb") as f:
@@ -49,8 +51,10 @@ class FileStudentIdProvider(StudentIdProvider):
                 KeyError,
                 StudentNotFoundError,
             ) as e:
+                logging.warning("Failed to authenticate student with file system.")
                 raise StudentIsNotAuthenticatedError from e
             else:
+                logging.info("Successfully authenticated student: %s", student_id)
                 return student_id
 
     def save(self, student_id: StudentId) -> None:
@@ -63,6 +67,7 @@ class FileStudentIdProvider(StudentIdProvider):
                 },
                 f,
             )
+        logging.info("Saved student %s creds to file system", student_id)
 
     def ensure_auth(self) -> None:
         self.get_id()

@@ -25,4 +25,5 @@ class ReadFirstLessonsOfWeeks:
             month,
             year,
             as_tz=student.get_timezone(),
+            student_id=student.student_id,
         )

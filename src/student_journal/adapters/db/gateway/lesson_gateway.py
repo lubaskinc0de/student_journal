@@ -11,6 +11,7 @@ from student_journal.application.models.lesson import LessonsByDate, WeekLessons
 from student_journal.domain.entity.lesson import Lesson
 from student_journal.domain.entity.subject import Subject
 from student_journal.domain.id_type.lesson_id import LessonId
+from student_journal.domain.id_type.student_id import StudentId
 
 
 @dataclass(slots=True, frozen=True)
@@ -46,6 +47,7 @@ class SQLiteLessonGateway(LessonGateway):
             note=lesson.note,
             room=lesson.room,
             lesson_id=lesson.lesson_id,
+            student_id=lesson.student_id,
         )
 
         params = lesson_to_list_retort.dump(lesson)
@@ -65,6 +67,7 @@ class SQLiteLessonGateway(LessonGateway):
             note=lesson.note,
             room=lesson.room,
             lesson_id=lesson.lesson_id,
+            student_id=lesson.student_id,
         )
 
         params = lesson_to_list_retort.dump(lesson)
@@ -79,10 +82,16 @@ class SQLiteLessonGateway(LessonGateway):
             """
         self.cursor.execute(query, (str(lesson_id),))
 
-    def read_lessons_for_week(self, week_start: date, as_tz: timezone) -> WeekLessons:
+    def read_lessons_for_week(
+        self,
+        week_start: date,
+        as_tz: timezone,
+        student_id: StudentId,
+    ) -> WeekLessons:
         query = """
         SELECT * FROM Lesson
-        WHERE at >= DATETIME(:week_start) AND at < DATETIME(:week_end);
+        WHERE at >= DATETIME(:week_start) AND at < DATETIME(:week_end)
+        AND student_id = :student_id;
         """
 
         week_start = datetime.combine(
@@ -100,6 +109,7 @@ class SQLiteLessonGateway(LessonGateway):
         params = {
             "week_start": week_start.isoformat(),
             "week_end": week_end.isoformat(),
+            "student_id": student_id,
         }
 
         res = self.cursor.execute(query, params).fetchall()
@@ -139,6 +149,7 @@ class SQLiteLessonGateway(LessonGateway):
         month: int,
         year: int,
         as_tz: timezone,
+        student_id: StudentId,
     ) -> LessonsByDate:
         query = """
             SELECT l.*
@@ -153,11 +164,13 @@ class SQLiteLessonGateway(LessonGateway):
             ) grouped_lessons
             ON strftime('%Y-%W', l.at) = grouped_lessons.week_year
             AND l.at = grouped_lessons.first_lesson_time;
+            WHERE l.student_id = :student_id
         """
 
         params = {
             "year": str(year),
             "month": f"{month:02}",
+            "student_id": student_id,
         }
 
         res = self.cursor.execute(query, params).fetchall()

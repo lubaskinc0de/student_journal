@@ -1,4 +1,5 @@
 import datetime
+import logging
 import random
 from dataclasses import dataclass
 from datetime import date, timedelta
@@ -54,6 +55,7 @@ class TestDataLoader:
             ),
         )
         student = self.read_student.execute(student_id)
+        logging.debug("Created new test student: %s", student_id)
         return student.student_id
 
     def insert_data(self, student_id: StudentId) -> None:
@@ -62,23 +64,25 @@ class TestDataLoader:
         student = self.read_student.execute(student_id)
 
         for name in teacher_names:
-            teacher = self.create_teacher.execute(
+            teacher_id = self.create_teacher.execute(
                 NewTeacher(
                     full_name=name,
                     avatar=None,
                 ),
             )
-            teachers.append(teacher)
+            logging.debug("Created new test teacher: %s", teacher_id)
+            teachers.append(teacher_id)
 
         subjects = []
         for teacher_id, subject in zip(teachers, SUBJECTS, strict=True):
-            new_subject = self.create_subject.execute(
+            new_subject_id = self.create_subject.execute(
                 NewSubject(
                     teacher_id=teacher_id,
                     title=subject,
                 ),
             )
-            subjects.append(new_subject)
+            subjects.append(new_subject_id)
+            logging.debug("Created new test subject: %s", new_subject_id)
 
         da_te = date.today()  # noqa: DTZ011
         week_start = da_te - timedelta(days=da_te.weekday())
@@ -106,12 +110,14 @@ class TestDataLoader:
                         room=random.randint(1000, 4000),  # noqa: S311
                     ),
                 )
+                logging.debug("Created new test lesson: %s", lesson_id)
 
                 if random.random() > 0.5:  # noqa: PLR2004, S311
-                    self.create_home_task.execute(
+                    home_task_id = self.create_home_task.execute(
                         NewHomeTask(
                             lesson_id=lesson_id,
                             description="Домашнее задание!",
                             is_done=random.choice([True, False]),  # noqa: S311
                         ),
                     )
+                    logging.debug("Created new test home task: %s", home_task_id)

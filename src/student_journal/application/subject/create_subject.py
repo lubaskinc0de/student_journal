@@ -1,3 +1,4 @@
+import logging
 from dataclasses import dataclass
 from uuid import uuid4
 
@@ -23,9 +24,10 @@ class CreateSubject:
     idp: StudentIdProvider
 
     def execute(self, data: NewSubject) -> SubjectId:
+        validate_subject_invariants(data.title)
+
         with self.transaction_manager.begin():
             self.idp.ensure_auth()
-            validate_subject_invariants(data.title)
 
             subject_id = SubjectId(uuid4())
             subject = Subject(
@@ -37,5 +39,5 @@ class CreateSubject:
 
             self.gateway.write_subject(subject)
             self.transaction_manager.commit()
-
+        logging.debug("Subject created: %s", subject.subject_id)
         return subject_id
