@@ -1,14 +1,18 @@
-import logging
 from dataclasses import dataclass
 from uuid import uuid4
 
+import structlog
+
 from student_journal.application.common.id_provider import StudentIdProvider
+from student_journal.application.common.logger import Logger, retort
 from student_journal.application.common.subject_gateway import SubjectGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.validators.subject import validate_subject
 from student_journal.domain.entity.subject import Subject
 from student_journal.domain.id_type.subject_id import SubjectId
 from student_journal.domain.id_type.teacher_id import TeacherId
+
+logger: Logger = structlog.get_logger()
 
 
 @dataclass(slots=True, frozen=True)
@@ -39,5 +43,10 @@ class CreateSubject:
 
             self.gateway.write_subject(subject)
             self.transaction_manager.commit()
-        logging.debug("Subject created: %s", subject.subject_id)
+
+        logger.debug(
+            "Created new subject",
+            data=retort.dump(subject),
+            user_id=self.idp.get_student_id(),
+        )
         return subject_id

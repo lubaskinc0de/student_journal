@@ -1,7 +1,9 @@
-import logging
 from dataclasses import dataclass
 
+import structlog
+
 from student_journal.application.common.id_provider import StudentIdProvider
+from student_journal.application.common.logger import Logger, retort
 from student_journal.application.common.subject_gateway import SubjectGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.exceptions.subject import SubjectNotFoundError
@@ -10,6 +12,8 @@ from student_journal.domain.access_service.generic import StudentAccessService
 from student_journal.domain.entity.subject import Subject
 from student_journal.domain.id_type.subject_id import SubjectId
 from student_journal.domain.id_type.teacher_id import TeacherId
+
+logger: Logger = structlog.get_logger()
 
 
 @dataclass(slots=True, frozen=True)
@@ -47,5 +51,11 @@ class UpdateSubject:
 
             self.gateway.update_subject(subject)
             self.transaction_manager.commit()
-        logging.debug("Updated subject: %s", data.subject_id)
+
+        logger.debug(
+            "Updated Subject",
+            old_data=retort.dump(orig_subject),
+            data=retort.dump(subject),
+            user_id=self.idp.get_student_id(),
+        )
         return data.subject_id

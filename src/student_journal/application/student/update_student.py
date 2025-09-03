@@ -57,6 +57,7 @@ class UpdateStudent:
                 "Student updated",
                 old_data=retort.dump(orig_student),
                 data=retort.dump(student),
+                user_id=self.idp.get_student_id(),
             )
 
         return student.student_id

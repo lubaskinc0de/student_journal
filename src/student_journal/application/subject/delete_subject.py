@@ -1,10 +1,14 @@
-import logging
 from dataclasses import dataclass
 
+import structlog
+
 from student_journal.application.common.id_provider import StudentIdProvider
+from student_journal.application.common.logger import Logger
 from student_journal.application.common.subject_gateway import SubjectGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.domain.id_type.subject_id import SubjectId
+
+logger: Logger = structlog.get_logger()
 
 
 @dataclass(slots=True)
@@ -19,4 +23,7 @@ class DeleteSubject:
         with self.transaction_manager.begin():
             self.gateway.delete_subject(subject_id)
             self.transaction_manager.commit()
-        logging.debug("Deleted subject: %s", subject_id)
+
+        logger.debug(
+            "Deleted Subject", subject_id=subject_id, user_id=self.idp.get_student_id(),
+        )
