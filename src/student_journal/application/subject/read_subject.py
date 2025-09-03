@@ -3,8 +3,8 @@ from dataclasses import dataclass
 from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.common.subject_gateway import SubjectGateway
 from student_journal.application.exceptions.subject import SubjectNotFoundError
-from student_journal.domain.access_service.generic import StudentAccessService
 from student_journal.domain.entity.subject import Subject
+from student_journal.domain.exception.access import AccessDeniedError
 from student_journal.domain.id_type.subject_id import SubjectId
 
 
@@ -12,7 +12,6 @@ from student_journal.domain.id_type.subject_id import SubjectId
 class ReadSubject:
     gateway: SubjectGateway
     idp: StudentIdProvider
-    access: StudentAccessService[Subject]
 
     def execute(self, subject_id: SubjectId) -> Subject:
         self.idp.require_auth()
@@ -21,6 +20,7 @@ class ReadSubject:
         if not subject:
             raise SubjectNotFoundError
 
-        self.access.ensure_has_access(subject)
+        if not subject.can_view(self.idp.get_student_id()):
+            raise AccessDeniedError
 
         return subject

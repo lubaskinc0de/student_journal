@@ -6,6 +6,7 @@ from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.exceptions.lesson import LessonNotFoundError
 from student_journal.application.exceptions.student import StudentNotFoundError
 from student_journal.domain.entity.lesson import Lesson
+from student_journal.domain.exception.access import AccessDeniedError
 from student_journal.domain.id_type.lesson_id import LessonId
 
 
@@ -26,5 +27,8 @@ class ReadLesson:
 
         if not lesson:
             raise LessonNotFoundError
+
+        if not lesson.can_view(self.idp.get_student_id()):
+            raise AccessDeniedError
 
         return lesson

@@ -14,3 +14,7 @@ class Student:
 
     def get_timezone(self) -> timezone:
         return timezone(timedelta(hours=self.utc_offset))
+
+    def can_view(self, student_id: StudentId) -> bool:
+        return self.student_id == student_id
+
