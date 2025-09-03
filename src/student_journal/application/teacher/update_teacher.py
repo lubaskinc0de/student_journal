@@ -1,14 +1,18 @@
-import logging
 from dataclasses import dataclass
 
+import structlog
+
 from student_journal.application.common.id_provider import StudentIdProvider
+from student_journal.application.common.logger import Logger, retort
 from student_journal.application.common.teacher_gateway import TeacherGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.exceptions.teacher import TeacherNotFoundError
 from student_journal.application.validators.teacher import validate_teacher
-from student_journal.domain.access_service.generic import StudentAccessService
 from student_journal.domain.entity.teacher import Teacher
+from student_journal.domain.exception.access import AccessDeniedError
 from student_journal.domain.id_type.teacher_id import TeacherId
+
+logger: Logger = structlog.get_logger()
 
 
 @dataclass(slots=True, frozen=True)
@@ -23,7 +27,6 @@ class UpdateTeacher:
     gateway: TeacherGateway
     transaction_manager: TransactionManager
     idp: StudentIdProvider
-    access: StudentAccessService[Teacher]
 
     def execute(self, data: UpdatedTeacher) -> TeacherId:
         validate_teacher(full_name=data.full_name)
@@ -35,7 +38,8 @@ class UpdateTeacher:
             if orig_teacher is None:
                 raise TeacherNotFoundError
 
-            self.access.ensure_has_access(orig_teacher)
+            if not orig_teacher.can_manage(self.idp.get_student_id()):
+                raise AccessDeniedError
 
             teacher = Teacher(
                 teacher_id=data.teacher_id,
@@ -46,5 +50,11 @@ class UpdateTeacher:
 
             self.gateway.update_teacher(teacher)
             self.transaction_manager.commit()
-        logging.debug("Updated teacher: %s")
+
+        logger.debug(
+            "Updated Teacher",
+            old_data=retort.dump(orig_teacher),
+            data=retort.dump(teacher),
+            user_id=self.idp.get_student_id(),
+        )
         return data.teacher_id

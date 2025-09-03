@@ -1,13 +1,17 @@
-import logging
 from dataclasses import dataclass
 from uuid import uuid4
 
+import structlog
+
 from student_journal.application.common.id_provider import StudentIdProvider
+from student_journal.application.common.logger import Logger, retort
 from student_journal.application.common.teacher_gateway import TeacherGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.validators.teacher import validate_teacher
 from student_journal.domain.entity.teacher import Teacher
 from student_journal.domain.id_type.teacher_id import TeacherId
+
+logger: Logger = structlog.get_logger()
 
 
 @dataclass(slots=True, frozen=True)
@@ -39,6 +43,10 @@ class CreateTeacher:
             self.gateway.write_teacher(teacher)
             self.transaction_manager.commit()
 
-            logging.debug("Teacher created: %s", teacher_id)
+            logger.debug(
+                "Teacher created",
+                data=retort.dump(teacher),
+                user_id=self.idp.get_student_id(),
+            )
 
         return teacher_id
