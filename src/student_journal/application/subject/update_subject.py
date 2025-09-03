@@ -8,8 +8,8 @@ from student_journal.application.common.subject_gateway import SubjectGateway
 from student_journal.application.common.transaction_manager import TransactionManager
 from student_journal.application.exceptions.subject import SubjectNotFoundError
 from student_journal.application.validators.subject import validate_subject
-from student_journal.domain.access_service.generic import StudentAccessService
 from student_journal.domain.entity.subject import Subject
+from student_journal.domain.exception.access import AccessDeniedError
 from student_journal.domain.id_type.subject_id import SubjectId
 from student_journal.domain.id_type.teacher_id import TeacherId
 
@@ -28,7 +28,6 @@ class UpdateSubject:
     gateway: SubjectGateway
     transaction_manager: TransactionManager
     idp: StudentIdProvider
-    access: StudentAccessService[Subject]
 
     def execute(self, data: UpdatedSubject) -> SubjectId:
         validate_subject(data.title)
@@ -41,7 +40,9 @@ class UpdateSubject:
             if orig_subject is None:
                 raise SubjectNotFoundError
 
-            self.access.ensure_has_access(orig_subject)
+            if not orig_subject.can_manage(self.idp.get_student_id()):
+                raise AccessDeniedError
+
             subject = Subject(
                 subject_id=data.subject_id,
                 title=data.title,
