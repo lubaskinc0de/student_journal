@@ -8,7 +8,6 @@ from student_journal.adapters.exceptions.ui.lesson import (
     LessonIsNotSpecifiedError,
     SubjectIsNotSelectedError,
 )
-from student_journal.application.validators.lesson import MIN_ROOM
 from student_journal.application.lesson.create_lesson import CreateLesson, NewLesson
 from student_journal.application.lesson.delete_lesson import DeleteLesson
 from student_journal.application.lesson.read_lesson import ReadLesson
@@ -19,6 +18,7 @@ from student_journal.application.lesson.update_lesson import (
 from student_journal.application.student.read_current_student import ReadCurrentStudent
 from student_journal.application.subject.read_subject import ReadSubject
 from student_journal.application.subject.read_subjects import ReadSubjects
+from student_journal.application.validators.lesson import MIN_ROOM
 from student_journal.domain.id_type.lesson_id import LessonId
 from student_journal.domain.id_type.subject_id import SubjectId
 from student_journal.presentation.ui.edit_lesson import EditLessonUI

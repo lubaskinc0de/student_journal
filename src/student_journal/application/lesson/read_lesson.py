@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.common.lesson_gateway import LessonGateway
 from student_journal.application.common.student_gateway import StudentGateway
+from student_journal.application.common.tz import TimezoneProvider
 from student_journal.application.exceptions.lesson import LessonNotFoundError
 from student_journal.application.exceptions.student import StudentNotFoundError
 from student_journal.domain.entity.lesson import Lesson
@@ -15,6 +16,7 @@ class ReadLesson:
     gateway: LessonGateway
     student_gateway: StudentGateway
     idp: StudentIdProvider
+    tz: TimezoneProvider
 
     def execute(self, lesson_id: LessonId) -> Lesson:
         self.idp.require_auth()
@@ -23,7 +25,7 @@ class ReadLesson:
         if not student:
             raise StudentNotFoundError
 
-        lesson = self.gateway.read_lesson(lesson_id, student.get_timezone())
+        lesson = self.gateway.read_lesson(lesson_id, self.tz.get_timezone())
 
         if not lesson:
             raise LessonNotFoundError

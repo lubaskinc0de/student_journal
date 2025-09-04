@@ -83,7 +83,7 @@ class SQLiteSubjectGateway(SubjectGateway):
         else:
             query += "ORDER BY s.subject_id"
 
-        res = self.cursor.execute(query, (student_id, )).fetchall()
+        res = self.cursor.execute(query, (student_id,)).fetchall()
         entries = [dict(x) for x in res]
 
         for each in entries:

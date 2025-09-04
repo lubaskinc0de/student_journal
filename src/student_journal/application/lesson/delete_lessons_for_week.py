@@ -8,6 +8,7 @@ from student_journal.application.common.lesson_gateway import LessonGateway
 from student_journal.application.common.logger import Logger
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
+from student_journal.application.common.tz import TimezoneProvider
 from student_journal.application.exceptions.student import StudentNotFoundError
 
 logger: Logger = structlog.get_logger()
@@ -19,6 +20,7 @@ class DeleteLessonsForWeek:
     gateway: LessonGateway
     student_gateway: StudentGateway
     transaction_manager: TransactionManager
+    tz: TimezoneProvider
 
     def execute(self, week_start: date) -> None:
         self.idp.require_auth()
@@ -29,7 +31,7 @@ class DeleteLessonsForWeek:
 
         dates = self.gateway.read_lessons_for_week(
             week_start,
-            as_tz=student.get_timezone(),
+            as_tz=self.tz.get_timezone(),
             student_id=student.student_id,
         )
 

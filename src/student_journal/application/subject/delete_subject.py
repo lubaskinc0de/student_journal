@@ -34,5 +34,7 @@ class DeleteSubject:
             self.transaction_manager.commit()
 
         logger.debug(
-            "Deleted Subject", subject_id=subject_id, user_id=self.idp.get_student_id(),
+            "Deleted Subject",
+            subject_id=subject_id,
+            user_id=self.idp.get_student_id(),
         )

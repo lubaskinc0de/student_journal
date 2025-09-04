@@ -40,7 +40,10 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
         self.cursor.execute(query, params)
 
     def read_home_tasks(
-        self, student_id: StudentId, *, show_done: bool = False,
+        self,
+        student_id: StudentId,
+        *,
+        show_done: bool = False,
     ) -> list[HomeTaskReadModel]:
         query = """
             SELECT Hometask.task_id, Hometask.description, Hometask.is_done,

@@ -45,7 +45,7 @@ class SQLiteTeacherGateway(TeacherGateway):
             FROM Teacher
             WHERE student_id = ?
             """
-        res = self.cursor.execute(query, (student_id, )).fetchall()
+        res = self.cursor.execute(query, (student_id,)).fetchall()
 
         teachers = teacher_retort.load([dict(row) for row in res], list[Teacher])
 

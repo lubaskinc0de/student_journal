@@ -62,7 +62,9 @@ class CreateLesson:
             self.transaction_manager.commit()
 
         logger.debug(
-            "Created new Lesson", data=retort.dump(lesson), user_id=student.student_id,
+            "Created new Lesson",
+            data=retort.dump(lesson),
+            user_id=student.student_id,
         )
 
         return lesson_id

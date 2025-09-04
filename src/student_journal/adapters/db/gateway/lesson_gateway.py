@@ -216,4 +216,4 @@ class SQLiteLessonGateway(LessonGateway):
         DELETE FROM Lesson WHERE student_id = ?
         """
 
-        self.cursor.execute(query, (student_id, ))
+        self.cursor.execute(query, (student_id,))
