@@ -17,6 +17,8 @@ dependencies = [
     'tomli-w==1.1.0',
     'faker==33.1.0',
     'structlog==25.4.0',
+    'alembic==1.16.4',
+    'SQLAlchemy==2.0.43',
 ]
 
 [project.optional-dependencies]

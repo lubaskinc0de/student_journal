@@ -15,8 +15,6 @@ def connection() -> Iterable[Connection]:
     factory = SQLiteConnectionFactory(maker)
 
     with factory.connection() as conn:
-        load_and_execute(conn.cursor())
-        conn.execute("PRAGMA foreign_keys = OFF;")
         yield conn
 
 

@@ -5,7 +5,6 @@ from dishka import Provider, Scope, provide
 
 from student_journal.adapters.db.connection_factory import SQLiteConnectionFactory
 from student_journal.adapters.db.connection_maker import SQLiteConnectionMaker
-from student_journal.adapters.db.schema.load_schema import load_and_execute
 from student_journal.adapters.db.transaction_manager import SQLiteTransactionManager
 from student_journal.application.common.transaction_manager import TransactionManager
 
@@ -22,10 +21,6 @@ class DbProvider(Provider):
         maker: SQLiteConnectionMaker,
     ) -> SQLiteConnectionFactory:
         factory = SQLiteConnectionFactory(connection_maker=maker)
-
-        with factory.connection() as conn:
-            load_and_execute(conn.cursor())
-
         return factory
 
     @provide()
