@@ -10,18 +10,18 @@ from student_journal.application.exceptions.student import (
     StudentHomeAddressError,
     StudentNameError,
 )
+from student_journal.application.student.create_student import CreateStudent, NewStudent
+from student_journal.application.student.read_current_student import ReadCurrentStudent
+from student_journal.application.student.update_student import (
+    UpdatedStudent,
+    UpdateStudent,
+)
 from student_journal.application.validators.student import (
     HOME_ADDRESS_MAX_LENGTH,
     MAX_AGE,
     MIN_AGE,
     NAME_MAX_LENGTH,
     NAME_MIN_LENGTH,
-)
-from student_journal.application.student.create_student import CreateStudent, NewStudent
-from student_journal.application.student.read_current_student import ReadCurrentStudent
-from student_journal.application.student.update_student import (
-    UpdatedStudent,
-    UpdateStudent,
 )
 from unit.conftest import STUDENT, STUDENT_ID
 from unit.student.mock.student_gateway import MockedStudentGateway

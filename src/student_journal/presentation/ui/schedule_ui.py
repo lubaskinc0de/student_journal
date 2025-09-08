@@ -9,7 +9,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Schedule(object):
+class Ui_Schedule:
     def setupUi(self, Schedule):
         Schedule.setObjectName("Schedule")
         Schedule.resize(646, 400)

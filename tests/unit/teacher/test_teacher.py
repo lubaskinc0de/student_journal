@@ -4,7 +4,6 @@ from student_journal.application.exceptions.base import ApplicationError
 from student_journal.application.exceptions.teacher import (
     TeacherFullNameError,
 )
-from student_journal.application.validators.teacher import FULL_NAME_MAX_LENGTH
 from student_journal.application.models.teacher import TeachersReadModel
 from student_journal.application.teacher import (
     CreateTeacher,
@@ -15,6 +14,7 @@ from student_journal.application.teacher import (
     UpdatedTeacher,
     UpdateTeacher,
 )
+from student_journal.application.validators.teacher import FULL_NAME_MAX_LENGTH
 from unit.student.mock import MockedTeacherGateway, MockedTransactionManager
 from unit.teacher.conftest import TEACHER, TEACHER2, TEACHER_ID
 

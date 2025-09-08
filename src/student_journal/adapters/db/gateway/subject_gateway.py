@@ -69,8 +69,8 @@ class SQLiteSubjectGateway(SubjectGateway):
         FROM Subject s
         JOIN Teacher t ON s.teacher_id = t.teacher_id
         LEFT JOIN Lesson l ON s.subject_id = l.subject_id
-        GROUP BY s.subject_id, s.title, t.teacher_id, t.full_name, t.avatar
         WHERE s.student_id = ?
+        GROUP BY s.subject_id, s.title, t.teacher_id, t.full_name, t.avatar
         """
 
         if not show_empty:

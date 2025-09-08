@@ -9,7 +9,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Register(object):
+class Ui_Register:
     def setupUi(self, Register):
         Register.setObjectName("Register")
         Register.resize(500, 368)

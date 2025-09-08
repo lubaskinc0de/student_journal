@@ -9,7 +9,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_EditLesson(object):
+class Ui_EditLesson:
     def setupUi(self, EditLesson):
         EditLesson.setObjectName("EditLesson")
         EditLesson.resize(550, 537)

@@ -9,7 +9,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_HometaskList(object):
+class Ui_HometaskList:
     def setupUi(self, HometaskList):
         HometaskList.setObjectName("HometaskList")
         self.gridLayout = QtWidgets.QGridLayout(HometaskList)
