@@ -1,3 +1,7 @@
+from student_journal.adapters.logging.config import init_structlog
+
+init_structlog()
+
 import signal
 import sys
 from functools import partial
@@ -11,8 +15,8 @@ from PyQt6.QtWidgets import QApplication, QMessageBox
 
 import student_journal
 import student_journal.presentation.resource
+from student_journal.adapters.db.migrations.scripts import run_migrations
 from student_journal.adapters.error_locator import ErrorLocator
-from student_journal.adapters.logging.config import init_structlog
 from student_journal.application.common.logger import Logger
 from student_journal.application.exceptions.base import ApplicationError
 from student_journal.application.exceptions.student import (
@@ -21,8 +25,7 @@ from student_journal.application.exceptions.student import (
 from student_journal.bootstrap.di.container import get_container_for_gui
 from student_journal.presentation.widget.main_window import MainWindow
 
-init_structlog()
-logger: Logger = structlog.get_logger()
+logger: Logger = structlog.get_logger(__name__)
 
 
 def display_error_text(wnd: MainWindow, text: str) -> None:
@@ -63,6 +66,8 @@ def exception_hook(
 
 def main(_argv: list[str]) -> None:
     logger.debug("Startup..")
+    logger.debug("Running migrations")
+    run_migrations([])
 
     if hasattr(Qt, "AA_EnableHighDpiScaling"):
         logger.debug("Using High DPI Scaling")

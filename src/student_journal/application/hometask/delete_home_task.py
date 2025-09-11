@@ -10,7 +10,7 @@ from student_journal.application.exceptions.home_task import HomeTaskNotFoundErr
 from student_journal.domain.exception.access import AccessDeniedError
 from student_journal.domain.id_type.task_id import HomeTaskId
 
-logger: Logger = structlog.get_logger()
+logger: Logger = structlog.get_logger(__name__)
 
 
 @dataclass(slots=True)

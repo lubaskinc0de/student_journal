@@ -7,6 +7,7 @@ import structlog
 
 def preprocessors() -> list[Any]:
     return [
+        structlog.processors.dict_tracebacks,
         structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S"),
         structlog.stdlib.add_log_level,
         structlog.processors.format_exc_info,
@@ -29,6 +30,7 @@ def init_structlog() -> None:
         "jsonformat": {
             "class": "logging.StreamHandler",
             "formatter": "jsonformat_formatter",
+            "level": "DEBUG",
         },
     }
 
@@ -59,3 +61,5 @@ def init_structlog() -> None:
         logger_factory=structlog.stdlib.LoggerFactory(),
         cache_logger_on_first_use=True,
     )
+
+    logging.getLogger().setLevel(logging.DEBUG)

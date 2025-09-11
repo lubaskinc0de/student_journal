@@ -1,18 +1,21 @@
-import logging
 import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 from uuid import UUID
 
+import structlog
 import tomli_w
 
 from student_journal.application.common.id_provider import StudentIdProvider
+from student_journal.application.common.logger import Logger
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.exceptions.student import (
     StudentIsNotAuthenticatedError,
     StudentNotFoundError,
 )
 from student_journal.domain.id_type.student_id import StudentId
+
+logger: Logger = structlog.get_logger(__name__)
 
 
 @dataclass(slots=True, frozen=True)
@@ -37,7 +40,7 @@ class FileStudentIdProvider(StudentIdProvider):
 
     def get_student_id(self) -> StudentId:
         if not self.config.path.exists() or not self.config.path.is_file():
-            logging.warning("Credentials file not found: %s", self.config.path)
+            logger.warning("Credentials file not found", config_path=self.config.path)
             raise StudentIsNotAuthenticatedError from FileNotFoundError
 
         with self.config.path.open("rb") as f:
@@ -51,10 +54,13 @@ class FileStudentIdProvider(StudentIdProvider):
                 KeyError,
                 StudentNotFoundError,
             ) as e:
-                logging.warning("Failed to authenticate student with file system.")
+                logger.warning("Failed to authenticate student with file system.")
                 raise StudentIsNotAuthenticatedError from e
             else:
-                logging.info("Successfully authenticated student: %s", student_id)
+                logger.debug(
+                    "Successfully authenticated student",
+                    student_id=student_id,
+                )
                 return student_id
 
     def save(self, student_id: StudentId) -> None:
@@ -67,7 +73,7 @@ class FileStudentIdProvider(StudentIdProvider):
                 },
                 f,
             )
-        logging.info("Saved student %s creds to file system", student_id)
+        logger.debug("Saved student creds to file system", student_id=student_id)
 
     def require_auth(self) -> None:
         self.get_student_id()

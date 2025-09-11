@@ -11,7 +11,7 @@ from student_journal.application.validators.teacher import validate_teacher
 from student_journal.domain.entity.teacher import Teacher
 from student_journal.domain.id_type.teacher_id import TeacherId
 
-logger: Logger = structlog.get_logger()
+logger: Logger = structlog.get_logger(__name__)
 
 
 @dataclass(slots=True, frozen=True)

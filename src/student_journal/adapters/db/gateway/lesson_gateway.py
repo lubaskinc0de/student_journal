@@ -89,7 +89,7 @@ class SQLiteLessonGateway(LessonGateway):
         params = {
             "week_start": week_start.isoformat(),
             "week_end": week_end.isoformat(),
-            "student_id": student_id,
+            "student_id": str(student_id),
         }
 
         res = self.cursor.execute(query, params).fetchall()
@@ -150,7 +150,7 @@ class SQLiteLessonGateway(LessonGateway):
         params = {
             "year": str(year),
             "month": f"{month:02}",
-            "student_id": student_id,
+            "student_id": str(student_id),
         }
 
         res = self.cursor.execute(query, params).fetchall()
@@ -216,4 +216,4 @@ class SQLiteLessonGateway(LessonGateway):
         DELETE FROM Lesson WHERE student_id = ?
         """
 
-        self.cursor.execute(query, (student_id,))
+        self.cursor.execute(query, (str(student_id),))

@@ -7,7 +7,7 @@ from student_journal.application.common.lesson_gateway import LessonGateway
 from student_journal.application.common.logger import Logger
 from student_journal.application.common.transaction_manager import TransactionManager
 
-logger: Logger = structlog.get_logger()
+logger: Logger = structlog.get_logger(__name__)
 
 
 @dataclass(frozen=True, slots=True)

@@ -25,7 +25,7 @@ def upgrade() -> None:
         sa.Column("teacher_id", sa.Text(), nullable=False),
         sa.Column("full_name", sa.String(), nullable=False),
         sa.Column("avatar", sa.Text(), nullable=True),
-        sa.Column("student_id", sa.UUID(as_uuid=True), nullable=False),
+        sa.Column("student_id", sa.Text(), nullable=False),
         sa.PrimaryKeyConstraint("teacher_id"),
         sa.ForeignKeyConstraint(
             ["student_id"],
@@ -51,7 +51,7 @@ def upgrade() -> None:
         sa.Column("subject_id", sa.Text(), nullable=False),
         sa.Column("title", sa.String(), nullable=False),
         sa.Column("teacher_id", sa.Text(), nullable=False),
-        sa.Column("student_id", sa.UUID(as_uuid=True), nullable=False),
+        sa.Column("student_id", sa.Text(), nullable=False),
         sa.ForeignKeyConstraint(
             ["teacher_id"],
             ["Teacher.teacher_id"],
@@ -70,7 +70,7 @@ def upgrade() -> None:
         "Lesson",
         sa.Column("lesson_id", sa.Text(), nullable=False),
         sa.Column("subject_id", sa.Text(), nullable=False),
-        sa.Column("student_id", sa.UUID(as_uuid=True), nullable=False),
+        sa.Column("student_id", sa.Text(), nullable=False),
         sa.Column("at", sa.DateTime(), nullable=False),
         sa.Column("mark", sa.Integer(), nullable=True),
         sa.Column("note", sa.Text(), nullable=True),
@@ -95,7 +95,7 @@ def upgrade() -> None:
         sa.Column("description", sa.Text(), nullable=False),
         sa.Column("is_done", sa.Boolean(), nullable=False, server_default="0"),
         sa.Column("lesson_id", sa.Text(), nullable=False),
-        sa.Column("student_id", sa.UUID(as_uuid=True), nullable=False),
+        sa.Column("student_id", sa.Text(), nullable=False),
         sa.ForeignKeyConstraint(
             ["lesson_id"],
             ["Lesson.lesson_id"],

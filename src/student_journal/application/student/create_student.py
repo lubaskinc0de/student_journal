@@ -10,7 +10,7 @@ from student_journal.application.validators.student import validate_student
 from student_journal.domain.entity.student import Student
 from student_journal.domain.id_type.student_id import StudentId
 
-logger: Logger = structlog.get_logger()
+logger: Logger = structlog.get_logger(__name__)
 
 
 @dataclass(slots=True, frozen=True)

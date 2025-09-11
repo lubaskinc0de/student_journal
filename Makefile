@@ -8,3 +8,6 @@ lint:
 	ruff format
 	ruff check
 	mypy
+
+migrations:
+	student_journal migrations run

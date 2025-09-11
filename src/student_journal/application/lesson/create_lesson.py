@@ -15,7 +15,7 @@ from student_journal.domain.entity.lesson import Lesson
 from student_journal.domain.id_type.lesson_id import LessonId
 from student_journal.domain.id_type.subject_id import SubjectId
 
-logger: Logger = structlog.get_logger()
+logger: Logger = structlog.get_logger(__name__)
 
 
 @dataclass(slots=True, frozen=True)

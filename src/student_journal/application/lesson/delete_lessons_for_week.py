@@ -11,7 +11,7 @@ from student_journal.application.common.transaction_manager import TransactionMa
 from student_journal.application.common.tz import TimezoneProvider
 from student_journal.application.exceptions.student import StudentNotFoundError
 
-logger: Logger = structlog.get_logger()
+logger: Logger = structlog.get_logger(__name__)
 
 
 @dataclass(frozen=True, slots=True)

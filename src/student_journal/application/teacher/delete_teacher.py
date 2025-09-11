@@ -10,7 +10,7 @@ from student_journal.application.exceptions.teacher import TeacherNotFoundError
 from student_journal.domain.exception.access import AccessDeniedError
 from student_journal.domain.id_type.teacher_id import TeacherId
 
-logger: Logger = structlog.get_logger()
+logger: Logger = structlog.get_logger(__name__)
 
 
 @dataclass(slots=True)

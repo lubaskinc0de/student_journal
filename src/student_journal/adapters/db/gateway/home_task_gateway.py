@@ -63,9 +63,9 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
             """
         if show_done is False:
             query += " AND is_done = ?"
-            res = self.cursor.execute(query, (student_id, show_done)).fetchall()
+            res = self.cursor.execute(query, (str(student_id), show_done)).fetchall()
         else:
-            res = self.cursor.execute(query, (student_id,)).fetchall()
+            res = self.cursor.execute(query, (str(student_id),)).fetchall()
 
         rows = [dict(row) for row in res]
         result = []

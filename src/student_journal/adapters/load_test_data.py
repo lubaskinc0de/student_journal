@@ -1,11 +1,12 @@
 import datetime
-import logging
 import random
 from dataclasses import dataclass
 from datetime import date, timedelta
 
+import structlog
 from faker import Faker
 
+from student_journal.application.common.logger import Logger
 from student_journal.application.hometask.create_home_task import (
     CreateHomeTask,
     NewHomeTask,
@@ -18,6 +19,7 @@ from student_journal.application.teacher import CreateTeacher, NewTeacher
 from student_journal.domain.id_type.student_id import StudentId
 
 fake = Faker(locale="ru_RU")
+logger: Logger = structlog.get_logger(__name__)
 
 SUBJECTS = [
     "Математика",
@@ -54,11 +56,10 @@ class TestDataLoader:
                 avatar=None,
             ),
         )
-        student = self.read_student.execute(student_id)
-        logging.debug("Created new test student: %s", student_id)
-        return student.student_id
+        return student_id
 
     def insert_data(self, student_id: StudentId) -> None:
+        logger.info("Started filling data")
         teacher_names = [fake.name() for _ in range(10)]
         teachers = []
         student = self.read_student.execute(student_id)
@@ -70,7 +71,6 @@ class TestDataLoader:
                     avatar=None,
                 ),
             )
-            logging.debug("Created new test teacher: %s", teacher_id)
             teachers.append(teacher_id)
 
         subjects = []
@@ -82,7 +82,6 @@ class TestDataLoader:
                 ),
             )
             subjects.append(new_subject_id)
-            logging.debug("Created new test subject: %s", new_subject_id)
 
         da_te = date.today()  # noqa: DTZ011
         week_start = da_te - timedelta(days=da_te.weekday())
@@ -110,14 +109,12 @@ class TestDataLoader:
                         room=random.randint(1000, 4000),  # noqa: S311
                     ),
                 )
-                logging.debug("Created new test lesson: %s", lesson_id)
 
                 if random.random() > 0.5:  # noqa: PLR2004, S311
-                    home_task_id = self.create_home_task.execute(
+                    self.create_home_task.execute(
                         NewHomeTask(
                             lesson_id=lesson_id,
                             description="Домашнее задание!",
                             is_done=random.choice([True, False]),  # noqa: S311
                         ),
                     )
-                    logging.debug("Created new test home task: %s", home_task_id)

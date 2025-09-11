@@ -11,7 +11,7 @@ from student_journal.application.exceptions.lesson import LessonNotFoundError
 from student_journal.domain.exception.access import AccessDeniedError
 from student_journal.domain.id_type.lesson_id import LessonId
 
-logger: Logger = structlog.get_logger()
+logger: Logger = structlog.get_logger(__name__)
 
 
 @dataclass(slots=True)

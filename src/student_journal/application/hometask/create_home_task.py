@@ -14,7 +14,7 @@ from student_journal.domain.entity.home_task import HomeTask
 from student_journal.domain.id_type.lesson_id import LessonId
 from student_journal.domain.id_type.task_id import HomeTaskId
 
-logger: Logger = structlog.get_logger()
+logger: Logger = structlog.get_logger(__name__)
 
 
 @dataclass(slots=True, frozen=True)
