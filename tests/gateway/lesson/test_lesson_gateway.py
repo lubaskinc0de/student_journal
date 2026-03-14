@@ -8,6 +8,7 @@ from unit.conftest import (
     LESSON_MONDAY,
     LESSON_MONDAY_2,
     LESSON_WEDNESDAY,
+    STUDENT_ID,
     SUBJECT_ID,
     student_timezone,
 )
@@ -80,6 +81,7 @@ def test_update(
     updated_lesson = Lesson(
         lesson_id=LESSON_ID,
         subject_id=SUBJECT_ID,
+        student_id=STUDENT_ID,
         at=datetime(2023, 12, 11, tzinfo=student_timezone),
         mark=3,
         note="testtttt",
@@ -134,6 +136,7 @@ def test_read_lessons_for_week(
     gateway_output = lesson_gateway.read_lessons_for_week(
         LESSON_MONDAY.at.date(),
         LESSON_MONDAY.at.tzinfo,
+        STUDENT_ID,
     )
     gateway_output_list = []
 
@@ -178,6 +181,7 @@ def test_read_first_lessons_of_weeks(
         month,
         year,
         student_timezone,
+        STUDENT_ID,
     )
     gateway_output_list = list(gateway_output.lessons.values())
 

@@ -20,7 +20,7 @@ class SQLiteLessonGateway(LessonGateway):
 
     def read_lesson(self, lesson_id: LessonId, as_tz: timezone) -> Lesson:
         query = """
-            SELECT lesson_id, subject_id, at, mark, note, room
+            SELECT lesson_id, subject_id, at, mark, note, room, student_id
             FROM Lesson WHERE lesson_id = ?
             """
         res = self.cursor.execute(query, (str(lesson_id),)).fetchone()
@@ -36,8 +36,8 @@ class SQLiteLessonGateway(LessonGateway):
     def write_lesson(self, lesson: Lesson) -> None:
         query = """
             INSERT INTO Lesson
-            (lesson_id, subject_id, at, mark, note, room)
-            VALUES (?, ?, ?, ?, ?, ?)
+            (lesson_id, subject_id, student_id, at, mark, note, room)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
             """
 
         params = lesson_to_list_retort.dump(lesson)
@@ -46,7 +46,7 @@ class SQLiteLessonGateway(LessonGateway):
     def update_lesson(self, lesson: Lesson) -> None:
         query = """
             UPDATE Lesson SET
-            subject_id = ?, at = ?, mark = ?, note = ?, room = ?
+            subject_id = ?, student_id = ?, at = ?, mark = ?, note = ?, room = ?
             WHERE lesson_id = ?
             """
 
@@ -143,7 +143,7 @@ class SQLiteLessonGateway(LessonGateway):
                 GROUP BY week_year
             ) grouped_lessons
             ON strftime('%Y-%W', l.at) = grouped_lessons.week_year
-            AND l.at = grouped_lessons.first_lesson_time;
+            AND l.at = grouped_lessons.first_lesson_time
             WHERE l.student_id = :student_id
         """
 

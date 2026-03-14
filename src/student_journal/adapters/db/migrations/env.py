@@ -52,16 +52,21 @@ def do_run_migrations(connection: Connection) -> None:
 
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode."""
-    configuration = config.get_section(config.config_ini_section)
-    configuration["sqlalchemy.url"] = get_url()  # type: ignore
-    connectable = engine_from_config(
-        configuration,  # type: ignore
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-    )
+    connectable = config.attributes.get("connection", None)
 
-    with connectable.connect() as connection:
-        do_run_migrations(connection)
+    if connectable is not None:
+        do_run_migrations(connectable)
+    else:
+        configuration = config.get_section(config.config_ini_section)
+        configuration["sqlalchemy.url"] = get_url()  # type: ignore
+        engine = engine_from_config(
+            configuration,  # type: ignore
+            prefix="sqlalchemy.",
+            poolclass=pool.NullPool,
+        )
+
+        with engine.connect() as connection:
+            do_run_migrations(connection)
 
 
 if context.is_offline_mode():

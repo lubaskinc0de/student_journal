@@ -29,6 +29,7 @@ LESSON_ID = LessonId(uuid4())
 LESSON = Lesson(
     lesson_id=LESSON_ID,
     subject_id=SUBJECT_ID,
+    student_id=STUDENT_ID,
     at=datetime(2024, 11, 15, tzinfo=student_timezone),
     mark=None,
     note=None,
@@ -39,6 +40,7 @@ LESSON_MONDAY_ID = LessonId(uuid4())
 LESSON_MONDAY = Lesson(
     lesson_id=LESSON_MONDAY_ID,
     subject_id=SUBJECT_ID,
+    student_id=STUDENT_ID,
     at=datetime(2024, 11, 11, hour=8, minute=0, tzinfo=student_timezone),
     mark=None,
     note=None,
@@ -49,6 +51,7 @@ LESSON_WEDNESDAY_ID = LessonId(uuid4())
 LESSON_WEDNESDAY = Lesson(
     lesson_id=LESSON_WEDNESDAY_ID,
     subject_id=SUBJECT_ID,
+    student_id=STUDENT_ID,
     at=datetime(2024, 11, 13, hour=8, minute=0, tzinfo=student_timezone),
     mark=None,
     note=None,
@@ -59,6 +62,7 @@ LESSON_MONDAY_2_ID = LessonId(uuid4())
 LESSON_MONDAY_2 = Lesson(
     lesson_id=LESSON_MONDAY_2_ID,
     subject_id=SUBJECT_ID,
+    student_id=STUDENT_ID,
     at=datetime(2024, 11, 19, tzinfo=student_timezone),
     mark=None,
     note=None,
@@ -69,6 +73,7 @@ TASK_ID = HomeTaskId(uuid4())
 HOME_TASK = HomeTask(
     task_id=TASK_ID,
     lesson_id=LESSON_ID,
+    student_id=STUDENT_ID,
     description="§13 упр 13",
     is_done=False,
 )
@@ -77,6 +82,7 @@ TASK_ID_2 = HomeTaskId(uuid4())
 HOME_TASK_2 = HomeTask(
     task_id=TASK_ID_2,
     lesson_id=LESSON_MONDAY_2_ID,
+    student_id=STUDENT_ID,
     description="§12 упр 12",
     is_done=True,
 )

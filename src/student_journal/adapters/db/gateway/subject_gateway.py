@@ -18,7 +18,9 @@ class SQLiteSubjectGateway(SubjectGateway):
     cursor: Cursor
 
     def read_subject(self, subject_id: SubjectId) -> Subject:
-        query = "SELECT subject_id, title, teacher_id FROM Subject WHERE subject_id = ?"
+        query = """SELECT subject_id, title, teacher_id, student_id
+        FROM Subject WHERE subject_id = ?"""
+
         res = self.cursor.execute(query, (str(subject_id),)).fetchone()
 
         if res is None:
@@ -31,15 +33,16 @@ class SQLiteSubjectGateway(SubjectGateway):
     def write_subject(self, subject: Subject) -> None:
         query = (
             "INSERT INTO Subject "
-            "(subject_id, teacher_id, title) "
+            "(subject_id, teacher_id, title, student_id) "
             "VALUES "
-            "(?, ?, ?)"
+            "(?, ?, ?, ?)"
         )
         params = subject_to_list_retort.dump(subject)
         self.cursor.execute(query, params)
 
     def update_subject(self, subject: Subject) -> None:
-        query = "UPDATE Subject SET teacher_id = ?, title = ? WHERE subject_id = ?"
+        query = """UPDATE Subject SET teacher_id = ?, title = ?, student_id = ?
+        WHERE subject_id = ?"""
         params = subject_to_list_retort.dump(subject)
         params.append(params.pop(0))
 
@@ -62,6 +65,7 @@ class SQLiteSubjectGateway(SubjectGateway):
             s.subject_id,
             s.title,
             t.teacher_id,
+            t.student_id as teacher_student_id,
             t.full_name as teacher_full_name,
             t.avatar as teacher_avatar,
             COALESCE(AVG(l.mark), 0.0) AS avg_mark,
@@ -89,6 +93,7 @@ class SQLiteSubjectGateway(SubjectGateway):
         for each in entries:
             each["teacher"] = {
                 "teacher_id": each["teacher_id"],
+                "student_id": each["teacher_student_id"],
                 "full_name": each["teacher_full_name"],
                 "avatar": each["teacher_avatar"],
             }

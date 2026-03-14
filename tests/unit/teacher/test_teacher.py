@@ -4,7 +4,6 @@ from student_journal.application.exceptions.base import ApplicationError
 from student_journal.application.exceptions.teacher import (
     TeacherFullNameError,
 )
-from student_journal.application.models.teacher import TeachersReadModel
 from student_journal.application.teacher import (
     CreateTeacher,
     DeleteTeacher,
@@ -77,10 +76,10 @@ def test_read_teachers(
 ) -> None:
     teacher_gateway.write_teacher(TEACHER)
     teacher_gateway.write_teacher(TEACHER2)
-    teachers: TeachersReadModel = read_teachers.execute()
+    teachers = read_teachers.execute()
 
-    assert TEACHER in teachers.teachers
-    assert TEACHER2 in teachers.teachers
+    assert TEACHER in teachers
+    assert TEACHER2 in teachers
 
 
 def test_update_teacher(

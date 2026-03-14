@@ -19,7 +19,7 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
 
     def read_home_task(self, task_id: HomeTaskId) -> HomeTask:
         query = """
-            SELECT task_id, lesson_id, description, is_done
+            SELECT task_id, lesson_id, description, is_done, student_id
             FROM Hometask WHERE task_id = ?
             """
         res = self.cursor.execute(query, (str(task_id),)).fetchone()
@@ -33,8 +33,8 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
     def write_home_task(self, home_task: HomeTask) -> None:
         query = """
             INSERT INTO Hometask
-            (task_id, lesson_id, description, is_done)
-            VALUES (?, ?, ?, ?)
+            (task_id, lesson_id, student_id, description, is_done)
+            VALUES (?, ?, ?, ?, ?)
             """
         params = home_task_to_list_retort.dump(home_task)
         self.cursor.execute(query, params)
@@ -47,6 +47,7 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
     ) -> list[HomeTaskReadModel]:
         query = """
             SELECT Hometask.task_id, Hometask.description, Hometask.is_done,
+            Hometask.student_id,
             Lesson.lesson_id as lesson_lesson_id,
             Lesson.subject_id as lesson_subject_id,
             Lesson.at as lesson_at,
@@ -89,7 +90,7 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
     def update_home_task(self, home_task: HomeTask) -> None:
         query = """
             UPDATE Hometask
-            SET lesson_id = ?, description = ?, is_done = ?
+            SET lesson_id = ?, student_id = ?, description = ?, is_done = ?
             WHERE task_id = ?
             """
         params = home_task_to_list_retort.dump(home_task)

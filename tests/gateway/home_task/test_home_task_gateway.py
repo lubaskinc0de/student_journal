@@ -1,7 +1,7 @@
 from sqlite3 import Cursor
 
 import pytest
-from unit.conftest import HOME_TASK, LESSON_ID, TASK_ID
+from unit.conftest import HOME_TASK, LESSON_ID, STUDENT_ID, TASK_ID
 
 from student_journal.adapters.converter.home_task import (
     home_task_retort,
@@ -53,6 +53,7 @@ def test_update(
     updated_home_task = HomeTask(
         task_id=TASK_ID,
         lesson_id=LESSON_ID,
+        student_id=STUDENT_ID,
         description="testtest22222",
         is_done=True,
     )

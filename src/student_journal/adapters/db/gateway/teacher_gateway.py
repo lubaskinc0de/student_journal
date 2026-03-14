@@ -18,7 +18,7 @@ class SQLiteTeacherGateway(TeacherGateway):
 
     def read_teacher(self, teacher_id: TeacherId) -> Teacher:
         query = """
-            SELECT teacher_id, full_name, avatar
+            SELECT teacher_id, full_name, avatar, student_id
             FROM Teacher WHERE teacher_id = ?
             """
         res = self.cursor.execute(query, (str(teacher_id),)).fetchone()
@@ -33,15 +33,15 @@ class SQLiteTeacherGateway(TeacherGateway):
     def write_teacher(self, teacher: Teacher) -> None:
         query = """
             INSERT INTO Teacher
-            (teacher_id, full_name, avatar)
-            VALUES (?, ?, ?)
+            (teacher_id, student_id, full_name, avatar)
+            VALUES (?, ?, ?, ?)
             """
         params = teacher_to_list_retort.dump(teacher)
         self.cursor.execute(query, params)
 
     def read_teachers(self, student_id: StudentId) -> list[Teacher]:
         query = """
-            SELECT teacher_id, full_name, avatar
+            SELECT teacher_id, full_name, avatar, student_id
             FROM Teacher
             WHERE student_id = ?
             """
@@ -54,7 +54,7 @@ class SQLiteTeacherGateway(TeacherGateway):
     def update_teacher(self, teacher: Teacher) -> None:
         query = """
             UPDATE Teacher
-            SET full_name = ?, avatar = ?
+            SET student_id = ?, full_name = ?, avatar = ?
             WHERE teacher_id = ?
             """
         params = teacher_to_list_retort.dump(teacher)

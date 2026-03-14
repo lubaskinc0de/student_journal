@@ -108,5 +108,4 @@ class SimpleErrorLocator(ErrorLocator):
         try:
             return _messages[type(error)]
         except KeyError:
-
             return error.__class__.__qualname__

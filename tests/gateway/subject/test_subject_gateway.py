@@ -1,6 +1,7 @@
 from sqlite3 import Cursor
 
 import pytest
+from unit.conftest import STUDENT_ID
 from unit.subject.conftest import SUBJECT, SUBJECT2, SUBJECT_ID
 from unit.teacher.conftest import TEACHER, TEACHER2
 
@@ -15,6 +16,7 @@ READ_SUBJECT_SQL = """
             s.subject_id,
             s.title,
             s.teacher_id,
+            s.student_id,
             COALESCE(AVG(l.mark), 0.0) AS avg_mark
         FROM Subject s
         LEFT JOIN Lesson l ON s.subject_id = l.subject_id
@@ -65,13 +67,14 @@ def test_read_subjects(
     teacher_gateway.write_teacher(TEACHER2)
     subject_gateway.write_subject(SUBJECT)
     subject_gateway.write_subject(SUBJECT2)
-    subjects = subject_gateway.read_subjects()
+    subjects = subject_gateway.read_subjects(student_id=STUDENT_ID)
 
     subjects = [
         Subject(
             subject_id=x.subject_id,
             teacher_id=x.teacher.teacher_id,
             title=x.title,
+            student_id=STUDENT_ID,
         )
         for x in subjects
     ]
@@ -94,6 +97,7 @@ def test_update_subject(
         subject_id=SUBJECT_ID,
         title="Updated Title",
         teacher_id=SUBJECT.teacher_id,
+        student_id=STUDENT_ID,
     )
 
     subject_gateway.update_subject(updated_subject)

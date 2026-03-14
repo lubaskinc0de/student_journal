@@ -12,17 +12,20 @@ from student_journal.application.teacher import (
 )
 from student_journal.domain.entity.teacher import Teacher
 from student_journal.domain.id_type.teacher_id import TeacherId
+from unit.conftest import STUDENT_ID
 from unit.student.mock import MockedTeacherGateway, MockedTransactionManager
 
 TEACHER_ID = TeacherId(uuid4())
 TEACHER = Teacher(
     teacher_id=TEACHER_ID,
+    student_id=STUDENT_ID,
     full_name="John Doe",
     avatar=None,
 )
 TEACHER2_ID = TeacherId(uuid4())
 TEACHER2 = Teacher(
     teacher_id=TEACHER2_ID,
+    student_id=STUDENT_ID,
     full_name="John Not Doe",
     avatar=None,
 )

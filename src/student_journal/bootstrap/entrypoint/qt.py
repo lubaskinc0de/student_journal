@@ -1,7 +1,3 @@
-from student_journal.adapters.logging.config import init_structlog
-
-init_structlog()
-
 import signal
 import sys
 from functools import partial
@@ -17,6 +13,7 @@ import student_journal
 import student_journal.presentation.resource
 from student_journal.adapters.db.migrations.scripts import run_migrations
 from student_journal.adapters.error_locator import ErrorLocator
+from student_journal.adapters.logging.config import init_structlog
 from student_journal.application.common.logger import Logger
 from student_journal.application.exceptions.base import ApplicationError
 from student_journal.application.exceptions.student import (
@@ -65,10 +62,10 @@ def exception_hook(
 
 
 def main(_argv: list[str]) -> None:
-    logger.debug("Startup..")
-    logger.debug("Running migrations")
     run_migrations([])
+    init_structlog()
 
+    logger.debug("Startup..")
     if hasattr(Qt, "AA_EnableHighDpiScaling"):
         logger.debug("Using High DPI Scaling")
         QtWidgets.QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)  # noqa: FBT003
