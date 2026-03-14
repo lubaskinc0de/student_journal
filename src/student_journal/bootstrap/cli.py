@@ -1,31 +1,37 @@
-import sys
+import argparse
 
+from student_journal.adapters.db.migrations.scripts import new_migration, run_migrations
 from student_journal.bootstrap.entrypoint.qt import main as qt_main
 
 
 def main() -> None:
-    argv = sys.argv[1:]
+    parser = argparse.ArgumentParser(description="Student Journal Application")
 
-    if not argv:
-        return
+    parser.add_argument("module", nargs="?", help="module to use (e.g., run)")
+    parser.add_argument("option", nargs="?", help="option to execute (e.g., gui)")
+    parser.add_argument("args", nargs=argparse.REMAINDER, help="additional arguments")
 
-    try:
-        module = argv[0]
-        option = argv[1]
-        args = argv[2:]
-    except IndexError:
+    args = parser.parse_args()
+
+    if not args.module or not args.option:
+        parser.print_help()
         return
 
     modules = {
         "run": {
             "gui": qt_main,
         },
+        "migrations": {
+            "new": new_migration,
+            "run": run_migrations,
+        },
     }
 
-    if module not in modules:
-        return
+    if args.module in modules and args.option in modules[args.module]:  # type: ignore
+        modules[args.module][args.option](args.args)  # type: ignore
+    else:
+        parser.print_help()
 
-    if option not in modules[module]:
-        return
 
-    modules[module][option](args)
+if __name__ == "__main__":
+    main()

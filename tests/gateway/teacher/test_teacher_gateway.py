@@ -1,12 +1,13 @@
 from sqlite3 import Cursor
 
 import pytest
+from unit.conftest import STUDENT_ID
 from unit.teacher.conftest import TEACHER, TEACHER2, TEACHER_ID
 
 from student_journal.adapters.converter.teacher import teacher_retort
 from student_journal.application.common.teacher_gateway import TeacherGateway
 from student_journal.application.exceptions.teacher import TeacherNotFoundError
-from student_journal.domain.teacher import Teacher
+from student_journal.domain.entity.teacher import Teacher
 
 READ_TEACHER_SQL = "SELECT * FROM Teacher"
 
@@ -60,7 +61,7 @@ def test_read_teachers(
         list[Teacher],
     )
 
-    assert db_teachers == teacher_gateway.read_teachers()
+    assert db_teachers == teacher_gateway.read_teachers(STUDENT_ID)
 
 
 def test_update(
@@ -70,6 +71,7 @@ def test_update(
     teacher_gateway.write_teacher(TEACHER)
     updated_teacher = Teacher(
         teacher_id=TEACHER_ID,
+        student_id=STUDENT_ID,
         full_name="testtest",
         avatar=None,
     )

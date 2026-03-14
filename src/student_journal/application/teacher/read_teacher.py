@@ -1,18 +1,26 @@
 from dataclasses import dataclass
 
-from student_journal.application.common.id_provider import IdProvider
+from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.common.teacher_gateway import TeacherGateway
-from student_journal.domain.teacher import Teacher
-from student_journal.domain.value_object.teacher_id import TeacherId
+from student_journal.application.exceptions.teacher import TeacherNotFoundError
+from student_journal.domain.entity.teacher import Teacher
+from student_journal.domain.exception.access import AccessDeniedError
+from student_journal.domain.id_type.teacher_id import TeacherId
 
 
 @dataclass(slots=True)
 class ReadTeacher:
     gateway: TeacherGateway
-    idp: IdProvider
+    idp: StudentIdProvider
 
     def execute(self, teacher_id: TeacherId) -> Teacher:
-        self.idp.ensure_authenticated()
+        self.idp.require_auth()
         teacher = self.gateway.read_teacher(teacher_id)
+
+        if not teacher:
+            raise TeacherNotFoundError
+
+        if not teacher.can_view(self.idp.get_student_id()):
+            raise AccessDeniedError
 
         return teacher

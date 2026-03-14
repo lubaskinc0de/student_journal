@@ -1,13 +1,18 @@
 from dataclasses import dataclass
 from uuid import uuid4
 
-from student_journal.application.common.id_provider import IdProvider
+import structlog
+
+from student_journal.application.common.id_provider import StudentIdProvider
+from student_journal.application.common.logger import Logger, retort
 from student_journal.application.common.subject_gateway import SubjectGateway
 from student_journal.application.common.transaction_manager import TransactionManager
-from student_journal.application.invariants.subject import validate_subject_invariants
-from student_journal.domain.subject import Subject
-from student_journal.domain.value_object.subject_id import SubjectId
-from student_journal.domain.value_object.teacher_id import TeacherId
+from student_journal.application.validators.subject import validate_subject
+from student_journal.domain.entity.subject import Subject
+from student_journal.domain.id_type.subject_id import SubjectId
+from student_journal.domain.id_type.teacher_id import TeacherId
+
+logger: Logger = structlog.get_logger(__name__)
 
 
 @dataclass(slots=True, frozen=True)
@@ -20,21 +25,28 @@ class NewSubject:
 class CreateSubject:
     gateway: SubjectGateway
     transaction_manager: TransactionManager
-    idp: IdProvider
+    idp: StudentIdProvider
 
     def execute(self, data: NewSubject) -> SubjectId:
-        self.idp.ensure_authenticated()
-        validate_subject_invariants(data.title)
-
-        subject_id = SubjectId(uuid4())
-        subject = Subject(
-            subject_id=subject_id,
-            title=data.title,
-            teacher_id=data.teacher_id,
-        )
+        validate_subject(data.title)
 
         with self.transaction_manager.begin():
+            self.idp.require_auth()
+
+            subject_id = SubjectId(uuid4())
+            subject = Subject(
+                subject_id=subject_id,
+                title=data.title,
+                teacher_id=data.teacher_id,
+                student_id=self.idp.get_student_id(),
+            )
+
             self.gateway.write_subject(subject)
             self.transaction_manager.commit()
 
+        logger.debug(
+            "Created new subject",
+            data=retort.dump(subject),
+            user_id=self.idp.get_student_id(),
+        )
         return subject_id

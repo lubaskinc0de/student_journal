@@ -13,7 +13,7 @@ from student_journal.application.teacher import (
     UpdatedTeacher,
     UpdateTeacher,
 )
-from student_journal.domain.value_object.teacher_id import TeacherId
+from student_journal.domain.id_type.teacher_id import TeacherId
 from student_journal.presentation.ui.edit_teacher_ui import Ui_EditTeacher
 
 

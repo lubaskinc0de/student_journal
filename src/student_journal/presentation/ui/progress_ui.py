@@ -9,7 +9,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Progress(object):
+class Ui_Progress:
     def setupUi(self, Progress):
         Progress.setObjectName("Progress")
         self.gridLayout = QtWidgets.QGridLayout(Progress)

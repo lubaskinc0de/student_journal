@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from datetime import date, datetime
 
-from student_journal.domain.lesson import Lesson
+from student_journal.domain.entity.lesson import Lesson
 
 
 @dataclass(frozen=True, slots=True)

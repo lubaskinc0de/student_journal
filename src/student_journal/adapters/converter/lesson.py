@@ -3,7 +3,7 @@ from datetime import datetime
 from adaptix import Retort, dumper, loader, name_mapping
 
 from student_journal.application.models.lesson import WeekLessons
-from student_journal.domain.lesson import Lesson
+from student_journal.domain.entity.lesson import Lesson
 
 lesson_retort = Retort()
 lesson_to_list_retort = Retort(

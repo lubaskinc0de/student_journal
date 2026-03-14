@@ -1,7 +1,7 @@
 from dishka import Container
 from PyQt6.QtWidgets import QMainWindow, QStackedWidget
 
-from student_journal.application.common.id_provider import IdProvider
+from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.exceptions.student import (
     StudentIsNotAuthenticatedError,
 )
@@ -16,7 +16,7 @@ class MainWindow(QMainWindow):
         self.container = container
 
         with self.container() as r_container:
-            self.idp: IdProvider = r_container.get(IdProvider)
+            self.idp: StudentIdProvider = r_container.get(StudentIdProvider)
             self.dashboard: None | Dashboard = None
 
             self.register_form = Register(container)
@@ -28,7 +28,7 @@ class MainWindow(QMainWindow):
             self.setCentralWidget(self.stacked_widget)
 
             try:
-                self.idp.ensure_authenticated()
+                self.idp.require_auth()
             except StudentIsNotAuthenticatedError:
                 self.display_register()
                 return

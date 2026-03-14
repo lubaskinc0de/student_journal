@@ -1,7 +1,8 @@
 from student_journal.application.common.teacher_gateway import TeacherGateway
 from student_journal.application.exceptions.teacher import TeacherNotFoundError
-from student_journal.domain.teacher import Teacher
-from student_journal.domain.value_object.teacher_id import TeacherId
+from student_journal.domain.entity.teacher import Teacher
+from student_journal.domain.id_type.student_id import StudentId
+from student_journal.domain.id_type.teacher_id import TeacherId
 
 
 class MockedTeacherGateway(TeacherGateway):
@@ -21,8 +22,8 @@ class MockedTeacherGateway(TeacherGateway):
         self.is_wrote = True
         self._teachers[teacher.teacher_id] = teacher
 
-    def read_teachers(self) -> list[Teacher]:
-        return list(self._teachers.values())
+    def read_teachers(self, student_id: StudentId) -> list[Teacher]:
+        return [t for t in self._teachers.values() if t.student_id == student_id]
 
     def update_teacher(self, teacher: Teacher) -> None:
         self.is_updated = True

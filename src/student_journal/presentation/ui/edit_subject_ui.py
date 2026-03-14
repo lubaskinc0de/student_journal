@@ -9,7 +9,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_EditSubject(object):
+class Ui_EditSubject:
     def setupUi(self, EditSubject):
         EditSubject.setObjectName("EditSubject")
         EditSubject.setWindowModality(QtCore.Qt.WindowModality.WindowModal)

@@ -183,3 +183,16 @@ student_journal run gui
 ## Tests (тесты)
 - ``tests/``
 - Тесты
+
+# Управление проектом
+Запуск миграций
+
+```shell
+make migrations
+```
+
+Создание миграции
+
+```shell
+student_journal migrations new my new migration
+```

@@ -7,8 +7,9 @@ from student_journal.adapters.converter import (
 )
 from student_journal.application.common.teacher_gateway import TeacherGateway
 from student_journal.application.exceptions.teacher import TeacherNotFoundError
-from student_journal.domain.teacher import Teacher
-from student_journal.domain.value_object.teacher_id import TeacherId
+from student_journal.domain.entity.teacher import Teacher
+from student_journal.domain.id_type.student_id import StudentId
+from student_journal.domain.id_type.teacher_id import TeacherId
 
 
 @dataclass(slots=True, frozen=True)
@@ -17,7 +18,7 @@ class SQLiteTeacherGateway(TeacherGateway):
 
     def read_teacher(self, teacher_id: TeacherId) -> Teacher:
         query = """
-            SELECT teacher_id, full_name, avatar
+            SELECT teacher_id, full_name, avatar, student_id
             FROM Teacher WHERE teacher_id = ?
             """
         res = self.cursor.execute(query, (str(teacher_id),)).fetchone()
@@ -32,18 +33,19 @@ class SQLiteTeacherGateway(TeacherGateway):
     def write_teacher(self, teacher: Teacher) -> None:
         query = """
             INSERT INTO Teacher
-            (teacher_id, full_name, avatar)
-            VALUES (?, ?, ?)
+            (teacher_id, student_id, full_name, avatar)
+            VALUES (?, ?, ?, ?)
             """
         params = teacher_to_list_retort.dump(teacher)
         self.cursor.execute(query, params)
 
-    def read_teachers(self) -> list[Teacher]:
+    def read_teachers(self, student_id: StudentId) -> list[Teacher]:
         query = """
-            SELECT teacher_id, full_name, avatar
+            SELECT teacher_id, full_name, avatar, student_id
             FROM Teacher
+            WHERE student_id = ?
             """
-        res = self.cursor.execute(query).fetchall()
+        res = self.cursor.execute(query, (str(student_id),)).fetchall()
 
         teachers = teacher_retort.load([dict(row) for row in res], list[Teacher])
 
@@ -52,7 +54,7 @@ class SQLiteTeacherGateway(TeacherGateway):
     def update_teacher(self, teacher: Teacher) -> None:
         query = """
             UPDATE Teacher
-            SET full_name = ?, avatar = ?
+            SET student_id = ?, full_name = ?, avatar = ?
             WHERE teacher_id = ?
             """
         params = teacher_to_list_retort.dump(teacher)

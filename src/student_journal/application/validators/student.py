@@ -16,7 +16,7 @@ HOME_ADDRESS_MAX_LENGTH = 255
 HOME_ADDRESS_MIN_LENGTH = 2
 
 
-def validate_student_invariants(
+def validate_student(
     age: int | None,
     name: str,
     home_address: str | None,
