@@ -50,13 +50,15 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
             Hometask.student_id,
             Lesson.lesson_id as lesson_lesson_id,
             Lesson.subject_id as lesson_subject_id,
+            Lesson.student_id as lesson_student_id,
             Lesson.at as lesson_at,
             Lesson.mark as lesson_mark,
             Lesson.note as lesson_note,
             Lesson.room as lesson_room,
             Subject.subject_id as subject_subject_id,
             Subject.title as subject_title,
-            Subject.teacher_id as subject_teacher_id
+            Subject.teacher_id as subject_teacher_id,
+            Subject.student_id as subject_student_id
             FROM Hometask
             JOIN Lesson ON Hometask.lesson_id = Lesson.lesson_id
             JOIN Subject ON Lesson.subject_id = Subject.subject_id

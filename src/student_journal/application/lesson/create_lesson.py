@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import datetime
 from uuid import uuid4
 
 import structlog
@@ -50,7 +50,7 @@ class CreateLesson:
         lesson = Lesson(
             lesson_id=lesson_id,
             subject_id=data.subject_id,
-            at=datetime.now(tz=UTC),
+            at=data.at,
             mark=data.mark,
             note=data.note,
             room=data.room,

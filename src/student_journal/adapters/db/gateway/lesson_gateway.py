@@ -74,14 +74,16 @@ class SQLiteLessonGateway(LessonGateway):
         AND student_id = :student_id;
         """
 
+        week_start_date = week_start
+
         week_start = datetime.combine(
-            week_start,
+            week_start_date,
             datetime.min.time(),
             tzinfo=as_tz,
         ).astimezone(UTC)
 
         week_end = datetime.combine(
-            week_start + timedelta(days=6),
+            week_start_date + timedelta(days=5),
             datetime.max.time(),
             tzinfo=as_tz,
         ).astimezone(UTC)
@@ -100,9 +102,8 @@ class SQLiteLessonGateway(LessonGateway):
         )
 
         for lesson in lessons_list:
-            lesson.at = datetime.strptime(
+            lesson.at = datetime.fromisoformat(
                 str(lesson.at),
-                "%Y-%m-%d %H:%M:%S%z",
             ).astimezone(as_tz)
 
         lessons: dict[date, list[Lesson]] = {}
@@ -140,6 +141,7 @@ class SQLiteLessonGateway(LessonGateway):
                 FROM Lesson
                 WHERE strftime('%Y', at) = :year
                   AND strftime('%m', at) = :month
+                  AND student_id = :student_id
                 GROUP BY week_year
             ) grouped_lessons
             ON strftime('%Y-%W', l.at) = grouped_lessons.week_year
@@ -159,9 +161,8 @@ class SQLiteLessonGateway(LessonGateway):
         lessons_list = lesson_retort.load(entries, list[Lesson])
 
         for lesson in lessons_list:
-            lesson.at = datetime.strptime(
+            lesson.at = datetime.fromisoformat(
                 str(lesson.at),
-                "%Y-%m-%d %H:%M:%S%z",
             ).astimezone(as_tz)
 
         lessons_by_date = LessonsByDate(
