@@ -38,6 +38,9 @@
 
 **Разработано как проект для Я.Лицея**
 
+# Скриншоты
+[Скриншоты работы приложения](https://github.com/lubaskinc0de/student_journal/discussions/65)
+
 # Установка проекта
 
 ### 1. Установить готовый бинарник
@@ -183,3 +186,16 @@ student_journal run gui
 ## Tests (тесты)
 - ``tests/``
 - Тесты
+
+# Управление проектом
+Запуск миграций
+
+```shell
+make migrations
+```
+
+Создание миграции
+
+```shell
+student_journal migrations new my new migration
+```

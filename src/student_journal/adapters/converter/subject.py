@@ -1,6 +1,6 @@
 from adaptix import Retort, name_mapping
 
-from student_journal.domain.subject import Subject
+from student_journal.domain.entity.subject import Subject
 
 subject_retort = Retort()
 subject_to_list_retort = Retort(

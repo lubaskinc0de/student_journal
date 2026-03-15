@@ -7,6 +7,10 @@ from sqlite3 import Connection
 class DBConfig:
     db_path: str
 
+    @property
+    def connection_url(self) -> str:
+        return f"sqlite+pysqlite:///{self.db_path}"
+
 
 @dataclass(slots=True, frozen=True)
 class SQLiteConnectionMaker:

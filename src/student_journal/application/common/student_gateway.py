@@ -1,12 +1,12 @@
 from abc import abstractmethod
 from typing import Protocol
 
-from student_journal.domain.student import Student
-from student_journal.domain.value_object.student_id import StudentId
+from student_journal.domain.entity.student import Student
+from student_journal.domain.id_type.student_id import StudentId
 
 
 class StudentGateway(Protocol):
-    def read_student(self, student_id: StudentId) -> Student: ...
+    def read_student(self, student_id: StudentId) -> Student | None: ...
 
     @abstractmethod
     def write_student(self, student: Student) -> None: ...

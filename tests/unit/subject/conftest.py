@@ -1,7 +1,8 @@
 from uuid import uuid4
 
-from student_journal.domain.subject import Subject
-from student_journal.domain.value_object.subject_id import SubjectId
+from student_journal.domain.entity.subject import Subject
+from student_journal.domain.id_type.subject_id import SubjectId
+from unit.conftest import STUDENT_ID
 from unit.teacher.conftest import TEACHER2_ID, TEACHER_ID
 
 SUBJECT_ID = SubjectId(uuid4())
@@ -11,10 +12,12 @@ SUBJECT = Subject(
     subject_id=SUBJECT_ID,
     title="abracadabra",
     teacher_id=TEACHER_ID,
+    student_id=STUDENT_ID,
 )
 
 SUBJECT2 = Subject(
     subject_id=SUBJECT2_ID,
     title="abracadabra",
     teacher_id=TEACHER2_ID,
+    student_id=STUDENT_ID,
 )

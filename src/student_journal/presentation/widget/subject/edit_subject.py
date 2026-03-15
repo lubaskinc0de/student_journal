@@ -14,8 +14,8 @@ from student_journal.application.subject.update_subject import (
     UpdateSubject,
 )
 from student_journal.application.teacher import ReadTeacher, ReadTeachers
-from student_journal.domain.value_object.subject_id import SubjectId
-from student_journal.domain.value_object.teacher_id import TeacherId
+from student_journal.domain.id_type.subject_id import SubjectId
+from student_journal.domain.id_type.teacher_id import TeacherId
 from student_journal.presentation.ui.edit_subject_ui import Ui_EditSubject
 
 
@@ -66,7 +66,7 @@ class EditSubject(QWidget):
 
     def load_teachers(self) -> None:
         with self.container() as r_container:
-            teachers = r_container.get(ReadTeachers).execute().teachers
+            teachers = r_container.get(ReadTeachers).execute()
             self.ui.teacher_combo.clear()
             for teacher in teachers:
                 self.ui.teacher_combo.addItem(teacher.full_name, teacher.teacher_id)

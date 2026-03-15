@@ -7,8 +7,8 @@ from student_journal.adapters.converter.student import (
 )
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.exceptions.student import StudentNotFoundError
-from student_journal.domain.student import Student
-from student_journal.domain.value_object.student_id import StudentId
+from student_journal.domain.entity.student import Student
+from student_journal.domain.id_type.student_id import StudentId
 
 
 @dataclass(slots=True, frozen=True)

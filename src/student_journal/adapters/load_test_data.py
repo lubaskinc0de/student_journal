@@ -3,8 +3,10 @@ import random
 from dataclasses import dataclass
 from datetime import date, timedelta
 
+import structlog
 from faker import Faker
 
+from student_journal.application.common.logger import Logger
 from student_journal.application.hometask.create_home_task import (
     CreateHomeTask,
     NewHomeTask,
@@ -14,9 +16,10 @@ from student_journal.application.student.create_student import CreateStudent, Ne
 from student_journal.application.student.read_student import ReadStudent
 from student_journal.application.subject.create_subject import CreateSubject, NewSubject
 from student_journal.application.teacher import CreateTeacher, NewTeacher
-from student_journal.domain.value_object.student_id import StudentId
+from student_journal.domain.id_type.student_id import StudentId
 
 fake = Faker(locale="ru_RU")
+logger: Logger = structlog.get_logger(__name__)
 
 SUBJECTS = [
     "Математика",
@@ -53,32 +56,32 @@ class TestDataLoader:
                 avatar=None,
             ),
         )
-        student = self.read_student.execute(student_id)
-        return student.student_id
+        return student_id
 
     def insert_data(self, student_id: StudentId) -> None:
+        logger.info("Started filling data")
         teacher_names = [fake.name() for _ in range(10)]
         teachers = []
         student = self.read_student.execute(student_id)
 
         for name in teacher_names:
-            teacher = self.create_teacher.execute(
+            teacher_id = self.create_teacher.execute(
                 NewTeacher(
                     full_name=name,
                     avatar=None,
                 ),
             )
-            teachers.append(teacher)
+            teachers.append(teacher_id)
 
         subjects = []
         for teacher_id, subject in zip(teachers, SUBJECTS, strict=True):
-            new_subject = self.create_subject.execute(
+            new_subject_id = self.create_subject.execute(
                 NewSubject(
                     teacher_id=teacher_id,
                     title=subject,
                 ),
             )
-            subjects.append(new_subject)
+            subjects.append(new_subject_id)
 
         da_te = date.today()  # noqa: DTZ011
         week_start = da_te - timedelta(days=da_te.weekday())

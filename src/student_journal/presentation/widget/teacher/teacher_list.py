@@ -29,7 +29,7 @@ class TeacherList(QWidget):
         self.ui.list_teacher.clear()
         with self.container() as r_container:
             command = r_container.get(ReadTeachers)
-            teachers = command.execute().teachers
+            teachers = command.execute()
 
         for teacher in teachers:
             item = QListWidgetItem(f"{teacher.full_name}")

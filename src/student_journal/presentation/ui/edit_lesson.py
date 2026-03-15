@@ -1,8 +1,8 @@
 from datetime import time
 
-from student_journal.application.invariants.lesson import (
-    MIN_ROOM,
+from student_journal.application.validators.lesson import (
     MAX_MARK,
+    MIN_ROOM,
 )
 from student_journal.presentation.ui.raw.edit_lesson_ui import Ui_EditLesson
 

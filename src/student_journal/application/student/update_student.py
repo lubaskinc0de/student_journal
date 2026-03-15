@@ -1,11 +1,17 @@
 from dataclasses import dataclass
 
-from student_journal.application.common.id_provider import IdProvider
+import structlog
+
+from student_journal.application.common.id_provider import StudentIdProvider
+from student_journal.application.common.logger import Logger, retort
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
-from student_journal.application.invariants.student import validate_student_invariants
-from student_journal.domain.student import Student
-from student_journal.domain.value_object.student_id import StudentId
+from student_journal.application.exceptions.student import StudentNotFoundError
+from student_journal.application.validators.student import validate_student
+from student_journal.domain.entity.student import Student
+from student_journal.domain.id_type.student_id import StudentId
+
+logger: Logger = structlog.get_logger(__name__)
 
 
 @dataclass(slots=True, frozen=True)
@@ -20,29 +26,38 @@ class UpdatedStudent:
 class UpdateStudent:
     gateway: StudentGateway
     transaction_manager: TransactionManager
-    idp: IdProvider
+    idp: StudentIdProvider
 
     def execute(self, data: UpdatedStudent) -> StudentId:
-        student = self.gateway.read_student(self.idp.get_id())
-
-        validate_student_invariants(
+        validate_student(
             age=data.age,
             name=data.name,
             home_address=data.home_address,
             avatar=data.avatar,
-        )
-
-        student = Student(
-            student_id=self.idp.get_id(),
-            avatar=data.avatar,
-            age=data.age,
-            name=data.name,
-            home_address=data.home_address,
-            utc_offset=student.utc_offset,
         )
 
         with self.transaction_manager.begin():
+            orig_student = self.gateway.read_student(self.idp.get_student_id())
+
+            if not orig_student:
+                raise StudentNotFoundError
+
+            student = Student(
+                student_id=self.idp.get_student_id(),
+                avatar=data.avatar,
+                age=data.age,
+                name=data.name,
+                home_address=data.home_address,
+            )
+
             self.gateway.update_student(student)
             self.transaction_manager.commit()
+
+            logger.debug(
+                "Student updated",
+                old_data=retort.dump(orig_student),
+                data=retort.dump(student),
+                user_id=self.idp.get_student_id(),
+            )
 
         return student.student_id

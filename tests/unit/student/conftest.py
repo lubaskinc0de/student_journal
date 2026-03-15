@@ -1,12 +1,21 @@
+from datetime import timezone
+
 import pytest
 
-from student_journal.application.common.id_provider import IdProvider
+from student_journal.application.common.id_provider import StudentIdProvider
 from student_journal.application.common.student_gateway import StudentGateway
 from student_journal.application.common.transaction_manager import TransactionManager
+from student_journal.application.common.tz import TimezoneProvider
 from student_journal.application.student.create_student import CreateStudent
 from student_journal.application.student.read_current_student import ReadCurrentStudent
 from student_journal.application.student.update_student import UpdateStudent
+from unit.conftest import student_timezone
 from unit.student.mock.student_gateway import MockedStudentGateway
+
+
+class MockedTimezoneProvider(TimezoneProvider):
+    def get_timezone(self) -> timezone:
+        return student_timezone
 
 
 @pytest.fixture
@@ -28,18 +37,19 @@ def create_student(
 @pytest.fixture
 def read_student(
     student_gateway: StudentGateway,
-    idp: IdProvider,
+    idp: StudentIdProvider,
 ) -> ReadCurrentStudent:
     return ReadCurrentStudent(
         gateway=student_gateway,
         idp=idp,
+        tz=MockedTimezoneProvider(),
     )
 
 
 @pytest.fixture
 def update_student(
     student_gateway: StudentGateway,
-    idp: IdProvider,
+    idp: StudentIdProvider,
     transaction_manager: TransactionManager,
 ) -> UpdateStudent:
     return UpdateStudent(

@@ -8,8 +8,9 @@ from student_journal.adapters.converter.subject import (
 from student_journal.application.common.subject_gateway import SubjectGateway
 from student_journal.application.exceptions.subject import SubjectNotFoundError
 from student_journal.application.models.subject import SubjectReadModel
-from student_journal.domain.subject import Subject
-from student_journal.domain.value_object.subject_id import SubjectId
+from student_journal.domain.entity.subject import Subject
+from student_journal.domain.id_type.student_id import StudentId
+from student_journal.domain.id_type.subject_id import SubjectId
 
 
 @dataclass(slots=True, frozen=True)
@@ -17,7 +18,9 @@ class SQLiteSubjectGateway(SubjectGateway):
     cursor: Cursor
 
     def read_subject(self, subject_id: SubjectId) -> Subject:
-        query = "SELECT subject_id, title, teacher_id FROM Subject WHERE subject_id = ?"
+        query = """SELECT subject_id, title, teacher_id, student_id
+        FROM Subject WHERE subject_id = ?"""
+
         res = self.cursor.execute(query, (str(subject_id),)).fetchone()
 
         if res is None:
@@ -30,15 +33,16 @@ class SQLiteSubjectGateway(SubjectGateway):
     def write_subject(self, subject: Subject) -> None:
         query = (
             "INSERT INTO Subject "
-            "(subject_id, teacher_id, title) "
+            "(subject_id, teacher_id, title, student_id) "
             "VALUES "
-            "(?, ?, ?)"
+            "(?, ?, ?, ?)"
         )
         params = subject_to_list_retort.dump(subject)
         self.cursor.execute(query, params)
 
     def update_subject(self, subject: Subject) -> None:
-        query = "UPDATE Subject SET teacher_id = ?, title = ? WHERE subject_id = ?"
+        query = """UPDATE Subject SET teacher_id = ?, title = ?, student_id = ?
+        WHERE subject_id = ?"""
         params = subject_to_list_retort.dump(subject)
         params.append(params.pop(0))
 
@@ -54,12 +58,14 @@ class SQLiteSubjectGateway(SubjectGateway):
         sort_by_title: bool = False,
         sort_by_avg_mark: bool = False,
         show_empty: bool = True,
+        student_id: StudentId,
     ) -> list[SubjectReadModel]:
         query = """
         SELECT
             s.subject_id,
             s.title,
             t.teacher_id,
+            t.student_id as teacher_student_id,
             t.full_name as teacher_full_name,
             t.avatar as teacher_avatar,
             COALESCE(AVG(l.mark), 0.0) AS avg_mark,
@@ -67,6 +73,7 @@ class SQLiteSubjectGateway(SubjectGateway):
         FROM Subject s
         JOIN Teacher t ON s.teacher_id = t.teacher_id
         LEFT JOIN Lesson l ON s.subject_id = l.subject_id
+        WHERE s.student_id = ?
         GROUP BY s.subject_id, s.title, t.teacher_id, t.full_name, t.avatar
         """
 
@@ -80,12 +87,13 @@ class SQLiteSubjectGateway(SubjectGateway):
         else:
             query += "ORDER BY s.subject_id"
 
-        res = self.cursor.execute(query).fetchall()
+        res = self.cursor.execute(query, (str(student_id),)).fetchall()
         entries = [dict(x) for x in res]
 
         for each in entries:
             each["teacher"] = {
                 "teacher_id": each["teacher_id"],
+                "student_id": each["teacher_student_id"],
                 "full_name": each["teacher_full_name"],
                 "avatar": each["teacher_avatar"],
             }

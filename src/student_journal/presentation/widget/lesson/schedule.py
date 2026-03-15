@@ -29,9 +29,9 @@ from student_journal.application.lesson.read_first_lessons_of_weeks import (
 from student_journal.application.lesson.read_lesson import ReadLesson
 from student_journal.application.lesson.read_lessons_for_week import ReadLessonsForWeek
 from student_journal.application.models.lesson import LessonsByDate
-from student_journal.domain.lesson import Lesson
-from student_journal.domain.subject import Subject
-from student_journal.domain.value_object.lesson_id import LessonId
+from student_journal.domain.entity.lesson import Lesson
+from student_journal.domain.entity.subject import Subject
+from student_journal.domain.id_type.lesson_id import LessonId
 from student_journal.presentation.ui.schedule_ui import Ui_Schedule
 from student_journal.presentation.widget.lesson.edit_lesson import EditLesson
 from student_journal.presentation.widget.utils.month_year_picker import (

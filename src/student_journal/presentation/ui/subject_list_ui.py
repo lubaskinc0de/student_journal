@@ -9,7 +9,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_SubjectList(object):
+class Ui_SubjectList:
     def setupUi(self, SubjectList):
         SubjectList.setObjectName("SubjectList")
         self.gridLayout = QtWidgets.QGridLayout(SubjectList)

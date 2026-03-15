@@ -1,17 +1,20 @@
-import logging
 import signal
 import sys
 from functools import partial
 from importlib.resources import as_file, files
 from types import TracebackType
 
+import structlog
 from PyQt6 import QtWidgets
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QApplication, QMessageBox
 
 import student_journal
 import student_journal.presentation.resource
+from student_journal.adapters.db.migrations.scripts import run_migrations
 from student_journal.adapters.error_locator import ErrorLocator
+from student_journal.adapters.logging.config import init_structlog
+from student_journal.application.common.logger import Logger
 from student_journal.application.exceptions.base import ApplicationError
 from student_journal.application.exceptions.student import (
     StudentIsNotAuthenticatedError,
@@ -19,11 +22,7 @@ from student_journal.application.exceptions.student import (
 from student_journal.bootstrap.di.container import get_container_for_gui
 from student_journal.presentation.widget.main_window import MainWindow
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s %(levelname)s %(name)s %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
+logger: Logger = structlog.get_logger(__name__)
 
 
 def display_error_text(wnd: MainWindow, text: str) -> None:
@@ -36,7 +35,7 @@ def display_error_text(wnd: MainWindow, text: str) -> None:
     msg.exec()
 
 
-def except_hook(
+def exception_hook(
     app: QApplication,
     error_locator: ErrorLocator,
     wnd: MainWindow,
@@ -46,6 +45,7 @@ def except_hook(
 ) -> None:
     match exc_value:
         case StudentIsNotAuthenticatedError() as e:
+            logger.debug("Student is not authenticated, redirecting to register.")
             text = error_locator.get_text(e)
             display_error_text(wnd, text)
             app.closeAllWindows()
@@ -57,15 +57,21 @@ def except_hook(
             display_error_text(wnd, text)
 
         case BaseException() as e:
-            logging.critical("Unhandled exception", exc_info=e)
+            logger.critical("Unhandled exception", exc_info=e)
             sys.exit()
 
 
 def main(_argv: list[str]) -> None:
+    run_migrations([])
+    init_structlog()
+
+    logger.debug("Startup..")
     if hasattr(Qt, "AA_EnableHighDpiScaling"):
+        logger.debug("Using High DPI Scaling")
         QtWidgets.QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)  # noqa: FBT003
 
     if hasattr(Qt, "AA_UseHighDpiPixmaps"):
+        logger.debug("Using High DPI Pixmaps")
         QtWidgets.QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)  # noqa: FBT003
 
     container = get_container_for_gui()
@@ -82,7 +88,7 @@ def main(_argv: list[str]) -> None:
     main_wnd.show()
 
     locator = container.get(ErrorLocator)
-    sys.excepthook = partial(except_hook, app, locator, main_wnd)
+    sys.excepthook = partial(exception_hook, app, locator, main_wnd)
 
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     sys.exit(app.exec())

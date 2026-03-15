@@ -3,7 +3,7 @@ from datetime import timezone
 from adaptix.conversion import impl_converter
 
 from student_journal.application.models.student import StudentReadModel
-from student_journal.domain.student import Student
+from student_journal.domain.entity.student import Student
 
 
 @impl_converter()

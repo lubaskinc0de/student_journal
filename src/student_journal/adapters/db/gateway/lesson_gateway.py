@@ -8,9 +8,10 @@ from student_journal.adapters.converter.subject import subject_retort
 from student_journal.application.common.lesson_gateway import LessonGateway
 from student_journal.application.exceptions.lesson import LessonNotFoundError
 from student_journal.application.models.lesson import LessonsByDate, WeekLessons
-from student_journal.domain.lesson import Lesson
-from student_journal.domain.subject import Subject
-from student_journal.domain.value_object.lesson_id import LessonId
+from student_journal.domain.entity.lesson import Lesson
+from student_journal.domain.entity.subject import Subject
+from student_journal.domain.id_type.lesson_id import LessonId
+from student_journal.domain.id_type.student_id import StudentId
 
 
 @dataclass(slots=True, frozen=True)
@@ -19,7 +20,7 @@ class SQLiteLessonGateway(LessonGateway):
 
     def read_lesson(self, lesson_id: LessonId, as_tz: timezone) -> Lesson:
         query = """
-            SELECT lesson_id, subject_id, at, mark, note, room
+            SELECT lesson_id, subject_id, at, mark, note, room, student_id
             FROM Lesson WHERE lesson_id = ?
             """
         res = self.cursor.execute(query, (str(lesson_id),)).fetchone()
@@ -35,18 +36,9 @@ class SQLiteLessonGateway(LessonGateway):
     def write_lesson(self, lesson: Lesson) -> None:
         query = """
             INSERT INTO Lesson
-            (lesson_id, subject_id, at, mark, note, room)
-            VALUES (?, ?, ?, ?, ?, ?)
+            (lesson_id, subject_id, student_id, at, mark, note, room)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
             """
-
-        lesson = Lesson(
-            subject_id=lesson.subject_id,
-            at=lesson.at.astimezone(UTC),
-            mark=lesson.mark,
-            note=lesson.note,
-            room=lesson.room,
-            lesson_id=lesson.lesson_id,
-        )
 
         params = lesson_to_list_retort.dump(lesson)
         self.cursor.execute(query, params)
@@ -54,18 +46,9 @@ class SQLiteLessonGateway(LessonGateway):
     def update_lesson(self, lesson: Lesson) -> None:
         query = """
             UPDATE Lesson SET
-            subject_id = ?, at = ?, mark = ?, note = ?, room = ?
+            subject_id = ?, student_id = ?, at = ?, mark = ?, note = ?, room = ?
             WHERE lesson_id = ?
             """
-
-        lesson = Lesson(
-            subject_id=lesson.subject_id,
-            at=lesson.at.astimezone(UTC),
-            mark=lesson.mark,
-            note=lesson.note,
-            room=lesson.room,
-            lesson_id=lesson.lesson_id,
-        )
 
         params = lesson_to_list_retort.dump(lesson)
         params.append(params.pop(0))
@@ -79,20 +62,28 @@ class SQLiteLessonGateway(LessonGateway):
             """
         self.cursor.execute(query, (str(lesson_id),))
 
-    def read_lessons_for_week(self, week_start: date, as_tz: timezone) -> WeekLessons:
+    def read_lessons_for_week(
+        self,
+        week_start: date,
+        as_tz: timezone,
+        student_id: StudentId,
+    ) -> WeekLessons:
         query = """
         SELECT * FROM Lesson
-        WHERE at >= DATETIME(:week_start) AND at < DATETIME(:week_end);
+        WHERE at >= DATETIME(:week_start) AND at < DATETIME(:week_end)
+        AND student_id = :student_id;
         """
 
+        week_start_date = week_start
+
         week_start = datetime.combine(
-            week_start,
+            week_start_date,
             datetime.min.time(),
             tzinfo=as_tz,
         ).astimezone(UTC)
 
         week_end = datetime.combine(
-            week_start + timedelta(days=6),
+            week_start_date + timedelta(days=5),
             datetime.max.time(),
             tzinfo=as_tz,
         ).astimezone(UTC)
@@ -100,6 +91,7 @@ class SQLiteLessonGateway(LessonGateway):
         params = {
             "week_start": week_start.isoformat(),
             "week_end": week_end.isoformat(),
+            "student_id": str(student_id),
         }
 
         res = self.cursor.execute(query, params).fetchall()
@@ -110,9 +102,8 @@ class SQLiteLessonGateway(LessonGateway):
         )
 
         for lesson in lessons_list:
-            lesson.at = datetime.strptime(
+            lesson.at = datetime.fromisoformat(
                 str(lesson.at),
-                "%Y-%m-%d %H:%M:%S%z",
             ).astimezone(as_tz)
 
         lessons: dict[date, list[Lesson]] = {}
@@ -139,6 +130,7 @@ class SQLiteLessonGateway(LessonGateway):
         month: int,
         year: int,
         as_tz: timezone,
+        student_id: StudentId,
     ) -> LessonsByDate:
         query = """
             SELECT l.*
@@ -149,15 +141,18 @@ class SQLiteLessonGateway(LessonGateway):
                 FROM Lesson
                 WHERE strftime('%Y', at) = :year
                   AND strftime('%m', at) = :month
+                  AND student_id = :student_id
                 GROUP BY week_year
             ) grouped_lessons
             ON strftime('%Y-%W', l.at) = grouped_lessons.week_year
-            AND l.at = grouped_lessons.first_lesson_time;
+            AND l.at = grouped_lessons.first_lesson_time
+            WHERE l.student_id = :student_id
         """
 
         params = {
             "year": str(year),
             "month": f"{month:02}",
+            "student_id": str(student_id),
         }
 
         res = self.cursor.execute(query, params).fetchall()
@@ -166,9 +161,8 @@ class SQLiteLessonGateway(LessonGateway):
         lessons_list = lesson_retort.load(entries, list[Lesson])
 
         for lesson in lessons_list:
-            lesson.at = datetime.strptime(
+            lesson.at = datetime.fromisoformat(
                 str(lesson.at),
-                "%Y-%m-%d %H:%M:%S%z",
             ).astimezone(as_tz)
 
         lessons_by_date = LessonsByDate(
@@ -218,9 +212,9 @@ class SQLiteLessonGateway(LessonGateway):
 
         self.cursor.execute(query, params)
 
-    def delete_all_lessons(self) -> None:
+    def delete_all_lessons(self, student_id: StudentId) -> None:
         query = """
-        DELETE FROM Lesson
+        DELETE FROM Lesson WHERE student_id = ?
         """
 
-        self.cursor.execute(query)
+        self.cursor.execute(query, (str(student_id),))

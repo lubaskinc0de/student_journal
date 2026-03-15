@@ -8,8 +8,9 @@ from student_journal.adapters.converter import (
 from student_journal.application.common.home_task_gateway import HomeTaskGateway
 from student_journal.application.exceptions.home_task import HomeTaskNotFoundError
 from student_journal.application.models.home_task import HomeTaskReadModel
-from student_journal.domain.home_task import HomeTask
-from student_journal.domain.value_object.task_id import HomeTaskId
+from student_journal.domain.entity.home_task import HomeTask
+from student_journal.domain.id_type.student_id import StudentId
+from student_journal.domain.id_type.task_id import HomeTaskId
 
 
 @dataclass(slots=True, frozen=True)
@@ -18,7 +19,7 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
 
     def read_home_task(self, task_id: HomeTaskId) -> HomeTask:
         query = """
-            SELECT task_id, lesson_id, description, is_done
+            SELECT task_id, lesson_id, description, is_done, student_id
             FROM Hometask WHERE task_id = ?
             """
         res = self.cursor.execute(query, (str(task_id),)).fetchone()
@@ -32,33 +33,42 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
     def write_home_task(self, home_task: HomeTask) -> None:
         query = """
             INSERT INTO Hometask
-            (task_id, lesson_id, description, is_done)
-            VALUES (?, ?, ?, ?)
+            (task_id, lesson_id, student_id, description, is_done)
+            VALUES (?, ?, ?, ?, ?)
             """
         params = home_task_to_list_retort.dump(home_task)
         self.cursor.execute(query, params)
 
-    def read_home_tasks(self, *, show_done: bool = False) -> list[HomeTaskReadModel]:
+    def read_home_tasks(
+        self,
+        student_id: StudentId,
+        *,
+        show_done: bool = False,
+    ) -> list[HomeTaskReadModel]:
         query = """
             SELECT Hometask.task_id, Hometask.description, Hometask.is_done,
+            Hometask.student_id,
             Lesson.lesson_id as lesson_lesson_id,
             Lesson.subject_id as lesson_subject_id,
+            Lesson.student_id as lesson_student_id,
             Lesson.at as lesson_at,
             Lesson.mark as lesson_mark,
             Lesson.note as lesson_note,
             Lesson.room as lesson_room,
             Subject.subject_id as subject_subject_id,
             Subject.title as subject_title,
-            Subject.teacher_id as subject_teacher_id
+            Subject.teacher_id as subject_teacher_id,
+            Subject.student_id as subject_student_id
             FROM Hometask
             JOIN Lesson ON Hometask.lesson_id = Lesson.lesson_id
             JOIN Subject ON Lesson.subject_id = Subject.subject_id
+            WHERE Hometask.student_id = ?
             """
         if show_done is False:
-            query += " WHERE is_done = ?"
-            res = self.cursor.execute(query, (show_done,)).fetchall()
+            query += " AND is_done = ?"
+            res = self.cursor.execute(query, (str(student_id), show_done)).fetchall()
         else:
-            res = self.cursor.execute(query).fetchall()
+            res = self.cursor.execute(query, (str(student_id),)).fetchall()
 
         rows = [dict(row) for row in res]
         result = []
@@ -82,7 +92,7 @@ class SQLiteHomeTaskGateway(HomeTaskGateway):
     def update_home_task(self, home_task: HomeTask) -> None:
         query = """
             UPDATE Hometask
-            SET lesson_id = ?, description = ?, is_done = ?
+            SET lesson_id = ?, student_id = ?, description = ?, is_done = ?
             WHERE task_id = ?
             """
         params = home_task_to_list_retort.dump(home_task)
